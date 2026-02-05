@@ -1,0 +1,11 @@
+.ssl
+.env
+.zed
+logs/
+target/
+Cargo.lock
+
+# don't add dx generated tailwind css files
+packages/web/assets/tailwind.css
+packages/desktop/assets/tailwind.css
+packages/mobile/assets/tailwind.css
