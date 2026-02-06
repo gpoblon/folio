@@ -1,0 +1,56 @@
+[workspace]
+resolver = "2"
+members = [
+    "app",
+    "pages",
+    "widgets",
+    "features",
+    "components",
+    "kernel"
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+authors = ["gpoblon"]
+readme = "README.md"
+license-file = "NOTICE"
+homepage = "https://folio.gpoblon.net"
+repository = "https://github.com/gpoblon/folio"
+
+[workspace.dependencies]
+
+# Following are one-way layers: isolated from siblings ; no access to parents.
+# See [Feature-sliced design](https://feature-sliced.design) for more information
+
+# L1. apps - the package you'll run. Routing, entrypoint, providers.
+app = { path = "app" }
+# L2. pages - one crate per individual, plain page (1:1 app route).
+pages = { path = "pages" }
+# L3. widgets - use cases, self-contained chunks of functionality or UI
+widgets = { path = "widgets" }
+# L4. features - business actions (e.g. add_to_cart)
+features = { path = "features" }
+# L5. entities - business entities used across project (e.g. user or product)
+# L6. components - reusable UI components. Agnostic from domain.
+components = { path = "components" }
+# L7. kernel - core functionalities reused across the upper layers (e.g. i18n). Usually detached from domain.
+kernel = { path = "kernel" }
+
+# third-party packages
+dioxus = { version = "0.7.3" }
+dioxus-primitives = { git = "https://github.com/DioxusLabs/components", default-features = false }
+serde = { version = "1", features = ["derive"] }
+strum = { version = "0.27", features = ["derive"] }
+
+[profile]
+
+[profile.wasm-dev]
+inherits = "dev"
+opt-level = 1
+
+[profile.server-dev]
+inherits = "dev"
+
+[profile.android-dev]
+inherits = "dev"

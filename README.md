@@ -21,9 +21,63 @@ It finally is a way for me to share and contribute.
 
 See: [github project page](https://github.com/gpoblon/folio/projects/1).
 
+## 📜 Usage & Rules
+
+### Feature-sliced architecture (FSD)
+
+This project applies a slightly adapted [FSD](https://feature-sliced.design).
+
+It relies on the following technical *layers*:  
+- *apps* - the package you'll run. Routing, entrypoint, providers. Glue & config only.
+- *pages* - one crate per individual, plain page (1:1 app route). Composition through UI. No logic (mostly).
+- *widgets* - self-contained structural UI blocks. Composition: connects features.
+- *features* - user actions (e.g. add_to_cart). Heavy logic. Must be **verbs**. What is the user doing?
+- *entities* - business data, used across project (e.g. user or product). Must be **nouns**. What is this object?
+- *components* - reusable, pure UI components. No business logic.
+- *kernel* - core functionalities reused across the upper layers (e.g. i18n). No business logic.
+
+*pages* *widgets* *features* *entities* modules are *slices*. They divide their layer by domain.
+
+Each slice holds technical segments: 
+- *ui* - UI components. As pure as possible.
+- *model* - Data types ; Hooks.
+- *api* - Server functions ; queries.
+On rare occasions, you may have: *config*.
+
+### Rules
+
+- A module can only import modules from lower layers (no siblings, no parents).
+- Segments: only create segments that are useful for a given slice.
+- Do not create new layers.
+- Do not create new segments.
+- No technical division in segments (e.g. no `hooks.rs`)
+  If a segment gets too big: divide such as each file reflects the domain it represents.
+- *kernel* & *components* are a last resort, they only contains pieces you could use in a totally different app.
+- All translations go into `/assets/lang`
+- All style goes into `app/assets/`
+- All logic is colocated with UI. One exception: `/kernel` contains only logic, in such case ui goes into `/features`.
+
+### General guidelines
+
+- Keep coupling as low as possible, and cohesion as high as possible:
+  - Law of Demeter: import only what is strictly required (`b.method()` rather than `a.b.method()`).
+  - coupling means how much modules interact with each others (code wise).
+    Some kind of coupling are worst than others: none > message > strict data > nested data > control meddling > external data > global data > data internal control
+  - cohesion is related to the SRP principle: put together domain-related things that perform exactly 1 **action** (e.g. `register` or `place_order`).
+- YAGNI: don't write code for something you don't need right now.
+  Cover only the minimum requirment for the task, but do it well.
+- KISS: the simpler, the better.
+- Don't expose internals: encapsulate.
+- Spend the time naming things properly
+
+### Specific instructions
+
+- Keep `pub` as strict as possible: no `pub` > `pub(super)` > `pub(crate)` > `pub`.
+- Keep injection (hooks) only for the controller (parent) component. Pass props to children to keep it pure and decoupled.
+
 ## 📦 Setup / Deploy
 
-### Local usage
+### Run locally
 
 Locally to iterate on the web version, using [dx](https://dioxuslabs.com/learn/0.7/getting_started/):
 ```sh

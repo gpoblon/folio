@@ -1,0 +1,15 @@
+[package]
+name = "widgets"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+features.workspace = true
+components.workspace = true
+kernel.workspace = true
+
+dioxus = { workspace = true }
+strum.workspace = true
+
+[features]
+server = []

@@ -1,0 +1,17 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+pages.workspace = true
+widgets.workspace = true
+components.workspace = true
+kernel.workspace = true
+
+dioxus = { workspace = true, features = ["router", "fullstack"] }
+
+[features]
+default = ["dioxus/web"]
+web = ["dioxus/web", "dioxus/desktop", "dioxus/mobile"]
+server = ["dioxus/server", "kernel/server"]

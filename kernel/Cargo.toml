@@ -1,0 +1,13 @@
+[package]
+name = "kernel"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.101"
+dioxus = { workspace = true }
+dioxus-i18n = { version = "0.5.1" }
+strum.workspace = true
+
+[features]
+server = ["dioxus/server"]
