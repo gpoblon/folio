@@ -1,0 +1,71 @@
+button.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 42px;
+    min-height: 42px;
+    padding: 8px 8px;
+    border-radius: var(--global-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition:
+        background-color var(--transition-duration, 400ms) ease-in,
+        color var(--transition-duration, 400ms) ease-in;
+}
+
+button.button:focus-visible {
+    box-shadow: 0 0 0 2px var(--projects-val);
+}
+
+button.button[data-style="primary"] {
+    border: none;
+    background-color: var(--fg-val);
+    color: var(--bg-val);
+}
+
+button.button[data-style="primary"]:hover {
+    background-color: var(--muted-fg-val);
+}
+
+button.button[data-style="secondary"] {
+    border: none;
+    background-color: var(--muted-val);
+    color: var(--fg-val);
+}
+
+button.button[data-style="secondary"]:hover {
+    background-color: var(--border-bg-val);
+}
+
+button.button[data-style="ghost"] {
+    border: none;
+    background-color: transparent;
+    color: var(--fg-val);
+}
+
+button.button[data-style="ghost"]:hover {
+    background-color: var(--muted-val);
+    color: var(--fg-val);
+}
+
+button.button[data-style="outline"] {
+    border: 1px solid var(--border-bg-val);
+    background-color: var(--bg-val);
+    color: var(--fg-val);
+}
+
+button.button[data-style="outline"]:hover {
+    background-color: var(--muted-val);
+}
+
+button.button[data-style="destructive"] {
+    border: none;
+    background-color: var(--connect-val);
+    color: var(--bg-val);
+}
+
+button.button[data-style="destructive"]:hover {
+    background-color: var(--connect-val);
+    opacity: 0.9;
+}

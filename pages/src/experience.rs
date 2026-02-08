@@ -1,8 +1,10 @@
 use dioxus::prelude::*;
+
 #[server]
-fn echo_from_server() -> Result<String, ServerFnError> {
+async fn echo_from_server() -> Result<String, ServerFnError> {
     Ok("Hello from the server!".to_string())
 }
+
 #[component]
 pub fn Experience() -> Element {
     let mut response = use_signal(String::new);

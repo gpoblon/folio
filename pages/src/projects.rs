@@ -1,5 +1,6 @@
 use components::progress_bar::{ProgressBar, ProgressBarInner};
 use dioxus::prelude::*;
+
 #[component]
 pub fn Projects() -> Element {
     let progress = use_signal(|| 22);

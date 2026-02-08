@@ -6,7 +6,8 @@ members = [
     "widgets",
     "features",
     "components",
-    "kernel"
+    "kernel",
+    "tw"
 ]
 
 [workspace.package]
@@ -39,7 +40,6 @@ kernel = { path = "kernel" }
 
 # third-party packages
 dioxus = { version = "0.7.3" }
-dioxus-primitives = { git = "https://github.com/DioxusLabs/components", default-features = false }
 serde = { version = "1", features = ["derive"] }
 strum = { version = "0.27", features = ["derive"] }
 

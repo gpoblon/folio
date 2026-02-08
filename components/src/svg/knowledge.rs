@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 use std::f32::consts::PI;
 use std::fmt::Write;
+
 /// Render a "black hole" style icon with curly spiral traits around a center dot.
 ///
 /// The spiral arms are generated procedurally to create a swirling/curly appearance.

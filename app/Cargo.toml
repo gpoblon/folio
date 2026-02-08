@@ -6,12 +6,15 @@ edition = "2024"
 [dependencies]
 pages.workspace = true
 widgets.workspace = true
+features.workspace = true
 components.workspace = true
 kernel.workspace = true
 
 dioxus = { workspace = true, features = ["router", "fullstack"] }
 
 [features]
-default = ["dioxus/web"]
-web = ["dioxus/web", "dioxus/desktop", "dioxus/mobile"]
-server = ["dioxus/server", "kernel/server"]
+default = ["web"]
+web = ["dioxus/web", "pages/web", "widgets/web", "components/web"]
+desktop = ["dioxus/desktop", "pages/desktop", "widgets/desktop", "components/desktop"]
+mobile = ["dioxus/mobile", "pages/mobile", "widgets/mobile", "components/mobile"]
+server = ["dioxus/server", "kernel/server", "pages/server", "widgets/server", "components/server"]

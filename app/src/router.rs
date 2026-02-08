@@ -4,6 +4,7 @@ use widgets::{
     footer::Footer,
     nav::{NavBar, Navigable},
 };
+
 #[component]
 fn Layout() -> Element {
     rsx! {
@@ -14,6 +15,7 @@ fn Layout() -> Element {
         }
     }
 }
+
 #[derive(Debug, Clone, Copy, Routable, PartialEq, Eq)]
 pub enum Route {
     #[layout(Layout)]
@@ -30,6 +32,7 @@ pub enum Route {
     #[route("/terms-of-use")]
     TermsOfUse {},
 }
+
 impl Navigable for Route {
     const ITEMS: &[Self] = &[
         Route::Projects {},
@@ -37,6 +40,7 @@ impl Navigable for Route {
         Route::Knowledge {},
         Route::Connect {},
     ];
+
     fn color(&self) -> &'static str {
         match self {
             Route::Projects {} => "projects",

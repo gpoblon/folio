@@ -1,0 +1,77 @@
+@layer base {
+    :root {
+        /* Primary color - Projects purple */
+        --primary: 271deg 50% 70%;
+        --primary-foreground: 0deg 0% 100%;
+
+        /* Secondary color - Knowledge sage green */
+        --secondary: 138deg 23% 66%;
+        --secondary-foreground: 0deg 0% 100%;
+
+        /* Accent color - Connect pink */
+        --accent: 345deg 77% 80%;
+        --accent-foreground: 0deg 0% 20%;
+
+        /* Destructive - red for errors */
+        --destructive: 0deg 84% 60%;
+        --destructive-foreground: 0deg 0% 100%;
+
+        /* Success - adjusting to complement palette */
+        --success: 138deg 40% 55%;
+        --success-foreground: 0deg 0% 100%;
+
+        /* Background and foreground */
+        --background: 40deg 20% 92%;
+        --foreground: 30deg 12% 12%;
+
+        /* Input and border */
+        --input: 40deg 20% 85%;
+        --border: 30deg 8% 82%;
+        --ring-3: 30deg 12% 12%;
+
+        /* Muted */
+        --muted: 40deg 15% 88%;
+        --muted-foreground: 30deg 8% 50%;
+
+        /* Radius */
+        --global-radius: 0px;
+    }
+
+    .dark {
+        /* Primary color - Projects purple (darker for dark mode) */
+        --primary: 271deg 50% 55%;
+        --primary-foreground: 0deg 0% 100%;
+
+        /* Secondary color - Knowledge sage green (lighter for dark mode) */
+        --secondary: 138deg 23% 50%;
+        --secondary-foreground: 0deg 0% 100%;
+
+        /* Accent color - Connect pink (lighter for dark mode) */
+        --accent: 345deg 77% 65%;
+        --accent-foreground: 0deg 0% 100%;
+
+        /* Destructive */
+        --destructive: 0deg 84% 60%;
+        --destructive-foreground: 0deg 0% 100%;
+
+        /* Success */
+        --success: 138deg 40% 45%;
+        --success-foreground: 0deg 0% 100%;
+
+        /* Background and foreground - dark mode */
+        --background: 320deg 6% 8%;
+        --foreground: 30deg 60% 95%;
+
+        /* Input and border - dark mode */
+        --input: 320deg 6% 20%;
+        --border: 320deg 8% 25%;
+        --ring-3: 30deg 60% 95%;
+
+        /* Muted - dark mode */
+        --muted: 320deg 8% 18%;
+        --muted-foreground: 30deg 10% 65%;
+
+        /* Radius */
+        --global-radius: 0px;
+    }
+}

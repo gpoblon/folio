@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
-/* Safelist: dynamic classes used via string interpolation in Rust */
-@source inline("
-    bg-projects bg-experience bg-knowledge bg-connect
-    text-projects text-experience text-knowledge text-connect
-    border-projects border-experience border-knowledge border-connect
-");
+@source "/src/**/*.{rs,html,css}";
 
-@source "./src/**/*.{rs,html,css}";
+@import "../components/tailwind.css";
+@import "../widgets/tailwind.css";
+@import "../pages/tailwind.css";
+@import "../features/tailwind.css";
+
+@source not "tailwindcss";

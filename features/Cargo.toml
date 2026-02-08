@@ -13,4 +13,7 @@ components.workspace = true
 #surrealdb = { version = "3.0.0-beta-2", optional = true }
 
 [features]
-server = ["dioxus/server"] #, "dep:surrealdb"]
+web = ["components/web"]
+desktop = ["components/desktop"]
+mobile = ["components/mobile"]
+server = ["dioxus/server", "components/server"] #, "dep:surrealdb"]

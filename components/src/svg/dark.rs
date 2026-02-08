@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+
 #[component]
 pub fn Dark() -> Element {
     rsx! {

@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+
 #[component]
 pub fn ToggleTheme() -> Element {
     let mut theme = use_context::<Signal<kernel::theme::ThemeMode>>();
@@ -9,8 +10,8 @@ pub fn ToggleTheme() -> Element {
         "Switch to dark"
     };
     rsx! {
-        button {
-            class: "size-10 text-primary border border-primary bg-primary p-2 flex items-center justify-center",
+        components::Button {
+            variant: components::ButtonVariant::Outline,
             aria_label: "{label}",
             onclick: move |_| theme.set(theme().toggle()),
             div { class: "size-5",

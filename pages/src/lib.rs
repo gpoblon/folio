@@ -1,12 +1,15 @@
+#![allow(non_snake_case)]
+
 mod connect;
-pub use connect::Connect;
 mod experience;
-pub use experience::Experience;
 mod home;
-pub use home::Home;
 mod knowledge_base;
-pub use knowledge_base::Knowledge;
 mod projects;
-pub use projects::Projects;
 mod tos;
+
+pub use connect::Connect;
+pub use experience::Experience;
+pub use home::Home;
+pub use knowledge_base::Knowledge;
+pub use projects::Projects;
 pub use tos::TermsOfUse;

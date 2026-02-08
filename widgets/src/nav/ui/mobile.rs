@@ -1,6 +1,7 @@
 use crate::nav::model::Navigable;
 use dioxus::prelude::*;
 use kernel::lang::t;
+
 #[component]
 pub(super) fn MobileNav<R: Navigable>(active: R) -> Element {
     let color = active.color();

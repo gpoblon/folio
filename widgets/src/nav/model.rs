@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+
 /// Contract a `Route` enum must satisfy to be rendered by the nav widgets.
 ///
 /// Mirrors how Dioxus itself uses `Router::<R: Routable>` — the upper layer

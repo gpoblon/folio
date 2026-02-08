@@ -3,6 +3,7 @@ use dioxus_i18n::prelude::*;
 pub use dioxus_i18n::t;
 pub use dioxus_i18n::unic_langid::LanguageIdentifier;
 use strum::IntoEnumIterator;
+
 #[derive(Default, Clone, Copy, PartialEq, Eq, strum::EnumIter)]
 pub enum Lang {
     #[default]

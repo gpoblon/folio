@@ -6,8 +6,15 @@ edition = "2024"
 [dependencies]
 dioxus = { workspace = true }
 kernel = { workspace = true }
-
 strum.workspace = true
 
+# components are directly exposed to higher layers
+# components = { package = "dioxus-tw-components", version = "0.2" }
+dioxus-tw-components = { git = "https://github.com/gpoblon/dioxus-tw-components", version = "0.2.0" }
+dioxus-primitives = { git = "https://github.com/DioxusLabs/components", version = "0.0.1", default-features = false }
+
 [features]
-server = ["kernel/server"]
+web = ["dioxus-tw-components/web"]
+desktop = ["dioxus-tw-components/desktop"]
+mobile = ["dioxus-tw-components/mobile"]
+server = ["kernel/server", "dioxus-tw-components/server"]

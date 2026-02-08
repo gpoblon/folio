@@ -1,6 +1,8 @@
 use dioxus::prelude::*;
 use kernel::lang::t;
+
 static DIOXUS_LOGO: Asset = asset!("/assets/dioxus.png");
+
 #[component]
 pub fn Footer(tos_route: NavigationTarget) -> Element {
     rsx! {
