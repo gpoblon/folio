@@ -8,6 +8,8 @@ pub use components::dropdown_menu::*;
 pub mod progress_bar;
 pub mod svg;
 
+pub use dioxus_tw_components::Markdown;
+
 use dioxus::prelude::*;
 
 const DIOXUS_THEME_CSS: Asset = asset!("/assets/dx-components-theme.css");

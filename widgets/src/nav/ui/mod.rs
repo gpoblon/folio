@@ -23,7 +23,7 @@ pub(super) fn Brand() -> Element {
             div { class: "flex min-w-10 size-10 rounded-full items-center justify-center text-black logo-gradient",
                 div { class: "size-4", components::svg::Knowledge {} }
             }
-            h1 { class: "text-base font-light whitespace-nowrap", "· GPOBLON ·" }
+            span { class: "text-base font-light whitespace-nowrap", "· GPOBLON ·" }
         }
     }
 }

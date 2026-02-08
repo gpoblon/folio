@@ -1,3 +1,7 @@
+/* ===========================================
+   CSS CUSTOM PROPERTIES & BASE STYLES
+   =========================================== */
+
 @layer base {
     :root {
         /* --- PRIMITIVE VALUES --- */

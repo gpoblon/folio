@@ -1,8 +1,17 @@
 use dioxus::prelude::*;
+use kernel::lang;
+use std::cell::LazyCell;
 
 #[component]
 pub fn TermsOfUse() -> Element {
+    let content: LazyCell<&str> = LazyCell::new(|| match lang::use_lang() {
+        lang::Lang::English => include_str!("../../resources/tos.en.md"),
+        lang::Lang::French => include_str!("../../resources/tos.fr.md"),
+    });
+
     rsx! {
-        section { id: "terms-of-use", class: "space-y-8", "Legal & CGU rendered here" }
+        components::Markdown {
+            content: *content
+        }
     }
 }

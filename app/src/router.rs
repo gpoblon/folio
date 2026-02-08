@@ -10,7 +10,7 @@ fn Layout() -> Element {
     rsx! {
         div { class: "min-h-screen flex flex-col",
             NavBar::<Route> {}
-            main { class: "container center-content pt-28 md:pt-32 pb-10 flex-1", Outlet::<Route> {} }
+            main { class: "container center-content pt-18 pb-18 flex-1", Outlet::<Route> {} }
             Footer { tos_route: Route::TermsOfUse {}.into() }
         }
     }

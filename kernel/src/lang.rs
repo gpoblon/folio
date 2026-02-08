@@ -55,6 +55,11 @@ pub fn init_i18n() {
     }
     use_init_i18n(|| config);
 }
+
 pub fn use_i18n() -> dioxus_i18n::prelude::I18n {
     dioxus_i18n::prelude::i18n()
+}
+
+pub fn use_lang() -> Lang {
+    use_i18n().language().into()
 }
