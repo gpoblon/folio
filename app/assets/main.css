@@ -35,8 +35,8 @@
         );
         --color-muted-fg: color-mix(
             in oklab,
-            var(--color-brand-tint) 72%,
-            var(--color-bg) 28%
+            var(--color-fg) 50%,
+            var(--color-bg) 50%
         );
 
         /* Border Colors */
@@ -77,8 +77,8 @@
         );
         --color-muted-fg: color-mix(
             in oklab,
-            var(--color-brand-tint) 68%,
-            var(--color-bg) 32%
+            var(--color-fg) 50%,
+            var(--color-bg) 50%
         );
 
         --color-border: color-mix(

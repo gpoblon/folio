@@ -4,11 +4,13 @@ pub mod components;
 
 pub use components::button::*;
 pub use components::dropdown_menu::*;
+pub use components::separator::*;
+pub use components::toast;
 
 pub mod progress_bar;
 pub mod svg;
 
-pub use dioxus_tw_components::Markdown;
+pub use dioxus_tw_components::{Icon, Icons, Markdown};
 
 use dioxus::prelude::*;
 

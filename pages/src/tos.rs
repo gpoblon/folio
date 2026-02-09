@@ -13,6 +13,7 @@ pub fn TermsOfUse() -> Element {
 
     rsx! {
         components::Markdown {
+            class: "container center-content p-18",
             content
         }
     }

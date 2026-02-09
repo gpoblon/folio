@@ -7,7 +7,9 @@ edition = "2024"
 anyhow = "1.0.101"
 dioxus = { workspace = true }
 dioxus-i18n = { version = "0.5.1" }
+serde.workspace = true
 strum.workspace = true
+tracing = "0.1"
 kernel.workspace = true
 components.workspace = true
 #surrealdb = { version = "3.0.0-beta-2", optional = true }

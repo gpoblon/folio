@@ -70,7 +70,7 @@ h6:first-child {
 
 /* Paragraphs & Text */
 p {
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
     line-height: 1.625;
     text-align: justify;
 }
@@ -201,7 +201,7 @@ hr {
 /* Links - scoped to content areas, excludes nav and buttons */
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a) {
-    color: var(--color-projects);
+    color: var(--color-knowledge);
     text-decoration: underline;
     text-underline-offset: 2px;
     cursor: pointer;
@@ -210,10 +210,10 @@ hr {
 
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a):hover {
-    color: var(--color-connect);
+    color: var(--color-projects);
 }
 
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a):visited {
-    color: var(--color-knowledge);
+    color: var(--color-connect);
 }

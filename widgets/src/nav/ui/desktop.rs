@@ -32,11 +32,11 @@ fn PlainNavItem<R: Navigable>(route: R, is_active: bool) -> Element {
     let color = route.color();
     let slug = route.slug();
     rsx! {
-        div {
+        button {
             class: "h-[42px] px-4 flex min-w-36 items-center justify-center gap-3 whitespace-nowrap border-2 border-{color} data-[active=false]:border-transparent",
             "data-active": is_active,
             div { class: "size-5", {route.icon()} }
-            label { class: "text-md", {t!(slug)} }
+            span { class: "text-md", {t!(slug)} }
         }
     }
 }

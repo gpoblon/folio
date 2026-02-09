@@ -6,10 +6,15 @@ edition = "2024"
 [dependencies]
 features.workspace = true
 components.workspace = true
+widgets.workspace = true
 kernel.workspace = true
 
 dioxus = { workspace = true }
 strum.workspace = true
+
+serde.workspace = true
+
+dioxus-html = { version = "0.7.3", features = ["serialize"]}
 
 [features]
 web = ["features/web", "components/web"]
