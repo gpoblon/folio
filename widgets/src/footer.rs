@@ -11,7 +11,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                 span { class: "inline-flex items-center gap-1",
                     span { "© 2026 Gaëtan Poblon" }
                     div { class: "mx-1 w-4 h-4 text-knowledge", components::svg::Knowledge {} }
-                    span { {t!("made_by")} }
+                    span { {t!("footer_made_by")} }
                     a {
                         class: "underline hover:opacity-80",
                         href: "https://github.com/gpoblon",
@@ -19,7 +19,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                         rel: "noopener noreferrer",
                         "gpoblon"
                     }
-                    span { {t!("using")} }
+                    span { {t!("footer_using")} }
                     img { class: "inline h-4", src: DIOXUS_LOGO }
                     a {
                         class: "underline hover:opacity-80",

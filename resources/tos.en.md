@@ -1,4 +1,4 @@
-## Legal Notice
+## I. Legal Notice
 
 This website is published by _Gaëtan Poblon_ in a non-professional capacity.
 
@@ -14,7 +14,7 @@ Contact: +33 9 72 10 10 07 (or 1007 in France).
 
 In accordance with [Article 1-1 of the French Law for Trust in the Digital Economy (LCEN) of June 21, 2004](https://www.legifrance.gouv.fr/loda/article_lc/LEGIARTI000049568614), the publisher has chosen not to publicly disclose their personal address and phone number. These details have been provided to the hosting provider, who is bound by professional secrecy.
 
-## Privacy Policy
+## II. Privacy Policy
 
 The editor values your privacy and is committed to protecting your personal data.
 
@@ -30,9 +30,9 @@ Data collected via this form is used solely by the editor to respond to your inq
 This site does not use any tracking or advertising cookies and does not collect navigation data.
 *No exceptions. Your privacy must be respected and protected.*
 
-## Terms of Use
+## III. Terms of Use
 
-### Intellectual Property
+### a. Intellectual Property
 
 The site and each of its components, including but not limited to trademarks, logos, icons, and articles, are protected under international intellectual property legislation.
 Content appearing on the site is the property of the editor or other cited entities.
@@ -48,7 +48,7 @@ The editor uses third-party content and technologies belonging to the following 
 
 The author also cites private technologies under commercial licenses or open-source technologies under various licenses. No form of partnership or affiliation exists between the author and the owners of these technologies, and no remuneration is received by the author from these entities.
 
-### Disclaimer of Liability
+### b. Disclaimer of Liability
 
 The information and documents on this site are provided for informational and collaborative purposes only.
 While the author strives to provide reliable, verified, sourced, and up-to-date information, they cannot be held responsible for errors, omissions, or a lack of updates.
@@ -59,11 +59,11 @@ The use of information and content available on this site is entirely at the use
 
 The editor, through the hosting provider, endeavors to keep the site accessible 24/7. However, the editor is under no obligation of result regarding site availability and shall not be held liable for any damage resulting from temporary or permanent unavailability of the site (maintenance, force majeure, etc.).
 
-### Governing Law
+### c. Governing Law
 
 These Legal Notices and Terms of Use are governed by **French law**. In the event of a dispute, the courts within the jurisdiction of the editor's domicile shall have exclusive competence.
 
-## AI Transparency Statement
+## IV. AI Transparency Statement
 
 **Editorial Content:**
 

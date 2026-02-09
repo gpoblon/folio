@@ -1,4 +1,4 @@
-## Mentions légales
+## I. Mentions légales
 
 Ce site est édité par _Gaëtan Poblon_ à titre non professionnel.
 
@@ -10,7 +10,7 @@ Ces mentions légales sont définies conformément à l'[article 1-1-II de la lo
 
 Les coordonnées personnelles de l'éditeur ont été transmises à l'hébergeur, qui est tenu au secret professionnel.
 
-## Politique de confidentialité
+## II. Politique de confidentialité
 
 Le site et l'éditeur respectent votre vie privée et s'engagent à protéger vos données personnelles.
 
@@ -29,9 +29,9 @@ S'il en est, toute exception est indiquée de manière claire et transparente ci
 
 - _Aucune exception. Votre vie privée doit être respectée et protégée._
 
-## Conditions générales d'utilisation
+## III. Conditions générales d'utilisation
 
-### Propriété intellectuelle
+### a. Propriété intellectuelle
 
 Le site et chacun des éléments et des contenus, y-compris mais sans limitation les marques, les logos, icônes, articles, qui le composent sont protégés au titre de la législation internationale de la propriété intellectuelle.
 Les contenus figurant sur le site sont la propriété de l'éditeur ou d’autres entités.
@@ -46,7 +46,7 @@ L'éditeur fait usage de contenus tiers appartenant aux entités suivantes :
 L'auteur cite également des technologies privées sous licence commerciale, ou des technologies open source sous licences variées.
 Aucune forme de partenariat ou d'affiliation n'existe entre l'auteur et les entités propriétaires de ces technologies, et aucune forme de rémunération n'est versée à l'auteur par ces entités.
 
-### Responsabilité de l'éditeur
+### b. Responsabilité de l'éditeur
 
 Les informations et documents figurant sur ce site sont fournis gracieusement à titre informatif et collaboratif.
 Bien que l'auteur s'efforce de fournir des informations fiables, vérifiables, sourcées, et à jour, il ne saurait être tenu responsable des erreurs, omissions ou d'une absence de mise à jour des informations mises à disposition.
@@ -56,11 +56,11 @@ L'utilisateur est seul responsable de l'utilisation qu'il fait des informations 
 L'éditeur, par le biais de son hébergeur, s'efforce de maintenir le site accessible 24/7.
 L'éditeur n'est tenu à aucune obligation de disponibilité du site et ne saurait être tenu repsonsable de tout dommage résultatant d'une indisponibilité du site.
 
-### Droit applicable
+### c. Droit applicable
 
 Les présentes mentions légales et conditions d'utilisation sont régies par le droit français. En cas de litige, les tribunaux du domicile de l'éditeur seront seuls compétents.
 
-## Utilisation de l'Intelligence Artificielle
+## IV. Utilisation de l'Intelligence Artificielle
 
 Sans exception, les articles sont le fruit de la réflexion, de la recherche et de l'expérience personnelles de l'auteur, et non d'une Intelligence Artificielle.
 

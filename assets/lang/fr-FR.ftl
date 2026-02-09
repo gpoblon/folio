@@ -1,13 +1,12 @@
-greetings = Bonjour {$name}
-
 # nav
-projects = EXPLORER
-experience = RETRACER
-knowledge = OBSERVER
-connect = COLLABORER
-
+projects = PROJETS
+experience = PARCOURS
+knowledge = ARTICLES
+connect = CONTACT
 
 # footer
-made_by = Développé par
-using = avec
+footer_made_by = Développé par
+footer_using = avec
 tos_route = Mentions légales & CGU
+
+home_welcome = Bienvenue dans mon univers.
