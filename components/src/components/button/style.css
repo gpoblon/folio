@@ -6,8 +6,7 @@ button.button {
     min-width: 42px;
     min-height: 42px;
     padding: 8px 8px;
-    border-radius: var(--global-radius);
-    cursor: pointer;
+    border-radius: var(--radius-component);
     font-size: 1rem;
     transition:
         background-color var(--transition-duration, 400ms) ease-in,
@@ -15,57 +14,57 @@ button.button {
 }
 
 button.button:focus-visible {
-    box-shadow: 0 0 0 2px var(--projects-val);
+    box-shadow: 0 0 0 2px var(--color-projects);
 }
 
 button.button[data-style="primary"] {
     border: none;
-    background-color: var(--fg-val);
-    color: var(--bg-val);
+    background-color: var(--color-fg);
+    color: var(--color-bg);
 }
 
 button.button[data-style="primary"]:hover {
-    background-color: var(--muted-fg-val);
+    background-color: var(--color-muted-fg);
 }
 
 button.button[data-style="secondary"] {
     border: none;
-    background-color: var(--muted-val);
-    color: var(--fg-val);
+    background-color: var(--color-muted);
+    color: var(--color-fg);
 }
 
 button.button[data-style="secondary"]:hover {
-    background-color: var(--border-bg-val);
+    background-color: var(--color-border-subtle);
 }
 
 button.button[data-style="ghost"] {
     border: none;
     background-color: transparent;
-    color: var(--fg-val);
+    color: var(--color-fg);
 }
 
 button.button[data-style="ghost"]:hover {
-    background-color: var(--muted-val);
-    color: var(--fg-val);
+    background-color: var(--color-muted);
+    color: var(--color-fg);
 }
 
 button.button[data-style="outline"] {
-    border: 1px solid var(--border-bg-val);
-    background-color: var(--bg-val);
-    color: var(--fg-val);
+    border: 1px solid var(--color-border-subtle);
+    background-color: var(--color-bg);
+    color: var(--color-fg);
 }
 
 button.button[data-style="outline"]:hover {
-    background-color: var(--muted-val);
+    background-color: var(--color-muted);
 }
 
 button.button[data-style="destructive"] {
     border: none;
-    background-color: var(--connect-val);
-    color: var(--bg-val);
+    background-color: var(--color-connect);
+    color: var(--color-bg);
 }
 
 button.button[data-style="destructive"]:hover {
-    background-color: var(--connect-val);
+    background-color: var(--color-connect);
     opacity: 0.9;
 }

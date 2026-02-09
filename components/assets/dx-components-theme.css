@@ -1,65 +1,117 @@
-/* This file contains the global styles for the styled dioxus components. You only
- * need to import this file once in your project root.
- */
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+/* ===========================================
+   Dioxus Components Theme
+   Maps design system variables to dioxus-tw-components
+   =========================================== */
 
-body {
-    padding: 0;
-    margin: 0;
-    background-color: var(--primary-color);
-    color: var(--secondary-color-4);
-    font-family: Inter, sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    font-weight: 400;
-}
-
-/* Color variables using main.css values that work with data-theme */
 :root {
-    /* Primary colors - backgrounds (using --bg-val and related from main.css) */
-    --primary-color: var(--bg-val);
-    --primary-color-1: var(--bg-val);
-    --primary-color-2: var(--bg-val);
-    --primary-color-3: var(--bg-val);
-    --primary-color-4: var(--muted-val);
-    --primary-color-5: var(--muted-val);
-    --primary-color-6: var(--border-bg-val);
-    --primary-color-7: var(--muted-fg-val);
+    /* Primary colors - background scale (light to dark) */
+    --primary-color: var(--color-bg);
+    --primary-color-1: var(--color-bg);
+    --primary-color-2: color-mix(
+        in oklab,
+        var(--color-bg) 95%,
+        var(--color-fg) 5%
+    );
+    --primary-color-3: color-mix(
+        in oklab,
+        var(--color-bg) 90%,
+        var(--color-fg) 10%
+    );
+    --primary-color-4: color-mix(
+        in oklab,
+        var(--color-bg) 85%,
+        var(--color-fg) 15%
+    );
+    --primary-color-5: color-mix(
+        in oklab,
+        var(--color-bg) 75%,
+        var(--color-fg) 25%
+    );
+    --primary-color-6: color-mix(
+        in oklab,
+        var(--color-bg) 65%,
+        var(--color-fg) 35%
+    );
+    --primary-color-7: color-mix(
+        in oklab,
+        var(--color-bg) 50%,
+        var(--color-fg) 50%
+    );
 
-    /* Secondary colors - foregrounds (using --fg-val and related from main.css) */
-    --secondary-color: var(--fg-val);
-    --secondary-color-1: var(--fg-val);
-    --secondary-color-2: var(--fg-val);
-    --secondary-color-3: var(--fg-val);
-    --secondary-color-4: var(--fg-val);
-    --secondary-color-5: var(--muted-fg-val);
-    --secondary-color-6: var(--border-bg-val);
+    /* Secondary colors - foreground scale (dark to light) */
+    --secondary-color: var(--color-fg);
+    --secondary-color-1: var(--color-fg);
+    --secondary-color-2: color-mix(
+        in oklab,
+        var(--color-fg) 95%,
+        var(--color-bg) 5%
+    );
+    --secondary-color-3: color-mix(
+        in oklab,
+        var(--color-fg) 85%,
+        var(--color-bg) 15%
+    );
+    --secondary-color-4: color-mix(
+        in oklab,
+        var(--color-fg) 75%,
+        var(--color-bg) 25%
+    );
+    --secondary-color-5: color-mix(
+        in oklab,
+        var(--color-fg) 60%,
+        var(--color-bg) 40%
+    );
+    --secondary-color-6: color-mix(
+        in oklab,
+        var(--color-fg) 45%,
+        var(--color-bg) 55%
+    );
+    --secondary-color-7: color-mix(
+        in oklab,
+        var(--color-fg) 30%,
+        var(--color-bg) 70%
+    );
 
-    /* Highlight colors */
-    --focused-border-color: var(--projects-val);
-    --primary-success-color: var(--knowledge-val);
-    --secondary-success-color: var(--knowledge-val);
-    --primary-warning-color: var(--experience-val);
-    --secondary-warning-color: var(--experience-val);
-    --primary-error-color: var(--connect-val);
-    --secondary-error-color: var(--connect-val);
-    --contrast-error-color: var(--fg-val);
-    --primary-info-color: var(--muted-val);
-    --secondary-info-color: var(--muted-fg-val);
+    /* Semantic colors */
+    --focused-border-color: var(--color-projects);
+
+    --primary-success-color: var(--color-knowledge);
+    --secondary-success-color: color-mix(
+        in oklab,
+        var(--color-knowledge) 70%,
+        var(--color-bg) 30%
+    );
+
+    --primary-warning-color: var(--color-experience);
+    --secondary-warning-color: color-mix(
+        in oklab,
+        var(--color-experience) 70%,
+        var(--color-bg) 30%
+    );
+
+    --primary-error-color: var(--color-connect);
+    --secondary-error-color: color-mix(
+        in oklab,
+        var(--color-connect) 70%,
+        var(--color-bg) 30%
+    );
+    --contrast-error-color: var(--color-fg);
+
+    --primary-info-color: var(--color-muted);
+    --secondary-info-color: var(--color-muted-fg);
 }
 
-/* Modern browsers with `scrollbar-*` support */
+/* Scrollbar Styling */
 @supports (scrollbar-width: auto) {
     :not(:hover) {
         scrollbar-color: rgb(0 0 0 / 0%) rgb(0 0 0 / 0%);
     }
 
     :hover {
-        scrollbar-color: var(--secondary-color-2) rgb(0 0 0 / 0%);
+        scrollbar-color: var(--secondary-color-5) rgb(0 0 0 / 0%);
     }
 }
 
-/* Legacy browsers with `::-webkit-scrollbar-*` support */
 @supports selector(::-webkit-scrollbar) {
     :root::-webkit-scrollbar-track {
         background: transparent;

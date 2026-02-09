@@ -124,7 +124,7 @@ abbr[title] {
 code {
     font-family: ui-monospace, monospace;
     font-size: 0.875em;
-    background-color: var(--muted-val);
+    background-color: var(--color-muted);
     padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
 }
@@ -132,7 +132,7 @@ code {
 pre {
     font-family: ui-monospace, monospace;
     font-size: 0.875rem;
-    background-color: var(--muted-val);
+    background-color: var(--color-muted);
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;
@@ -147,20 +147,20 @@ pre code {
 kbd {
     font-family: ui-monospace, monospace;
     font-size: 0.875em;
-    background-color: var(--muted-val);
-    border: 1px solid var(--border-val);
+    background-color: var(--color-muted);
+    border: 1px solid var(--color-border);
     padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
 }
 
 /* Blockquotes */
 blockquote {
-    border-left: 4px solid var(--border-val);
+    border-left: 4px solid var(--color-border);
     padding-left: 1rem;
     margin-left: 0;
     margin-bottom: 1rem;
     font-style: italic;
-    color: var(--muted-fg-val);
+    color: var(--color-muted-fg);
 }
 
 /* Lists */
@@ -194,14 +194,14 @@ li > ol {
 /* Horizontal Rule */
 hr {
     border: none;
-    border-top: 1px solid var(--border-val);
+    border-top: 1px solid var(--color-border);
     margin: 2rem 0;
 }
 
 /* Links - scoped to content areas, excludes nav and buttons */
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a) {
-    color: var(--projects-val);
+    color: var(--color-projects);
     text-decoration: underline;
     text-underline-offset: 2px;
     cursor: pointer;
@@ -210,10 +210,10 @@ hr {
 
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a):hover {
-    color: var(--connect-val);
+    color: var(--color-connect);
 }
 
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a):visited {
-    color: var(--knowledge-val);
+    color: var(--color-knowledge);
 }

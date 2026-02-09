@@ -1,149 +1,111 @@
 /* ===========================================
-   CSS CUSTOM PROPERTIES & BASE STYLES
+   FOLIO DESIGN SYSTEM
+   Single source of truth for CSS variables
    =========================================== */
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ===========================================
+   CSS Custom Properties
+   =========================================== */
 @layer base {
     :root {
-        /* --- PRIMITIVE VALUES --- */
-        --projects-val: #b9aae3;
-        --connect-val: #f3a6b1;
-        --knowledge-val: #a4c3a8;
-        --experience-val: #f8c072;
+        /* Brand Colors */
+        --color-projects: #b9aae3;
+        --color-connect: #f3a6b1;
+        --color-knowledge: #a4c3a8;
+        --color-experience: #f8c072;
 
         /* Base Colors */
-        --bg-val: hsl(40, 20%, 92%);
-        --fg-val: hsl(30 12% 12%);
-        --accent-val: hsl(0 0% 100%);
-        --accent-fg-val: hsl(0 0% 0%);
+        --color-bg: hsl(40, 20%, 92%);
+        --color-fg: hsl(30 12% 12%);
+        --color-accent: hsl(0 0% 100%);
+        --color-accent-fg: hsl(0 0% 0%);
 
-        --brand-fg-tint: color-mix(
+        /* Derived Colors */
+        --color-brand-tint: color-mix(
             in oklab,
-            var(--projects-val) 65%,
-            var(--fg-val) 35%
+            var(--color-projects) 65%,
+            var(--color-fg) 35%
+        );
+        --color-muted: color-mix(
+            in oklab,
+            var(--color-bg) 92%,
+            var(--color-brand-tint) 8%
+        );
+        --color-muted-fg: color-mix(
+            in oklab,
+            var(--color-brand-tint) 72%,
+            var(--color-bg) 28%
         );
 
-        --muted-val: color-mix(
+        /* Border Colors */
+        --color-border: color-mix(
             in oklab,
-            var(--bg-val) 92%,
-            var(--brand-fg-tint) 8%
+            var(--color-bg) 85%,
+            var(--color-brand-tint) 15%
         );
-        --muted-fg-val: color-mix(
+        --color-border-subtle: color-mix(
             in oklab,
-            var(--brand-fg-tint) 72%,
-            var(--bg-val) 28%
-        );
-
-        --border-val: color-mix(
-            in oklab,
-            var(--bg-val) 85%,
-            var(--brand-fg-tint) 15%
-        );
-        --border-accent-val: color-mix(
-            in oklab,
-            var(--brand-fg-tint) 28%,
-            transparent
-        );
-        --border-bg-val: color-mix(
-            in oklab,
-            var(--brand-fg-tint) 25%,
-            transparent
-        );
-        --border-muted-val: color-mix(
-            in oklab,
-            var(--brand-fg-tint) 22%,
+            var(--color-brand-tint) 25%,
             transparent
         );
 
-        --radius-default: 0.75rem;
+        /* Layout */
+        --radius: 0.75rem;
+        --radius-component: 0px;
+        --transition-duration: 400ms;
     }
 
-    /* --- DARK MODE OVERRIDES --- */
+    /* Dark Mode */
     :root[data-theme="dark"],
     [data-theme="dark"] {
-        --bg-val: hsl(320, 6%, 8%);
-        --fg-val: hsl(30 60% 95%);
-        --accent-val: hsl(0 0% 0%);
-        --accent-fg-val: hsl(0 0% 100%);
+        --color-bg: hsl(320, 6%, 8%);
+        --color-fg: hsl(30 60% 95%);
+        --color-accent: hsl(0 0% 0%);
+        --color-accent-fg: hsl(0 0% 100%);
 
-        /* Recalculate tints for dark mode */
-        --brand-fg-tint: color-mix(
+        --color-brand-tint: color-mix(
             in oklab,
-            var(--projects-val) 65%,
-            var(--fg-val) 35%
+            var(--color-projects) 65%,
+            var(--color-fg) 35%
         );
-
-        --muted-val: color-mix(
+        --color-muted: color-mix(
             in oklab,
-            var(--bg-val) 90%,
-            var(--brand-fg-tint) 10%
+            var(--color-bg) 90%,
+            var(--color-brand-tint) 10%
         );
-        --muted-fg-val: color-mix(
+        --color-muted-fg: color-mix(
             in oklab,
-            var(--brand-fg-tint) 68%,
-            var(--bg-val) 32%
+            var(--color-brand-tint) 68%,
+            var(--color-bg) 32%
         );
 
-        --border-val: color-mix(
+        --color-border: color-mix(
             in oklab,
-            var(--bg-val) 78%,
-            var(--brand-fg-tint) 22%
+            var(--color-bg) 78%,
+            var(--color-brand-tint) 22%
         );
-        --border-accent-val: color-mix(
+        --color-border-subtle: color-mix(
             in oklab,
-            var(--brand-fg-tint) 32%,
-            transparent
-        );
-        --border-bg-val: color-mix(
-            in oklab,
-            var(--brand-fg-tint) 27%,
-            transparent
-        );
-        --border-muted-val: color-mix(
-            in oklab,
-            var(--brand-fg-tint) 24%,
+            var(--color-brand-tint) 27%,
             transparent
         );
     }
-}
 
-/* =========================================
-   Map Tailwind utilities to point to the variables above.
-   ========================================= */
-@theme {
-    /* Project Colors */
-    --color-projects: var(--projects-val);
-    --color-connect: var(--connect-val);
-    --color-knowledge: var(--knowledge-val);
-    --color-experience: var(--experience-val);
-
-    /* Semantic Colors */
-    --color-background: var(--bg-val);
-    --color-foreground: var(--fg-val);
-    --color-accent: var(--accent-val);
-    --color-accent-foreground: var(--accent-fg-val);
-
-    --color-muted: var(--muted-val);
-    --color-muted-foreground: var(--muted-fg-val);
-
-    --color-border: var(--border-val);
-    --color-border-on-accent: var(--border-accent-val);
-    --color-border-on-background: var(--border-bg-val);
-    --color-border-on-muted: var(--border-muted-val);
-}
-
-@layer base {
+    /* Base Element Styles */
     html {
         scrollbar-gutter: stable;
-        background-color: var(--bg-val);
-        color: var(--fg-val);
+        background-color: var(--color-bg);
+        color: var(--color-fg);
         overflow-y: scroll;
     }
 
-    /* Browser Native UI Sync */
     html,
     [data-theme="light"] {
         color-scheme: light;
     }
+
     [data-theme="dark"] {
         color-scheme: dark;
     }
@@ -153,89 +115,116 @@
         font-family: ui-sans-serif, system-ui, sans-serif;
     }
 
-    /* Focus Styles */
     *:focus-visible {
-        outline: 1px solid var(--projects-val);
+        outline: 1px solid var(--color-projects);
         outline-offset: 1px;
-        border-radius: var(--radius-default);
+        border-radius: var(--radius);
     }
 
-    a {
-        cursor: pointer;
-    }
-
-    button {
-        @apply cursor-pointer;
-    }
-    button:disabled {
-        @apply cursor-default opacity-50 text-muted-foreground;
+    /* Theme Transitions */
+    @media (prefers-reduced-motion: no-preference) {
+        [data-theme],
+        [data-theme] * {
+            transition:
+                background-color var(--transition-duration) ease-in,
+                color var(--transition-duration) ease-in;
+        }
     }
 }
 
+/* ===========================================
+   Tailwind Theme Mapping
+   =========================================== */
+@theme {
+    --color-background: var(--color-bg);
+    --color-foreground: var(--color-fg);
+    --color-muted: var(--color-muted);
+    --color-muted-foreground: var(--color-muted-fg);
+    --color-border: var(--color-border);
+}
+
+/* ===========================================
+   Global Element Overrides
+   (Outside @layer for higher specificity)
+   =========================================== */
+a {
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: default;
+    opacity: 0.5;
+    color: var(--color-muted-fg);
+}
+
+/* ===========================================
+   Utility Classes
+   =========================================== */
 @layer utilities {
-    /* Manual Definitions for Rust String Interpolation
-     (text-{color}, bg-{color}, border-{color})
-  */
+    /* Brand Color Utilities (for Rust string interpolation) */
     .text-projects {
-        color: var(--projects-val);
+        color: var(--color-projects);
     }
     .bg-projects {
-        background-color: var(--projects-val);
+        background-color: var(--color-projects);
     }
     .border-projects {
-        border-color: var(--projects-val);
+        border-color: var(--color-projects);
     }
 
     .text-connect {
-        color: var(--connect-val);
+        color: var(--color-connect);
     }
     .bg-connect {
-        background-color: var(--connect-val);
+        background-color: var(--color-connect);
     }
     .border-connect {
-        border-color: var(--connect-val);
+        border-color: var(--color-connect);
     }
 
     .text-knowledge {
-        color: var(--knowledge-val);
+        color: var(--color-knowledge);
     }
     .bg-knowledge {
-        background-color: var(--knowledge-val);
+        background-color: var(--color-knowledge);
     }
     .border-knowledge {
-        border-color: var(--knowledge-val);
+        border-color: var(--color-knowledge);
     }
 
     .text-experience {
-        color: var(--experience-val);
+        color: var(--color-experience);
     }
     .bg-experience {
-        background-color: var(--experience-val);
+        background-color: var(--color-experience);
     }
     .border-experience {
-        border-color: var(--experience-val);
+        border-color: var(--color-experience);
     }
 
-    /* Semantic Helper Classes */
+    /* Semantic Utilities */
     .text-primary {
-        color: var(--fg-val);
+        color: var(--color-fg);
     }
     .bg-primary {
-        background-color: var(--bg-val);
+        background-color: var(--color-bg);
     }
     .border-primary {
-        border-color: var(--border-bg-val);
+        border-color: var(--color-border-subtle);
     }
 
     .text-muted {
-        color: var(--muted-fg-val);
+        color: var(--color-muted-fg);
     }
     .bg-muted {
-        background-color: var(--muted-val);
+        background-color: var(--color-muted);
     }
 
-    /* Layout Utilities */
-    /* nav: Custom breakpoint for navigation at 950px */
+    /* Navigation Breakpoint (950px) */
     .nav\:flex {
         display: none;
         @media (width >= 950px) {
@@ -250,6 +239,7 @@
         }
     }
 
+    /* Layout Utilities */
     .center-content {
         margin-inline: auto;
         text-align: center;
@@ -258,23 +248,8 @@
     .logo-gradient {
         background: linear-gradient(
             135deg,
-            var(--projects-val) 0%,
-            var(--knowledge-val) 100%
+            var(--color-projects) 0%,
+            var(--color-knowledge) 100%
         );
-    }
-}
-
-/* Theme switch transition effect */
-@layer base {
-    :root {
-        --transition-duration: 400ms;
-    }
-    @media (prefers-reduced-motion: no-preference) {
-        [data-theme],
-        [data-theme] * {
-            transition:
-                background-color var(--transition-duration) ease-in,
-                color var(--transition-duration) ease-in;
-        }
     }
 }
