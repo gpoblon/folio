@@ -23,6 +23,6 @@ connect_send = Envoyer
 connect_subject_share = Simplement créer du lien et partager!
 connect_subject_job = Proposition d'emploi (CDI/CDD)
 connect_subject_freelance = Proposition de mission (freelance)
-connect_alternative = Les formulaires vous hérissent le poil ? Retrouvez-moi ici.
+connect_alternative = Les formulaires vous hérissent le poil ? Retrouvez-moi ici:
 connect_send_success = Gaëtan vient de recevoir votre message. Attendez-vous à une réponse dans les jours à venir.
 connect_send_error_parser = La donnée du formulaire ne remplit pas les conditions attendues.

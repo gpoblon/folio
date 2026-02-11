@@ -11,7 +11,7 @@ const TYPOGRAPHY_CSS: Asset = asset!("/assets/typography.css");
 #[component]
 fn App() -> Element {
     kernel::lang::init_i18n();
-    let theme = use_signal(|| kernel::theme::ThemeMode::default());
+    let theme = use_signal(kernel::theme::ThemeMode::default);
     provide_context(theme);
 
     rsx! {
@@ -26,11 +26,20 @@ fn App() -> Element {
             class: "min-h-screen flex flex-col bg-primary text-primary border-primary font-light font-sans overflow-x-hidden",
             lang: "fr",
             "data-theme": theme().as_str(),
-            Router::<router::Route> {}
+            components::toast::ToastProvider {
+                Router::<router::Route> {}
+            }
         }
     }
 }
 
 fn main() {
-    dioxus::launch(App)
+    #[cfg(feature = "server")]
+    dioxus::serve(|| async move {
+        use dioxus::server::axum::Extension;
+        let router = dioxus::server::router(App).layer(Extension(kernel::config::Config::init()));
+        Ok(router)
+    });
+    #[cfg(not(feature = "server"))]
+    dioxus::launch(App);
 }

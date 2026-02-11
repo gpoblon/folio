@@ -12,6 +12,7 @@ strum.workspace = true
 tracing = "0.1"
 kernel.workspace = true
 components.workspace = true
+garde = { version = "0.22.1", features = ["derive", "email"] }
 #surrealdb = { version = "3.0.0-beta-2", optional = true }
 
 [features]

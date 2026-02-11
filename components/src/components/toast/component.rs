@@ -1,7 +1,7 @@
 use dioxus::prelude::*;
 use dioxus_primitives::toast::{self, ToastProviderProps};
 
-pub use toast::{Toast, ToastOptions, consume_toast};
+pub use toast::{Toast, ToastOptions, consume_toast, use_toast};
 
 #[component]
 pub fn ToastProvider(props: ToastProviderProps) -> Element {

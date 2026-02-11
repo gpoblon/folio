@@ -22,6 +22,6 @@ connect_send = Send
 connect_subject_job = "Talk about a job opportunity"
 connect_subject_collab = "Talk about a freelance mission"
 connect_subject_share = "Simply connect and share!"
-connect_alternative = Allergic to forms? Reach me here instead.
+connect_alternative = Allergic to forms? Reach me here instead:
 connect_send_success = Gaetan just received your message. Expect an answer in a couple of days.
 connect_send_error_parser = Failed to parse form data.

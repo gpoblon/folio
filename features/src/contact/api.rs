@@ -1,33 +1,27 @@
-use dioxus::prelude::*;
+use super::model::ContactForm;
+use dioxus::{fullstack::Form, prelude::*};
 
-use super::model::ContactFormData;
+#[server(config: dioxus_server::axum::Extension<kernel::config::Config>)]
+pub async fn send_contact_email(Form(form): Form<ContactForm>) -> Result<(), HttpError> {
+    // Validate the form data and retrieve its content
+    use garde::Validate;
+    if let Err(e) = form.validate() {
+        return HttpError::bad_request(format!("Validation error: {}", e));
+    }
 
-/// Result type for contact form submission
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-pub enum ContactResult {
-    Success,
-    ValidationError(String),
-    SendError(String),
-}
+    let mail = kernel::mail::Mail::builder()
+        .address(&form.email)
+        .or_else(|e| HttpError::bad_request(format!("Invalid Address: {}", e)))?
+        .name(form.name)
+        .subject(form.subject)
+        .body(form.message)
+        .build();
 
-/// Server function to handle contact form submission
-///
-/// This function validates the form data and sends an email.
-/// The actual email sending logic should be implemented based on your email provider.
-#[server]
-pub async fn send_contact_email(form: ContactFormData) -> Result<ContactResult, ServerFnError> {
-    use super::model::ValidatedContactForm;
+    kernel::mail::send(&config, mail)
+        .await
+        .or_else(|e| HttpError::internal_server_error(format!("Failed to send: {}", e)))?;
 
-    // Validate the form data
-    let validated: ValidatedContactForm = match form.try_into() {
-        Ok(v) => v,
-        Err(e) => return Ok(ContactResult::ValidationError(e.to_string())),
-    };
+    tracing::info!("Contact form submitted.");
 
-    // TODO send mail logic
-    // TODO proper error i18n
-
-    tracing::info!("Contact form submission (success): {validated:#?}");
-
-    Ok(ContactResult::Success)
+    Ok(())
 }

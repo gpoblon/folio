@@ -1,140 +1,96 @@
+use super::api;
+use dioxus::{fullstack::Form, prelude::*};
+use garde::Validate;
+use kernel::lang::t;
 use serde::{Deserialize, Serialize};
+use std::time::Duration;
 
 /// Raw contact form data as submitted by the user
-#[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct ContactFormData {
+#[derive(Debug, Clone, Deserialize, Serialize, garde::Validate)]
+pub(super) struct ContactForm {
+    #[garde(ascii, length(min = 4, max = 64))]
     pub name: String,
+    #[garde(email)]
     pub email: String,
+    #[garde(ascii, length(min = 4, max = 64))]
     pub subject: String,
+    #[garde(ascii, length(min = 4, max = 4092))]
     pub message: String,
 }
 
-/// Validated contact form data ready for processing
-#[derive(Debug, Clone)]
-pub struct ValidatedContactForm {
-    pub name: String,
-    pub email: String,
-    pub subject: String,
-    pub message: String,
+/// State for the contact form submission
+#[derive(Debug, Clone, PartialEq, Default)]
+pub(super) enum FormState {
+    #[default]
+    Idle,
+    Submitting,
+    Success,
+    Error(String),
 }
 
-/// Validation error types for contact form
-#[derive(Debug, Clone, PartialEq)]
-pub enum ContactFormError {
-    EmptyName,
-    EmptyEmail,
-    InvalidEmail,
-    EmptySubject,
-    EmptyMessage,
+/// Controller for contact form submission
+///
+/// This encapsulates all client business logic related to form submission:
+/// - Form state management
+/// - Validation
+/// - API communication orchestration
+/// - Toast notifications
+#[derive(Clone, Copy)]
+pub(super) struct FormController {
+    form_state: Signal<FormState>,
 }
 
-impl std::fmt::Display for ContactFormError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ContactFormError::EmptyName => write!(f, "Name cannot be empty"),
-            ContactFormError::EmptyEmail => write!(f, "Email cannot be empty"),
-            ContactFormError::InvalidEmail => write!(f, "Invalid email format"),
-            ContactFormError::EmptySubject => write!(f, "Subject cannot be empty"),
-            ContactFormError::EmptyMessage => write!(f, "Message cannot be empty"),
-        }
+impl FormController {
+    /// Check if form is currently submitting
+    pub(super) fn is_submitting(&self) -> bool {
+        matches!(self.form_state.read().clone(), FormState::Submitting)
+    }
+
+    /// Handle form submission event
+    pub(super) fn handle_submit(&self, evt: FormEvent) {
+        let mut form_state = self.form_state;
+
+        spawn(async move {
+            let toast = components::toast::consume_toast();
+            evt.prevent_default();
+            form_state.set(FormState::Submitting);
+
+            match evt.parsed_values::<ContactForm>() {
+                Ok(form_data) => match form_data.validate() {
+                    Ok(_) => match api::send_contact_email(Form(form_data)).await {
+                        Ok(_) => form_state.set(FormState::Success),
+                        Err(e) => form_state.set(FormState::Error(e.to_string())),
+                    },
+                    Err(e) => form_state.set(FormState::Error(e.to_string())),
+                },
+                Err(_) => {
+                    form_state.set(FormState::Error(t!("connect_send_error_parser")));
+                }
+            };
+
+            match *form_state.peek() {
+                FormState::Success => toast.success(
+                    t!("connect_send_success"),
+                    components::toast::ToastOptions::new()
+                        .duration(Duration::from_secs(5))
+                        .permanent(false),
+                ),
+                FormState::Error(ref msg) => toast.error(
+                    msg.to_string(),
+                    components::toast::ToastOptions::new()
+                        .duration(Duration::from_secs(5))
+                        .permanent(false),
+                ),
+                _ => (),
+            };
+        });
     }
 }
 
-impl std::error::Error for ContactFormError {}
-
-impl TryFrom<ContactFormData> for ValidatedContactForm {
-    type Error = ContactFormError;
-
-    fn try_from(form: ContactFormData) -> Result<Self, Self::Error> {
-        let name = form.name.trim().to_string();
-        if name.is_empty() {
-            return Err(ContactFormError::EmptyName);
-        }
-
-        let email = form.email.trim().to_string();
-        if email.is_empty() {
-            return Err(ContactFormError::EmptyEmail);
-        }
-        if !email.contains('@') || !email.contains('.') {
-            return Err(ContactFormError::InvalidEmail);
-        }
-
-        let subject = form.subject.trim().to_string();
-        if subject.is_empty() {
-            return Err(ContactFormError::EmptySubject);
-        }
-
-        let message = form.message.trim().to_string();
-        if message.is_empty() {
-            return Err(ContactFormError::EmptyMessage);
-        }
-
-        Ok(ValidatedContactForm {
-            name,
-            email,
-            subject,
-            message,
-        })
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn valid_form_data() -> ContactFormData {
-        ContactFormData {
-            name: "John Doe".to_string(),
-            email: "john@example.com".to_string(),
-            subject: "Hello".to_string(),
-            message: "This is a test message".to_string(),
-        }
-    }
-
-    #[test]
-    fn test_valid_form() {
-        let form = valid_form_data();
-        let result: Result<ValidatedContactForm, _> = form.try_into();
-        assert!(result.is_ok());
-    }
-
-    #[test]
-    fn test_empty_name() {
-        let mut form = valid_form_data();
-        form.name = "   ".to_string();
-        let result: Result<ValidatedContactForm, _> = form.try_into();
-        assert_eq!(result.unwrap_err(), ContactFormError::EmptyName);
-    }
-
-    #[test]
-    fn test_empty_email() {
-        let mut form = valid_form_data();
-        form.email = "".to_string();
-        let result: Result<ValidatedContactForm, _> = form.try_into();
-        assert_eq!(result.unwrap_err(), ContactFormError::EmptyEmail);
-    }
-
-    #[test]
-    fn test_invalid_email() {
-        let mut form = valid_form_data();
-        form.email = "invalid-email".to_string();
-        let result: Result<ValidatedContactForm, _> = form.try_into();
-        assert_eq!(result.unwrap_err(), ContactFormError::InvalidEmail);
-    }
-
-    #[test]
-    fn test_empty_subject() {
-        let mut form = valid_form_data();
-        form.subject = "".to_string();
-        let result: Result<ValidatedContactForm, _> = form.try_into();
-        assert_eq!(result.unwrap_err(), ContactFormError::EmptySubject);
-    }
-
-    #[test]
-    fn test_empty_message() {
-        let mut form = valid_form_data();
-        form.message = "   ".to_string();
-        let result: Result<ValidatedContactForm, _> = form.try_into();
-        assert_eq!(result.unwrap_err(), ContactFormError::EmptyMessage);
-    }
+/// Custom hook for contact form submission logic
+///
+/// Returns a FormController that encapsulates form state and submission logic
+pub(super) fn use_contact_form_submission() -> FormController {
+    let form_state = use_signal(FormState::default);
+    FormController { form_state }
 }

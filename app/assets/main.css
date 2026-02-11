@@ -141,6 +141,12 @@
     --color-muted: var(--color-muted);
     --color-muted-foreground: var(--color-muted-fg);
     --color-border: var(--color-border);
+
+    /* Brand Colors */
+    --color-projects: var(--color-projects);
+    --color-connect: var(--color-connect);
+    --color-knowledge: var(--color-knowledge);
+    --color-experience: var(--color-experience);
 }
 
 /* ===========================================

@@ -15,7 +15,7 @@ pub fn SocialLink(props: SocialLinkProps) -> Element {
     rsx! {
         components::Separator {}
         a {
-            class: "flex items-baseline w-full pl-8 hover:opacity-80 transition-opacity",
+            class: "flex items-baseline w-full pl-8 hover:opacity-80 transition-opacity no-underline!",
             href: props.href,
             target: if props.href.starts_with("mailto:") { "_self" } else { "_blank" },
             rel: "noopener noreferrer",

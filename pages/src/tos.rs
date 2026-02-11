@@ -1,8 +1,8 @@
 use dioxus::prelude::*;
 use kernel::lang;
 
-const TOS_EN: &'static str = include_str!("../../resources/tos.en.md");
-const TOS_FR: &'static str = include_str!("../../resources/tos.fr.md");
+const TOS_EN: &str = include_str!("../../resources/tos.en.md");
+const TOS_FR: &str = include_str!("../../resources/tos.fr.md");
 
 #[component]
 pub fn TermsOfUse() -> Element {

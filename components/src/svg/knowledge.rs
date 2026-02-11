@@ -51,6 +51,7 @@ pub fn Knowledge() -> Element {
 ///
 /// - inner_r, outer_r: original inner and outer radius
 /// - cut_fraction: fraction in [0, 1] to cut from the original radial span
+///
 /// Returns: inner_r + (outer_r - inner_r) * (1 - cut_fraction), clamped.
 ///
 /// This function is pure and has no side effects.
