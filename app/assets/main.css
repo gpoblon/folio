@@ -181,6 +181,9 @@ button:disabled {
     .border-projects {
         border-color: var(--color-projects);
     }
+    .outline-projects {
+        outline-color: var(--color-projects);
+    }
 
     .text-connect {
         color: var(--color-connect);
@@ -190,6 +193,9 @@ button:disabled {
     }
     .border-connect {
         border-color: var(--color-connect);
+    }
+    .outline-connect {
+        outline-color: var(--color-connect);
     }
 
     .text-knowledge {
@@ -201,6 +207,9 @@ button:disabled {
     .border-knowledge {
         border-color: var(--color-knowledge);
     }
+    .outline-knowledge {
+        outline-color: var(--color-knowledge);
+    }
 
     .text-experience {
         color: var(--color-experience);
@@ -210,6 +219,9 @@ button:disabled {
     }
     .border-experience {
         border-color: var(--color-experience);
+    }
+    .outline-experience {
+        outline-color: var(--color-experience);
     }
 
     /* Semantic Utilities */

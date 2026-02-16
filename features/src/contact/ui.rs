@@ -20,8 +20,8 @@ pub fn ContactForm(
             class: "flex-1 flex flex-col justify-center items-center",
             form {
                 class: "grid flex-1 gap-2 grid-cols-1 md:grid-cols-[2fr_1fr] md:grid-rows-[auto_auto_1fr]
-                        w-full max-w-[1480px] h-full max-h-[690px]
-                        outline-3 outline-[var(--color-connect)] shadow-2xl shadow-black",
+                        w-full max-w-[1600px] h-full max-h-[690px]
+                        outline-3 outline-connect shadow-2xl shadow-primary",
                 onsubmit: move |evt: FormEvent| form_controller.handle_submit(evt),
                 { header } // Row 1, Col 1: Header section
                 IdentityInputs {} // Row 2, Col 1: Email and Name inputs

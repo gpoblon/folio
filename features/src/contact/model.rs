@@ -3,7 +3,6 @@ use dioxus::{fullstack::Form, prelude::*};
 use garde::Validate;
 use kernel::lang::t;
 use serde::{Deserialize, Serialize};
-use std::time::Duration;
 
 /// Raw contact form data as submitted by the user
 #[derive(Debug, Clone, Deserialize, Serialize, garde::Validate)]
@@ -51,7 +50,7 @@ impl FormController {
         let mut form_state = self.form_state;
 
         spawn(async move {
-            let toast = components::toast::consume_toast();
+            let toast = components::toast::use_toast();
             evt.prevent_default();
             form_state.set(FormState::Submitting);
 
@@ -69,18 +68,8 @@ impl FormController {
             };
 
             match *form_state.peek() {
-                FormState::Success => toast.success(
-                    t!("connect_send_success"),
-                    components::toast::ToastOptions::new()
-                        .duration(Duration::from_secs(5))
-                        .permanent(false),
-                ),
-                FormState::Error(ref msg) => toast.error(
-                    msg.to_string(),
-                    components::toast::ToastOptions::new()
-                        .duration(Duration::from_secs(5))
-                        .permanent(false),
-                ),
+                FormState::Success => toast.success(t!("connect_send_success")).send(),
+                FormState::Error(ref msg) => toast.error(msg.to_string()).send(),
                 _ => (),
             };
         });

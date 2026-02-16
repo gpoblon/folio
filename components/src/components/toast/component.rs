@@ -1,10 +1,8 @@
 use dioxus::prelude::*;
-use dioxus_primitives::toast::{self, ToastProviderProps};
-
-pub use toast::{Toast, ToastOptions, consume_toast, use_toast};
+use dioxus_primitives::toast;
 
 #[component]
-pub fn ToastProvider(props: ToastProviderProps) -> Element {
+pub fn ToastProvider(props: toast::ToastProviderProps) -> Element {
     rsx! {
         document::Link { rel: "stylesheet", href: asset!("./style.css") }
         toast::ToastProvider {
