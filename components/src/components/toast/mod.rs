@@ -14,6 +14,28 @@ pub use component::ToastProvider;
 
 use dioxus_primitives::toast::ToastOptions;
 
+/// ToastDispatcher trait for sending toast notifications
+///
+/// # Example
+/// ```
+/// use dioxus::prelude::*;
+/// use folio::components::toast::{ToastDispatcher, Toasts};
+///
+/// struct MyComponent {
+///     toast: Toasts,
+/// }
+///
+/// impl ToastDispatcher for MyComponent {
+///     fn notify(&self) {
+///         self.toast.success("Hello, world!").send();
+///     }
+/// }
+/// ```
+pub trait ToastDispatcher {
+    /// Send a toast notification based on internal state (usually [`Signal`])
+    fn notify(&self);
+}
+
 /// A high-level [`dioxus_primitives::toast::Toasts`] wrapper API
 pub struct Toasts(dioxus_primitives::toast::Toasts);
 

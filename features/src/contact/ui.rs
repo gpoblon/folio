@@ -1,4 +1,7 @@
+use crate::contact::model::FormState;
+
 use super::model;
+use components::toast::ToastDispatcher;
 use dioxus::prelude::*;
 use kernel::lang::t;
 
@@ -12,17 +15,21 @@ pub fn ContactForm(
     #[props(optional)]
     ad_slot: Option<Element>,
 ) -> Element {
-    let form_controller = model::use_contact_form_submission();
-    let is_submitting = form_controller.is_submitting();
+    let form_controller = model::FormController::use_contact_form_submission();
+    let submit_state = form_controller.state();
 
     rsx! {
         div {
             class: "flex-1 flex flex-col justify-center items-center",
             form {
                 class: "grid flex-1 gap-2 grid-cols-1 md:grid-cols-[2fr_1fr] md:grid-rows-[auto_auto_1fr]
-                        w-full max-w-[1600px] h-full max-h-[690px]
+                        max-w-[1600px] sm:max-h-[690px]
                         outline-3 outline-connect shadow-2xl shadow-primary",
-                onsubmit: move |evt: FormEvent| form_controller.handle_submit(evt),
+                oninput: move |_| form_controller.is_submittable(),
+                onsubmit: move |evt: FormEvent| async move {
+                    form_controller.handle_submit(evt).await;
+                    form_controller.notify();
+                },
                 { header } // Row 1, Col 1: Header section
                 IdentityInputs {} // Row 2, Col 1: Email and Name inputs
                 SubjectInput {} // Row 1-2, Col 2: Subject input
@@ -31,7 +38,7 @@ pub fn ContactForm(
                     MessageInput {}
                     div {
                         class: "flex flex-col w-full sm:w-2/5",
-                        SendButton { is_submitting }
+                        SendButton { submit_state }
                         div {
                             class: "flex-1 block w-full pr-2",
                             { ad_slot }
@@ -102,21 +109,21 @@ fn MessageInput() -> Element {
 }
 
 #[component]
-fn SendButton(is_submitting: bool) -> Element {
+fn SendButton(submit_state: ReadSignal<FormState>) -> Element {
     rsx! {
         div {
             class: "flex flex-col w-full",
             button {
                 class: "h-20 rounded-l-4xl bg-[var(--color-knowledge)]/50 ml-2 disabled:opacity-50",
                 r#type: "submit",
-                disabled: is_submitting,
+                disabled: submit_state().is_submitting() || submit_state().is_success(),
                 div {
                     class: "flex flex-row items-center justify-center gap-2 h-full",
                     components::Icon {
                         class: "rotate-325 text-xl sm:text-3xl",
                         icon: components::Icons::Send
                     }
-                    if is_submitting {
+                    if submit_state().is_submitting() {
                         components::Icon {
                             class: "animate-spin text-xl sm:text-3xl",
                             icon: components::Icons::Sync

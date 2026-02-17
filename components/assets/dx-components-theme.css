@@ -4,80 +4,78 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 body {
-  padding: 0;
-  margin: 0;
-  background-color: var(--primary-color);
-  color: var(--secondary-color-4);
-  font-family: Inter, sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-weight: 400;
+    padding: 0;
+    margin: 0;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-family: Inter, sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --dark: initial;
-    --light: ;
-  }
+    :root {
+        --dark: initial;
+        --light: ;
+    }
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    --dark: ;
-    --light: initial;
-  }
+    :root {
+        --dark: ;
+        --light: initial;
+    }
 }
 
 :root {
-  /* Primary colors */
-  --primary-color: var(--dark, #000) var(--light, #fff);
-  --primary-color-1: var(--dark, #0e0e0e) var(--light, #fbfbfb);
-  --primary-color-2: var(--dark, #0a0a0a) var(--light, #fff);
-  --primary-color-3: var(--dark, #141313) var(--light, #f8f8f8);
-  --primary-color-4: var(--dark, #1a1a1a) var(--light, #f8f8f8);
-  --primary-color-5: var(--dark, #262626) var(--light, #f5f5f5);
-  --primary-color-6: var(--dark, #232323) var(--light, #e5e5e5);
-  --primary-color-7: var(--dark, #3e3e3e) var(--light, #b0b0b0);
+    /* Primary colors - backgrounds matching main.css */
+    --primary-color: var(--dark, #0f0d0f) var(--light, #f5f1e8);
+    --primary-color-1: var(--dark, #1a1814) var(--light, #faf8f4);
+    --primary-color-2: var(--dark, #0f0d0f) var(--light, #f5f1e8);
+    --primary-color-3: var(--dark, #221e1a) var(--light, #f0ece2);
+    --primary-color-4: var(--dark, #2a2520) var(--light, #f0ece2);
+    --primary-color-5: var(--dark, #3a3530) var(--light, #ebe7dc);
+    --primary-color-6: var(--dark, #332d28) var(--light, #dcd8cd);
+    --primary-color-7: var(--dark, #5a5348) var(--light, #c9c4b8);
 
-  /* Secondary colors */
-  --secondary-color: var(--dark, #fff) var(--light, #000);
-  --secondary-color-1: var(--dark, #fafafa) var(--light, #000);
-  --secondary-color-2: var(--dark, #e6e6e6) var(--light, #0d0d0d);
-  --secondary-color-3: var(--dark, #dcdcdc) var(--light, #2b2b2b);
-  --secondary-color-4: var(--dark, #d4d4d4) var(--light, #111);
-  --secondary-color-5: var(--dark, #a1a1a1) var(--light, #848484);
-  --secondary-color-6: var(--dark, #5d5d5d) var(--light, #d0d0d0);
+    /* Secondary colors - text/foreground matching main.css */
+    --secondary-color: var(--dark, #f5e8d9) var(--light, #1f1814);
+    --secondary-color-1: var(--dark, #faf7f2) var(--light, #0a0804);
+    --secondary-color-2: var(--dark, #e8dcd0) var(--light, #2a231b);
+    --secondary-color-3: var(--dark, #dccec1) var(--light, #423b32);
+    --secondary-color-4: var(--dark, #d4c4b6) var(--light, #2a2320);
+    --secondary-color-5: var(--dark, #b5a599) var(--light, #7a6f64);
+    --secondary-color-6: var(--dark, #7a6f64) var(--light, #d9d0c6);
 
-  /* Highlight colors */
-  --focused-border-color: var(--dark, #2b7fff) var(--light, #2b7fff);
-  --primary-success-color: var(--dark, #02271c) var(--light, #ecfdf5);
-  --secondary-success-color: var(--dark, #b6fae3) var(--light, #10b981);
-  --primary-warning-color: var(--dark, #342203) var(--light, #fffbeb);
-  --secondary-warning-color: var(--dark, #feeac7) var(--light, #f59e0b);
-  --primary-error-color: var(--dark, #a22e2e) var(--light, #dc2626);
-  --secondary-error-color: var(--dark, #9b1c1c) var(--light, #ef4444);
-  --contrast-error-color: var(--dark, var(--secondary-color-3))
-    var(--light, var(--primary-color));
-  --primary-info-color: var(--dark, var(--primary-color-5))
-    var(--light, var(--primary-color));
-  --secondary-info-color: var(--dark, var(--primary-color-7))
-    var(--light, var(--secondary-color-3));
+    /* Highlight colors */
+    --focused-border-color: var(--dark, #b9aae3) var(--light, #b9aae3);
+    --primary-success-color: var(--dark, #8fb387) var(--light, #b8d9b2);
+    --secondary-success-color: var(--dark, #a8d4a1) var(--light, #7fa97b);
+    --primary-warning-color: var(--dark, #d9a84f) var(--light, #f5d899);
+    --secondary-warning-color: var(--dark, #e8b856) var(--light, #d9a84f);
+    --primary-error-color: var(--dark, #c97575) var(--light, #d99999);
+    --secondary-error-color: var(--dark, #b85555) var(--light, #c97575);
+    --contrast-error-color: var(--dark, var(--secondary-color-3))
+        var(--light, var(--primary-color));
+    --primary-info-color: var(--dark, #6b8ec8) var(--light, #a8c8f0);
+    --secondary-info-color: var(--dark, #7fa8d1) var(--light, #6b8ec8);
 }
 
 /* Modern browsers with `scrollbar-*` support */
 @supports (scrollbar-width: auto) {
-  :not(:hover) {
-    scrollbar-color: rgb(0 0 0 / 0%) rgb(0 0 0 / 0%);
-  }
+    :not(:hover) {
+        scrollbar-color: rgb(0 0 0 / 0%) rgb(0 0 0 / 0%);
+    }
 
-  :hover {
-    scrollbar-color: var(--secondary-color-2) rgb(0 0 0 / 0%);
-  }
+    :hover {
+        scrollbar-color: var(--secondary-color-2) rgb(0 0 0 / 0%);
+    }
 }
 
 /* Legacy browsers with `::-webkit-scrollbar-*` support */
 @supports selector(::-webkit-scrollbar) {
-  :root::-webkit-scrollbar-track {
-    background: transparent;
-  }
+    :root::-webkit-scrollbar-track {
+        background: transparent;
+    }
 }

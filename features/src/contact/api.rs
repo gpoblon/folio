@@ -1,7 +1,7 @@
 use super::model::ContactForm;
 use dioxus::{fullstack::Form, prelude::*};
 
-#[server(config: dioxus_server::axum::Extension<kernel::config::Config>)]
+#[post("/contact", config: dioxus_server::axum::Extension<kernel::config::Config>)]
 pub async fn send_contact_email(Form(form): Form<ContactForm>) -> Result<(), HttpError> {
     // Validate the form data and retrieve its content
     use garde::Validate;

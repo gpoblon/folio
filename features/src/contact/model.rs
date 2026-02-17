@@ -18,13 +18,24 @@ pub(super) struct ContactForm {
 }
 
 /// State for the contact form submission
-#[derive(Debug, Clone, PartialEq, Default)]
+#[derive(Debug, Clone, PartialEq, Default, strum::EnumString)]
 pub(super) enum FormState {
     #[default]
     Idle,
     Submitting,
     Success,
-    Error(String),
+    ClientError(String),
+    ServerError(String),
+}
+
+impl FormState {
+    pub fn is_submitting(&self) -> bool {
+        self == &FormState::Submitting
+    }
+
+    pub fn is_success(&self) -> bool {
+        self == &FormState::Success
+    }
 }
 
 /// Controller for contact form submission
@@ -40,46 +51,76 @@ pub(super) struct FormController {
 }
 
 impl FormController {
+    /// Custom hook for contact form submission logic
+    ///
+    /// Returns a FormController that encapsulates form state and submission logic
+    pub(super) fn use_contact_form_submission() -> Self {
+        let form_state = use_signal(FormState::default);
+        Self { form_state }
+    }
+
     /// Check if form is currently submitting
-    pub(super) fn is_submitting(&self) -> bool {
-        matches!(self.form_state.read().clone(), FormState::Submitting)
+    pub(super) fn state(&self) -> ReadSignal<FormState> {
+        self.form_state.boxed()
+    }
+
+    /// If form has been successfully submitted, reset form state
+    pub(super) fn is_submittable(&self) {
+        let mut form_state = self.form_state;
+        if form_state.peek().is_success() {
+            form_state.set(FormState::default());
+        }
     }
 
     /// Handle form submission event
-    pub(super) fn handle_submit(&self, evt: FormEvent) {
+    pub(super) async fn handle_submit(&self, evt: FormEvent) {
+        evt.prevent_default();
         let mut form_state = self.form_state;
+        form_state.set(FormState::Submitting);
 
-        spawn(async move {
-            let toast = components::toast::use_toast();
-            evt.prevent_default();
-            form_state.set(FormState::Submitting);
-
-            match evt.parsed_values::<ContactForm>() {
-                Ok(form_data) => match form_data.validate() {
-                    Ok(_) => match api::send_contact_email(Form(form_data)).await {
-                        Ok(_) => form_state.set(FormState::Success),
-                        Err(e) => form_state.set(FormState::Error(e.to_string())),
-                    },
-                    Err(e) => form_state.set(FormState::Error(e.to_string())),
-                },
-                Err(_) => {
-                    form_state.set(FormState::Error(t!("connect_send_error_parser")));
+        let validated_form = {
+            let parsed_form = match evt.parsed_values::<ContactForm>() {
+                Ok(form_data) => form_data,
+                Err(e) => {
+                    form_state.set(FormState::ClientError(e.to_string()));
+                    return;
                 }
             };
+            if let Err(e) = parsed_form.validate() {
+                form_state.set(FormState::ClientError(e.to_string()));
+                return;
+            }
+            parsed_form
+        };
 
-            match *form_state.peek() {
-                FormState::Success => toast.success(t!("connect_send_success")).send(),
-                FormState::Error(ref msg) => toast.error(msg.to_string()).send(),
-                _ => (),
-            };
-        });
+        match api::send_contact_email(Form(validated_form)).await {
+            Ok(_) => form_state.set(FormState::Success),
+            Err(e) => form_state.set(FormState::ServerError(e.to_string())),
+        };
     }
 }
 
-/// Custom hook for contact form submission logic
-///
-/// Returns a FormController that encapsulates form state and submission logic
-pub(super) fn use_contact_form_submission() -> FormController {
-    let form_state = use_signal(FormState::default);
-    FormController { form_state }
+impl components::toast::ToastDispatcher for FormController {
+    /// Send a toast notification based on internal state (usually [`Signal`])
+    fn notify(&self) {
+        // Notify of success or error
+        tracing::info!("{:?}", *self.form_state.peek());
+
+        let toast = components::toast::use_toast();
+        match *self.form_state.peek() {
+            FormState::Success => toast
+                .success(t!("connect_send_success"))
+                .description(t!("connect_send_success_desc"))
+                .send(),
+            FormState::ClientError(ref msg) => toast
+                .error(t!("connect_send_client_error"))
+                .description(msg.to_string())
+                .send(),
+            FormState::ServerError(ref msg) => toast
+                .error(t!("connect_send_server_error"))
+                .description(msg.to_string())
+                .send(),
+            _ => (),
+        };
+    }
 }
