@@ -5,7 +5,10 @@ use kernel::lang::t;
 use serde::{Deserialize, Serialize};
 
 /// Raw contact form data as submitted by the user
-#[derive(Debug, Clone, Deserialize, Serialize, garde::Validate)]
+///
+/// Note: Store is necessary to reset the form upon success.
+/// If `FormEvent::reset(self)` is implemented by Dioxus, the store won't be necessary and uncontrolled inputs would work perfectly.
+#[derive(Debug, Clone, Default, Deserialize, Serialize, garde::Validate, dioxus_stores::Store)]
 pub(super) struct ContactForm {
     #[garde(ascii, length(min = 4, max = 64))]
     pub name: String,
@@ -48,6 +51,7 @@ impl FormState {
 #[derive(Clone, Copy)]
 pub(super) struct FormController {
     form_state: Signal<FormState>,
+    form: Store<ContactForm>,
 }
 
 impl FormController {
@@ -56,44 +60,44 @@ impl FormController {
     /// Returns a FormController that encapsulates form state and submission logic
     pub(super) fn use_contact_form_submission() -> Self {
         let form_state = use_signal(FormState::default);
-        Self { form_state }
+        let form = use_store(ContactForm::default);
+        Self { form_state, form }
     }
 
-    /// Check if form is currently submitting
+    /// Returns the current submission state
     pub(super) fn state(&self) -> ReadSignal<FormState> {
         self.form_state.boxed()
     }
 
-    /// If form has been successfully submitted, reset form state
-    pub(super) fn is_submittable(&self) {
+    /// Returns the form store, giving access to individual field lenses
+    pub(super) fn form(&self) -> Store<ContactForm> {
+        self.form
+    }
+
+    /// Clear all form fields and reset submission state back to Idle
+    pub(super) fn reset(&self) {
+        self.form.name().take();
+        self.form.email().take();
+        self.form.subject().take();
+        self.form.message().take();
         let mut form_state = self.form_state;
-        if form_state.peek().is_success() {
-            form_state.set(FormState::default());
-        }
+        form_state.set(FormState::default());
     }
 
     /// Handle form submission event
-    pub(super) async fn handle_submit(&self, evt: FormEvent) {
+    pub(super) async fn submit(&self, evt: FormEvent) {
         evt.prevent_default();
+        // keep form state updated
         let mut form_state = self.form_state;
         form_state.set(FormState::Submitting);
 
-        let validated_form = {
-            let parsed_form = match evt.parsed_values::<ContactForm>() {
-                Ok(form_data) => form_data,
-                Err(e) => {
-                    form_state.set(FormState::ClientError(e.to_string()));
-                    return;
-                }
-            };
-            if let Err(e) = parsed_form.validate() {
-                form_state.set(FormState::ClientError(e.to_string()));
-                return;
-            }
-            parsed_form
-        };
-
-        match api::send_contact_email(Form(validated_form)).await {
+        // Retrieve form, validate, and send email
+        let form = self.form.peek().cloned();
+        if let Err(e) = form.validate() {
+            form_state.set(FormState::ClientError(e.to_string()));
+            return;
+        }
+        match api::send_contact_email(Form(form)).await {
             Ok(_) => form_state.set(FormState::Success),
             Err(e) => form_state.set(FormState::ServerError(e.to_string())),
         };
@@ -103,9 +107,6 @@ impl FormController {
 impl components::toast::ToastDispatcher for FormController {
     /// Send a toast notification based on internal state (usually [`Signal`])
     fn notify(&self) {
-        // Notify of success or error
-        tracing::info!("{:?}", *self.form_state.peek());
-
         let toast = components::toast::use_toast();
         match *self.form_state.peek() {
             FormState::Success => toast

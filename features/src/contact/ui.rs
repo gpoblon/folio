@@ -1,6 +1,4 @@
-use crate::contact::model::FormState;
-
-use super::model;
+use super::model::{self, *}; // glob brings the Store-derived extension trait into scope
 use components::toast::ToastDispatcher;
 use dioxus::prelude::*;
 use kernel::lang::t;
@@ -16,7 +14,8 @@ pub fn ContactForm(
     ad_slot: Option<Element>,
 ) -> Element {
     let form_controller = model::FormController::use_contact_form_submission();
-    let submit_state = form_controller.state();
+    let form_state = form_controller.state();
+    let form = form_controller.form();
 
     rsx! {
         div {
@@ -25,20 +24,25 @@ pub fn ContactForm(
                 class: "grid flex-1 gap-2 grid-cols-1 md:grid-cols-[2fr_1fr] md:grid-rows-[auto_auto_1fr]
                         max-w-[1600px] sm:max-h-[690px]
                         outline-3 outline-connect shadow-2xl shadow-primary",
-                oninput: move |_| form_controller.is_submittable(),
                 onsubmit: move |evt: FormEvent| async move {
-                    form_controller.handle_submit(evt).await;
+                    form_controller.submit(evt).await;
                     form_controller.notify();
+                    if form_controller.state()().is_success() {
+                        form_controller.reset();
+                    }
                 },
                 { header } // Row 1, Col 1: Header section
-                IdentityInputs {} // Row 2, Col 1: Email and Name inputs
-                SubjectInput {} // Row 1-2, Col 2: Subject input
+                IdentityInputs { // Row 2, Col 1: Email and Name inputs
+                    email: form.email(),
+                    name: form.name(),
+                }
+                SubjectInput { subject: form.subject() } // Row 1-2, Col 2: Subject input
                 div { // Row 3: Message and actions
                     class: "flex flex-col flex-1 sm:flex-row md:col-span-2 md:row-start-3",
-                    MessageInput {}
+                    MessageInput { message: form.message() }
                     div {
                         class: "flex flex-col w-full sm:w-2/5",
-                        SendButton { submit_state }
+                        SendButton { form_state }
                         div {
                             class: "flex-1 block w-full pr-2",
                             { ad_slot }
@@ -52,7 +56,7 @@ pub fn ContactForm(
 
 /// Identity section with email and name inputs
 #[component]
-fn IdentityInputs() -> Element {
+fn IdentityInputs(email: Store<String>, name: Store<String>) -> Element {
     rsx! {
         div {
             class: "flex flex-col gap-2 sm:flex-row md:col-start-1 md:row-start-2",
@@ -63,6 +67,8 @@ fn IdentityInputs() -> Element {
                 name: "email",
                 required: true,
                 placeholder: t!("connect_email"),
+                value: email(),
+                oninput: move |evt| email.set(evt.value()),
             }
             input {
                 class: "flex-1 p-6 rounded-full bg-[var(--color-experience)]/25",
@@ -71,6 +77,8 @@ fn IdentityInputs() -> Element {
                 name: "name",
                 required: true,
                 placeholder: t!("connect_name"),
+                value: name(),
+                oninput: move |evt| name.set(evt.value()),
             }
         }
     }
@@ -78,7 +86,7 @@ fn IdentityInputs() -> Element {
 
 /// Subject input section
 #[component]
-fn SubjectInput() -> Element {
+fn SubjectInput(subject: Store<String>) -> Element {
     rsx! {
         div {
             class: "flex flex-col rounded-bl-4xl bg-[var(--color-connect)]/25 md:col-start-2 md:row-start-1 md:row-span-2",
@@ -89,6 +97,8 @@ fn SubjectInput() -> Element {
                 name: "subject",
                 required: true,
                 placeholder: t!("connect_subject"),
+                value: subject(),
+                oninput: move |evt| subject.set(evt.value()),
             }
         }
     }
@@ -96,7 +106,7 @@ fn SubjectInput() -> Element {
 
 /// Message textarea and action buttons section
 #[component]
-fn MessageInput() -> Element {
+fn MessageInput(message: Store<String>) -> Element {
     rsx! {
         textarea {
             class: "w-full sm:w-3/5 p-6 rounded-tr-4xl bg-[var(--color-projects)]/25",
@@ -104,26 +114,28 @@ fn MessageInput() -> Element {
             name: "message",
             required: true,
             placeholder: t!("connect_message"),
+            value: message(),
+            oninput: move |evt| message.set(evt.value()),
         }
     }
 }
 
 #[component]
-fn SendButton(submit_state: ReadSignal<FormState>) -> Element {
+fn SendButton(form_state: ReadSignal<FormState>) -> Element {
     rsx! {
         div {
             class: "flex flex-col w-full",
             button {
                 class: "h-20 rounded-l-4xl bg-[var(--color-knowledge)]/50 ml-2 disabled:opacity-50",
                 r#type: "submit",
-                disabled: submit_state().is_submitting() || submit_state().is_success(),
+                disabled: form_state().is_submitting() || form_state().is_success(),
                 div {
                     class: "flex flex-row items-center justify-center gap-2 h-full",
                     components::Icon {
                         class: "rotate-325 text-xl sm:text-3xl",
                         icon: components::Icons::Send
                     }
-                    if submit_state().is_submitting() {
+                    if form_state().is_submitting() {
                         components::Icon {
                             class: "animate-spin text-xl sm:text-3xl",
                             icon: components::Icons::Sync
