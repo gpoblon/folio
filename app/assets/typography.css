@@ -9,7 +9,7 @@ h1 {
     line-height: 1.2;
     font-weight: 700;
     margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2.5rem;
     text-align: justify;
 }
 
@@ -18,7 +18,7 @@ h2 {
     line-height: 1.25;
     font-weight: 600;
     margin-top: 1.75rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 2rem;
     text-align: justify;
 }
 
@@ -27,7 +27,7 @@ h3 {
     line-height: 1.3;
     font-weight: 600;
     margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
     text-align: justify;
 }
 
@@ -36,7 +36,7 @@ h4 {
     line-height: 1.4;
     font-weight: 500;
     margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
     text-align: justify;
 }
 
@@ -45,7 +45,7 @@ h5 {
     line-height: 1.4;
     font-weight: 500;
     margin-top: 1rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 1rem;
     text-align: justify;
 }
 
@@ -54,7 +54,7 @@ h6 {
     line-height: 1.5;
     font-weight: 500;
     margin-top: 0.75rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.75rem;
     text-align: justify;
 }
 
@@ -122,7 +122,6 @@ abbr[title] {
 
 /* Code & Preformatted */
 code {
-    font-family: ui-monospace, monospace;
     font-size: 0.875em;
     background-color: var(--color-muted);
     padding: 0.125rem 0.375rem;
@@ -130,7 +129,6 @@ code {
 }
 
 pre {
-    font-family: ui-monospace, monospace;
     font-size: 0.875rem;
     background-color: var(--color-muted);
     padding: 1rem;
@@ -145,7 +143,6 @@ pre code {
 }
 
 kbd {
-    font-family: ui-monospace, monospace;
     font-size: 0.875em;
     background-color: var(--color-muted);
     border: 1px solid var(--color-border);
@@ -201,19 +198,28 @@ hr {
 /* Links - scoped to content areas, excludes nav and buttons */
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a) {
-    color: var(--color-knowledge);
+    color: var(--color-projects);
     text-decoration: underline;
+    text-decoration-color: var(--color-projects);
     text-underline-offset: 2px;
     cursor: pointer;
-    transition: color 200ms ease;
+    transition:
+        color 200ms ease,
+        text-decoration-color 200ms ease;
 }
 
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a):hover {
-    color: var(--color-projects);
+    color: color-mix(in oklab, var(--color-projects) 70%, var(--color-fg));
+    text-decoration-color: color-mix(
+        in oklab,
+        var(--color-projects) 70%,
+        var(--color-fg)
+    );
 }
 
 :where(article, section, main, .prose)
     a:not(nav a):not(button a):not(.btn a):not([role="button"] a):visited {
-    color: var(--color-connect);
+    color: var(--color-knowledge);
+    text-decoration-color: var(--color-knowledge);
 }

@@ -6,3 +6,5 @@ pub mod mail;
 
 #[cfg(feature = "server")]
 pub mod config;
+
+pub use toml;

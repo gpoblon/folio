@@ -1,0 +1,80 @@
+[[jobs]]
+title = "Responsable pôles Formations et SI"
+organization = "42 Angoulême"
+start_date = "août 2021"
+end_date = "fév. 2026"
+location = "Angoulême, France"
+focus = "Rôle transverse, opérationnel & stratégique"
+overview = "Gestion de projets et produit, management d’équipes, pilotage du SI."
+    [[jobs.achievements]]
+    description = "Ownership end-to-end du cycle de vie d’une plateforme pédagogique :"
+        [[jobs.achievements.sub]]
+        description = "Conception de l'architecture et lead technique de la genèse à la livraison d’une application cross-platform (web, mobile, desktop) unifiée au sein d’une codebase de 70k LoC en Rust Full Stack (Axum/Dioxus/Tailwind)."
+        [[jobs.achievements.sub]]
+        description = "Direction de la stratégie produit et de l'exécution : définition de la roadmap et des fonctionnalités, gestion du backlog et management de l'équipe."
+        [[jobs.achievements.sub]]
+        description = "Fonctionnalités principales : éditeur de formulaires dynamiques, système de ticketing et retours utilisateurs, plateforme de partage de ressources, outil de sélection des candidats, projection avancée du parcours de formation, livret pédagogique, automatisation administrative, centre de notifications, scheduler."
+    [[jobs.achievements]]
+    description = "Conception d’une librairie de composants UI cross-platform open-source (Rust/Dioxus)."
+    link = "https://github.com/42Angouleme/dioxus-tw-components"
+    [[jobs.achievements]]
+    description = "Pilotage du développement d’une librairie éducative open source documentée (Python/LangChain/embarqué) et organisation d'ateliers d'initiation à la programmation et à l’IA."
+    link = "https://github.com/42Angouleme/pybot"
+    [[jobs.achievements]]
+    description = "Recrutement, mentorat et management d’une équipe de 4 juniors (pédagogie & IT)."
+    [[jobs.achievements]]
+    description = "Gestion opérationnelle et relations entreprises sur les périmètres SI & pédagogie."
+    [[jobs.achievements]]
+    description = "Accompagnement —collectif et individuel— pédagogique, professionnel et entrepreneurial de plusieurs centaines d'étudiants."
+
+[[jobs]]
+title = "Ingénieur logiciel"
+organization = "SAS Normation (Rudder)"
+start_date = "déc. 2019"
+end_date = "mars 2021"
+location = "Paris, France"
+focus = "Développement en Rust de rudder-lang"
+overview = "Un langage déclaratif d’infrastructure as code de gestion de configuration."
+  [[jobs.achievements]]
+  description = "Développement open source du compilateur (lexer, parser, AST, analyse sémantique, transpiler), en Rust."
+  link = "https://github.com/Normation/rudder/tree/branches/rudder/6.2/rudder-lang"
+  [[jobs.achievements]]
+  description = "Rédaction des tests unitaires et d’intégration suivant les concepts du DDD."
+  [[jobs.achievements]]
+  description = "Rédaction de la documentation technique et utilisateur, publication d’un article."
+  link = "https://www.rudder.io/blog/rudder-lang-introduction/"
+  [[jobs.achievements]]
+  description = "Gestion et priorisation du backlog."
+
+[[jobs]]
+title = "Développeur web fullstack"
+organization = "uRehab"
+start_date = "sep. 2017"
+end_date = "jan. 2018"
+location = "Paris, France"
+focus = "Stage, solutions conversationnelles (chatbots)"
+    [[jobs.achievements]]
+    description = "Conception et développement des interfaces Frontend (React)."
+    [[jobs.achievements]]
+    description = "Développement API, de la logique conversationnelle (NodeJS) et design BDD (MongoDB)."
+
+[[education]]
+title = "42 Paris - Architecte en technologie numérique"
+focus = "Formation de développeur. Pédagogie par projet et pair à pair"
+overview = "(eq. bac+5)"
+organization = "42"
+start_date = "2016"
+end_date = "2020"
+location = "Paris, France"
+    [[jobs.achievements]]
+    description = "Ingénierie système, web, rendu, sécurité. Principalement :  Unix/C/C++/JS/Rust."
+    [[jobs.achievements]]
+    description = "Primé lors de hackathons : Société Générale, SexTechLab, 42Startup."
+
+[[education]]
+title = "Licence de droit privé - Spécialité droit des affaires"
+focus = "Ces années ont façonné ma capacité de travail, ma rigueur et mon raisonnement"
+organization = "Université de Bourgogne"
+start_date = "2012"
+end_date = "2016"
+location = "Dijon, France"

@@ -1,0 +1,327 @@
+/* ─────────────────────────────────────────────────────────────── */
+/* CSS Custom Properties (Component-Scoped)                       */
+/* ─────────────────────────────────────────────────────────────── */
+
+.experiences,
+.experiences-list,
+ul.achievements,
+ul.nested {
+    --transition-lozenge: transform 0.2s ease;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Global Styles                                                   */
+/* ─────────────────────────────────────────────────────────────── */
+
+.experiences {
+    width: 80%;
+    margin-inline: auto;
+}
+
+.experiences-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    position: relative;
+}
+
+.experience {
+    position: relative;
+    padding-left: 3rem;
+    margin-bottom: 2.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Responsive Inline Layout for Experience Header                  */
+/* ─────────────────────────────────────────────────────────────── */
+
+.inline-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0;
+    justify-content: space-between;
+}
+
+.flex-inline h2 {
+    margin: 0;
+    display: inline;
+}
+
+.experience-details {
+    display: inline;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+.experience-details span {
+    white-space: nowrap;
+}
+
+.experiences .separator {
+    background-color: transparent;
+}
+
+/* Desktop: Show all separators inline */
+@media (min-width: 769px) {
+    .flex-inline h2::after {
+        content: " ";
+    }
+}
+
+/* Mobile: Stack vertically, show bullets only before location and organization */
+@media (max-width: 768px) {
+    .flex-inline {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .flex-inline h2 {
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .experience-details {
+        display: block;
+        text-align: left;
+    }
+
+    /* Hide space separators */
+    .experience-details .separator:nth-of-type(1),
+    .experience-details .separator:nth-of-type(2),
+    .experience-details .separator:nth-of-type(4) {
+        display: none;
+    }
+
+    /* Show bullet before location (6th span) */
+    .experience-details span:nth-child(6)::before {
+        content: "• ";
+    }
+
+    /* Show bullet before organization (8th span) */
+    .experience-details span:nth-child(8)::before {
+        content: "• ";
+    }
+}
+
+.experience:last-child {
+    margin-bottom: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Lozenge: Base Pattern                                           */
+/* ─────────────────────────────────────────────────────────────── */
+
+.experience::before,
+ul.achievements > .achievement::before,
+ul.nested > .achievement::before {
+    content: "";
+    position: absolute;
+    border-radius: 0;
+    box-sizing: border-box;
+    transform: rotate(45deg);
+    transition: var(--transition-lozenge);
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Lozenge: Experience (Large, Full-Border)                       */
+/* ─────────────────────────────────────────────────────────────── */
+
+.experience::before {
+    left: 1px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-experience);
+    border: 5px solid var(--color-bg);
+}
+
+.experience:hover::before {
+    transform: rotate(225deg);
+    transition: var(--transition-lozenge);
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Bar: Experience (Vertical Connector)                            */
+/* ─────────────────────────────────────────────────────────────── */
+
+.experience::after {
+    content: "";
+    position: absolute;
+    left: 10.6px;
+    top: 34.4px;
+    bottom: 10px;
+    width: 0;
+    border: 0;
+    border-right: 0.5px solid
+        color-mix(in oklab, var(--color-experience) 20%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Achievement List Container                                      */
+/* ─────────────────────────────────────────────────────────────── */
+
+ul.achievements,
+ul.nested {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.75rem 0 0;
+}
+
+ul.nested {
+    margin-top: 0.4rem;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Achievement Item                                                */
+/* ─────────────────────────────────────────────────────────────── */
+
+.achievement {
+    position: relative;
+    padding-left: 1.375rem;
+    margin-bottom: 0.5rem;
+}
+
+.achievement p {
+    margin-bottom: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Bar: Achievements (Vertical Connector for Main Level Only)     */
+/* ─────────────────────────────────────────────────────────────── */
+
+ul.achievements > .achievement::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 18px;
+    bottom: 12px;
+    width: 0;
+    border: 0;
+    border-right: 0.5px solid
+        color-mix(in oklab, var(--color-experience) 40%, transparent);
+}
+
+ul.nested > .achievement::after {
+    display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Lozenge: Main Achievements (Medium, Full)                      */
+/* ─────────────────────────────────────────────────────────────── */
+
+ul.achievements > .achievement::before {
+    left: 1px;
+    top: 10px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-experience);
+    border: none;
+}
+
+ul.achievements > .achievement:hover::before {
+    transform: rotate(225deg);
+    transition: var(--transition-lozenge);
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Lozenge: Nested Achievements (Small, Border-Only)              */
+/* ─────────────────────────────────────────────────────────────── */
+
+ul.nested > .achievement::before {
+    left: 1px;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+    border: 0.5px solid var(--color-experience);
+}
+
+ul.nested > .achievement:hover::before {
+    transform: rotate(225deg);
+    transition: var(--transition-lozenge);
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Nested Sub-Achievements Container                               */
+/* ─────────────────────────────────────────────────────────────── */
+
+.achievement > ul.nested {
+    margin-top: 0.4rem;
+    margin-left: 3px;
+    padding-left: 0.75rem;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Achievement Label                                               */
+/* ─────────────────────────────────────────────────────────────── */
+
+.achievement-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-experience);
+    margin-bottom: 0.2rem;
+    line-height: 1.4;
+}
+
+/* ─────────────────────────────────────────────────────────────── */
+/* Reusable Lozenge System (For Future Use)                        */
+/* ─────────────────────────────────────────────────────────────── */
+
+.lozenge {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    transform: rotate(45deg);
+}
+
+.lozenge.full {
+    background-color: var(--color-experience);
+    border: none;
+}
+
+.lozenge.border {
+    background-color: transparent;
+    border: 2px solid var(--color-experience);
+}
+
+.lozenge.full-border {
+    background-color: var(--color-experience);
+    border: 5px solid var(--color-bg);
+}
+
+.lozenge.lg {
+    width: 20px;
+    height: 20px;
+}
+
+.lozenge.md {
+    width: 8px;
+    height: 8px;
+}
+
+.lozenge.sm {
+    width: 6px;
+    height: 6px;
+}
+
+.lozenge.muted-lg {
+    background-color: color-mix(
+        in oklab,
+        var(--color-experience) var(--opacity-muted),
+        transparent
+    );
+}
+
+.lozenge.muted-md {
+    background-color: color-mix(
+        in oklab,
+        var(--color-experience) 38%,
+        transparent
+    );
+}

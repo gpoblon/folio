@@ -11,6 +11,7 @@ tos_route = Mentions légales & CGU
 
 home_welcome = Bienvenue dans mon univers.
 
+to = à
 
 # connect
 connect_title = Au plaisir d’échanger

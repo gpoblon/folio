@@ -17,6 +17,7 @@ fn App() -> Element {
     rsx! {
         document::Link { rel: "icon", href: FAVICON }
         document::Stylesheet { href: "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" }
+        document::Stylesheet { href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" }
         document::Stylesheet { href: TAILWIND_CSS }
         document::Stylesheet { href: MAIN_CSS }
         document::Stylesheet { href: TYPOGRAPHY_CSS }

@@ -1,0 +1,79 @@
+[[jobs]]
+title = "Head of Education & IT"
+organization = "42 Angoulême"
+start_date = "Aug. 2021"
+end_date = "Feb. 2026"
+location = "France"
+focus = "Tech, Product, Pedagogy & Operations"
+    [[jobs.achievements]]
+    description = "End-to-end Product Ownership of an educational platform:"
+        [[jobs.achievements.sub]]
+        description = "Designed the application foundation, contributed to its development, drove technical decision-making & reviews from conception to delivery, resulting in a 70k LoC web, mobile & desktop Full Stack Rust codebase (Axum / Dioxus / Tailwind)."
+        [[jobs.achievements.sub]]
+        description = "Directed product strategy and team execution: designed the roadmap and features, managed the backlog, and led the team."
+        [[jobs.achievements.sub]]
+        description = "Key Features: Dynamic form builder, Ticketing & feedback system, Resource sharing hub, Applicant selection tool, Advanced curriculum projection, Academic records, Administrative automation, Scheduler, Notification center."
+    [[jobs.achievements]]
+    description = "Designed a Rust (Dioxus) open-source, cross-platform UI Component Library."
+    link = "https://github.com/42Angouleme/dioxus-tw-components"
+    [[jobs.achievements]]
+    description = "Steered an open source, documented embedded AI library (Python / LangChain / R.Pi) designed for hands-on STEM education. Led on-site programming & AI workshops."
+    link = "https://github.com/42Angouleme/pybot"
+    [[jobs.achievements]]
+    description = "Recruited, mentored & managed a pedagogical and IT team of 4 juniors."
+    [[jobs.achievements]]
+    description = "Managed corporate relations and oversaw campus operations."
+    [[jobs.achievements]]
+    description = "Provided pedagogical, professional, and entrepreneurial mentoring  —collective & individual— to hundreds of students."
+
+[[jobs]]
+title = "Software Engineer"
+organization = "SAS Normation (Rudder)"
+start_date = "Dec. 2019"
+end_date = "March 2021"
+location = "Paris, France"
+focus = "Core developer of rudder-lang"
+overview = "A declarative Infrastructure-as-Code language written in Rust."
+  [[jobs.achievements]]
+  description = "Contributed to the development of the open source compiler toolchain (lexer, parser, AST, semantic analysis, transpiler)."
+  link = "https://github.com/Normation/rudder/tree/branches/rudder/6.2/rudder-lang"
+  [[jobs.achievements]]
+  description = "Wrote comprehensive unit and integration tests following DDD principles."
+  [[jobs.achievements]]
+  description = "Authored technical and user documentation; published a technical article."
+  link = "https://www.rudder.io/blog/rudder-lang-introduction/"
+  [[jobs.achievements]]
+  description = "Managed and prioritized the technical backlog."
+
+[[jobs]]
+title = "Full Stack Web Developer"
+organization = "uRehab"
+start_date = "Sep. 2017"
+end_date = "Jan. 2018"
+location = "Paris, France"
+focus = "Software Engineer Intern (chatbots)"
+[[jobs.achievements]]
+description = "Designed and built Frontend interfaces (React)."
+[[jobs.achievements]]
+description = "Wrote API and conversational logic (NodeJS) and modeled data (MongoDB)."
+
+[[education]]
+title = "42 Paris - Digital Technologies Architect"
+focus = "Project-based curriculum emphasizing peer collaboration and autonomy"
+overview = "(MSc Eq.)"
+start_date = "2016"
+end_date = "2020"
+organization = "42"
+location = "Paris, France"
+    [[jobs.achievements]]
+    description = "System & Web Engineering (Unix/C/C++/Rust, Algorithms, Rendering, Security, JS)."
+    [[jobs.achievements]]
+    description = "Awarded at Hackathons: 42Startup, SexTechLab, Société Générale."
+
+[[education]]
+title = "Law Bachelor Degree in Private Law"
+focus = "These years shaped my work capacity, academic rigor, and logical reasoning"
+organization = "Burgundy University"
+start_date = "2012"
+end_date = "2016"
+location = "Dijon, France"

@@ -1,5 +1,5 @@
-pub mod api;
-pub mod model;
-pub mod ui;
+mod api;
+mod model;
+mod ui;
 
 pub use ui::ContactForm;

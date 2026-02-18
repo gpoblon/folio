@@ -10,14 +10,17 @@
    =========================================== */
 @layer base {
     :root {
-        /* Brand Colors */
+        /* Font Family */
+        /*--font-sans: "JetBrains Mono", ui-monospace, monospace;*/
+
+        /* Brand Colors - Light Theme */
         --color-projects: #b9aae3;
-        --color-connect: #f3a6b1;
-        --color-knowledge: #a4c3a8;
-        --color-experience: #f8c072;
+        --color-connect: #f0a8b8;
+        --color-knowledge: #9ec99e;
+        --color-experience: #c49a40;
 
         /* Base Colors */
-        --color-bg: hsl(40, 20%, 92%);
+        --color-bg: hsl(40, 8%, 90%);
         --color-fg: hsl(30 12% 12%);
         --color-accent: hsl(0 0% 100%);
         --color-accent-fg: hsl(0 0% 0%);
@@ -55,6 +58,7 @@
         --radius: 0.75rem;
         --radius-component: 0px;
         --transition-duration: 400ms;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
     }
 
     /* Dark Mode */
@@ -64,6 +68,12 @@
         --color-fg: hsl(30 60% 95%);
         --color-accent: hsl(0 0% 0%);
         --color-accent-fg: hsl(0 0% 100%);
+
+        /* Brand Colors - Dark Theme (brightened for better contrast) */
+        --color-projects: #9f8fe0;
+        --color-connect: #d58a9f;
+        --color-knowledge: #85c285;
+        --color-experience: #d4ad58;
 
         --color-brand-tint: color-mix(
             in oklab,
@@ -112,7 +122,7 @@
 
     body {
         margin: 0;
-        font-family: ui-sans-serif, system-ui, sans-serif;
+        font-feature-settings: "liga" on;
     }
 
     *:focus-visible {
