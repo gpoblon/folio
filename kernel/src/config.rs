@@ -2,24 +2,41 @@ use secrecy::SecretString;
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct Config {
-    #[serde(rename = "app")]
-    pub app: AppConfig,
-    #[serde(rename = "smtp")]
-    pub smtp: SmtpConfig,
+    pub(crate) app: AppConfig,
+    pub(crate) smtp: SmtpConfig,
+    pub(crate) git: GitConfig,
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct AppConfig {
-    pub http_address: String,
-    pub editor: String,
+    pub(crate) http_address: String,
+    pub(crate) editor: String,
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct SmtpConfig {
-    pub username: SecretString,
-    pub password: SecretString,
-    pub relay: SecretString,
-    pub port: u16,
+    pub(crate) username: SecretString,
+    pub(crate) password: SecretString,
+    pub(crate) relay: SecretString,
+    pub(crate) port: u16,
+}
+
+/// Git configuration for the application, allowing to:
+/// - Interact with a repository (read only)
+/// - Interact with issues (read & write)
+/// - Receive webhooks
+///
+#[derive(Debug, Clone, serde::Deserialize)]
+pub struct GitConfig {
+    /// Token has the following permissions: read contents, write issues, read webhooks
+    /// PAT token: account level but restricted to gpoblon/knowledge_base repository.
+    pub(crate) token: secrecy::SecretString,
+    /// Owner of the repository
+    pub(crate) owner: secrecy::SecretString,
+    /// Name of the repository
+    pub(crate) repository: secrecy::SecretString,
+    // TODO Webhook secret
+    // webhook_secret: secrecy::SecretString,
 }
 
 impl Config {
@@ -50,6 +67,11 @@ username = "jdoe@example.tld"
 password = "password"
 relay = "smtp.example.tld"
 port = 587
+
+[git]
+token = "pat_token_example"
+owner = "jdoe"
+repository = "kb"
 "#
     }
 }

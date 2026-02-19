@@ -5,6 +5,7 @@ members = [
     "pages",
     "widgets",
     "features",
+    "entities",
     "components",
     "kernel",
 ]
@@ -32,6 +33,7 @@ widgets = { path = "widgets" }
 # L4. features - business actions (e.g. add_to_cart)
 features = { path = "features" }
 # L5. entities - business entities used across project (e.g. user or product)
+entities = { path = "entities" }
 # L6. components - reusable UI components. Agnostic from domain.
 components = { path = "components" }
 # L7. kernel - core functionalities reused across the upper layers (e.g. i18n). Usually detached from domain.
@@ -41,6 +43,7 @@ kernel = { path = "kernel" }
 dioxus = { version = "0.7.3" }
 serde = { version = "1", features = ["derive"] }
 strum = { version = "0.27", features = ["derive"] }
+anyhow = { version = "1.0" }
 
 [profile]
 

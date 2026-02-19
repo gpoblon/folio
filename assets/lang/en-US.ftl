@@ -27,3 +27,6 @@ connect_send_success = Mail received!
 connect_send_success_desc = Expect an answer in the next couple of days.
 connect_send_client_error = Form is invalid
 connect_send_server_error = Message could not be sent
+
+article_list_metadata_error = Failed to fetch articles
+article_error = Failed to fetch article

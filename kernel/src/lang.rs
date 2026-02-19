@@ -2,12 +2,15 @@ pub use dioxus_i18n::prelude::i18n;
 use dioxus_i18n::prelude::*;
 pub use dioxus_i18n::t;
 pub use dioxus_i18n::unic_langid::LanguageIdentifier;
+use serde::{Deserialize, Serialize};
 use strum::IntoEnumIterator;
 
-#[derive(Default, Clone, Copy, PartialEq, Eq, strum::EnumIter)]
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, strum::EnumIter, Serialize, Deserialize)]
 pub enum Lang {
     #[default]
+    #[serde(alias = "FR", alias = "fr")]
     French,
+    #[serde(alias = "EN", alias = "en")]
     English,
 }
 impl Lang {

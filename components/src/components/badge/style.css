@@ -1,0 +1,42 @@
+.badge-example {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.badge {
+    display: inline-flex;
+    min-width: 22px;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    /*box-shadow: 0 0 0 1px var(--color-muted);*/
+    font-size: 12px;
+    gap: 4px;
+}
+
+.badge[padding="true"] {
+    padding: 12px 8px;
+}
+
+.badge[data-style="primary"] {
+    background-color: var(--color-projects);
+    color: var(--primary-color);
+}
+
+.badge[data-style="secondary"] {
+    background-color: var(--primary-knowledge);
+    color: var(--primary-color);
+}
+
+.badge[data-style="outline"] {
+    border: 0.5px solid var(--color-muted);
+    background-color: var(--bg-muted);
+    color: var(--color-muted-fg);
+}
+
+.badge[data-style="destructive"] {
+    background-color: var(--primary-connect);
+    color: var(--primary-color);
+}

@@ -13,7 +13,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                     div { class: "mx-1 w-4 h-4 text-knowledge", components::svg::Knowledge {} }
                     span { {t!("footer_made_by")} }
                     a {
-                        class: "underline hover:opacity-80",
+                        class: "underline hover:opacity-80 link",
                         href: "https://github.com/gpoblon",
                         target: "_blank",
                         rel: "noopener noreferrer",
@@ -22,7 +22,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                     span { {t!("footer_using")} }
                     img { class: "inline h-4", src: DIOXUS_LOGO }
                     a {
-                        class: "underline hover:opacity-80",
+                        class: "underline hover:opacity-80 link",
                         href: "https://dioxus.dev",
                         target: "_blank",
                         rel: "noopener noreferrer",

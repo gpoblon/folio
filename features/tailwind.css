@@ -1,2 +1,2 @@
 @source "/src/**/*.{rs,html,css}";
-@source not "tailwind.css";
+@source not "/tailwind.css";

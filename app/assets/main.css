@@ -66,7 +66,7 @@
     [data-theme="dark"] {
         --color-bg: hsl(320, 6%, 8%);
         --color-fg: hsl(30 60% 95%);
-        --color-accent: hsl(0 0% 0%);
+        --color-accent: hsl(0 0% 4%);
         --color-accent-fg: hsl(0 0% 100%);
 
         /* Brand Colors - Dark Theme (brightened for better contrast) */
@@ -151,6 +151,7 @@
     --color-muted: var(--color-muted);
     --color-muted-foreground: var(--color-muted-fg);
     --color-border: var(--color-border);
+    --color-accent: var(--color-accent);
 
     /* Brand Colors */
     --color-projects: var(--color-projects);
@@ -206,6 +207,19 @@ button:disabled {
     }
     .outline-connect {
         outline-color: var(--color-connect);
+    }
+
+    .text-accent {
+        color: var(--color-accent);
+    }
+    .bg-accent {
+        background-color: var(--color-accent);
+    }
+    .border-accent {
+        border-color: var(--color-accent);
+    }
+    .outline-accent {
+        outline-color: var(--color-accent);
     }
 
     .text-knowledge {

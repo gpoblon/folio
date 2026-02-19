@@ -3,6 +3,7 @@ use dioxus::{fullstack::Form, prelude::*};
 
 #[post("/contact", config: dioxus_server::axum::Extension<kernel::config::Config>)]
 pub async fn send_contact_email(Form(form): Form<ContactForm>) -> Result<(), HttpError> {
+    use dioxus::logger::tracing;
     // Validate the form data and retrieve its content
     use garde::Validate;
     if let Err(e) = form.validate() {

@@ -5,14 +5,16 @@ edition = "2024"
 
 [dependencies]
 features.workspace = true
+entities.workspace = true
 components.workspace = true
 kernel.workspace = true
 
 dioxus = { workspace = true }
 strum.workspace = true
+serde.workspace = true
 
 [features]
 web = ["features/web", "components/web"]
 desktop = ["features/desktop", "components/desktop"]
 mobile = ["features/mobile", "components/mobile"]
-server = ["features/server", "components/server"]
+server = ["dioxus/server", "features/server", "components/server"]

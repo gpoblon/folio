@@ -195,9 +195,10 @@ hr {
     margin: 2rem 0;
 }
 
-/* Links - scoped to content areas, excludes nav and buttons */
-:where(article, section, main, .prose)
-    a:not(nav a):not(button a):not(.btn a):not([role="button"] a) {
+/* Links - class-based styles
+   Apply the `.link` class to anchors in templates (replaces scoped `a {}` rules).
+   Scoped hover/visited behavior is preserved for content areas. */
+.link {
     color: var(--color-projects);
     text-decoration: underline;
     text-decoration-color: var(--color-projects);
@@ -208,8 +209,19 @@ hr {
         text-decoration-color 200ms ease;
 }
 
-:where(article, section, main, .prose)
-    a:not(nav a):not(button a):not(.btn a):not([role="button"] a):hover {
+/* Keep the same visual behavior inside prose-like content when `.link` is used */
+:where(article, section, main, .prose) .link {
+    color: var(--color-projects);
+    text-decoration: underline;
+    text-decoration-color: var(--color-projects);
+    text-underline-offset: 2px;
+    cursor: pointer;
+    transition:
+        color 200ms ease,
+        text-decoration-color 200ms ease;
+}
+
+:where(article, section, main, .prose) .link:hover {
     color: color-mix(in oklab, var(--color-projects) 70%, var(--color-fg));
     text-decoration-color: color-mix(
         in oklab,
@@ -218,8 +230,7 @@ hr {
     );
 }
 
-:where(article, section, main, .prose)
-    a:not(nav a):not(button a):not(.btn a):not([role="button"] a):visited {
+:where(article, section, main, .prose) .link:visited {
     color: var(--color-knowledge);
     text-decoration-color: var(--color-knowledge);
 }

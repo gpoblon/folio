@@ -1,4 +1,5 @@
 #![allow(non_snake_case)]
+
 use dioxus::prelude::*;
 
 pub mod router;
@@ -38,7 +39,9 @@ fn main() {
     #[cfg(feature = "server")]
     dioxus::serve(|| async move {
         use dioxus::server::axum::Extension;
-        let router = dioxus::server::router(App).layer(Extension(kernel::config::Config::init()));
+        let router = dioxus::server::router(App)
+            .layer(Extension(kernel::config::Config::init()))
+            .layer(Extension(entities::article::model::ArticleStore::default()));
         Ok(router)
     });
     #[cfg(not(feature = "server"))]

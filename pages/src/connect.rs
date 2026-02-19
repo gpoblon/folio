@@ -14,7 +14,7 @@ pub fn Connect() -> Element {
                 div {
                     class: "p-6",
                     h4 {
-                        class: "dark:text-connect md:col-start-1 md:row-start-1",
+                        class: "text-projects md:col-start-1 md:row-start-1",
                         {t!("connect_title")}
                     }
                     p {

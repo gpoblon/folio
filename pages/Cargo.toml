@@ -17,7 +17,7 @@ serde.workspace = true
 dioxus-html = { version = "0.7.3", features = ["serialize"]}
 
 [features]
-web = ["features/web", "components/web"]
-desktop = ["features/desktop", "components/desktop"]
-mobile = ["features/mobile", "components/mobile"]
-server = ["features/server", "components/server"]
+web = ["features/web", "components/web", "widgets/web"]
+desktop = ["features/desktop", "components/desktop", "widgets/desktop"]
+mobile = ["features/mobile", "components/mobile", "widgets/mobile"]
+server = ["features/server", "components/server", "widgets/server"]

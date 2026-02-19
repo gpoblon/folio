@@ -13,11 +13,6 @@ ul.nested {
 /* Global Styles                                                   */
 /* ─────────────────────────────────────────────────────────────── */
 
-.experiences {
-    width: 80%;
-    margin-inline: auto;
-}
-
 .experiences-list {
     list-style: none;
     padding-left: 0;

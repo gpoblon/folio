@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use dioxus_i18n::t;
+use kernel::lang::t;
 
 #[component]
 pub fn Experiences() -> Element {
@@ -95,7 +95,7 @@ fn Achievement(achievement: super::model::Achievement, depth: u8) -> Element {
                 }
                 if let Some(link) = achievement.link {
                     a {
-                        class: "outline-link text-2xl",
+                        class: "outline-link text-2xl link",
                         href: "{link}",
                         target: "_blank",
                         rel: "noopener noreferrer",

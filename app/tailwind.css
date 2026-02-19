@@ -3,6 +3,7 @@
 @source "/src/**/*.{rs,html,css}";
 
 @import "../components/tailwind.css";
+@import "../entities/tailwind.css";
 @import "../widgets/tailwind.css";
-@import "../pages/tailwind.css";
 @import "../features/tailwind.css";
+@import "../pages/tailwind.css";
