@@ -74,4 +74,8 @@ owner = "jdoe"
 repository = "kb"
 "#
     }
+
+    pub fn git(&self) -> &GitConfig {
+        &self.git
+    }
 }

@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 pub fn Knowledge() -> Element {
     rsx! {
         section {
-            class: "container center-content",
+            class: "max-w-5xl mx-auto py-32 center-content",
             id: "knowledge",
             widgets::articles::ArticleGrid {}
         }

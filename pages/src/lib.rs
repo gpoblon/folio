@@ -1,5 +1,6 @@
 #![allow(non_snake_case)]
 
+mod article;
 mod connect;
 mod experience;
 mod home;
@@ -7,6 +8,7 @@ mod knowledge;
 mod projects;
 mod tos;
 
+pub use article::Article;
 pub use connect::Connect;
 pub use experience::Experience;
 pub use home::Home;

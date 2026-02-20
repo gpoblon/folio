@@ -1,6 +1,6 @@
 use dioxus::prelude::*;
 
-#[get("/articles/{slug}", articles: dioxus_server::axum::Extension<super::model::ArticleStore>)]
+#[server(articles: dioxus_server::axum::Extension<super::model::ArticleStore>)]
 pub async fn article(slug: String) -> Result<super::model::Article, HttpError> {
     let Ok(articles) = (*articles).0.try_read() else {
         return HttpError::internal_server_error("Failed to acquire read lock".to_string());

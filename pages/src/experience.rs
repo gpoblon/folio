@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 pub fn Experience() -> Element {
     rsx! {
         section {
-            class: "container center-content p-32 lg:w-[60%] m-auto",
+            class: "max-w-5xl mx-auto py-32 center-content",
             id: "experience",
             features::experiences::Experiences {}
         }

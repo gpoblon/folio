@@ -1,5 +1,10 @@
+#[cfg(feature = "server")]
+use anyhow::anyhow;
+#[cfg(feature = "server")]
 use dioxus::{logger::tracing, prelude::*};
-use kernel::lang::t;
+#[cfg(feature = "server")]
+use std::path::PathBuf;
+
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
@@ -11,24 +16,37 @@ use std::{
 #[derive(Default, Debug, Clone)]
 pub struct ArticleStore(pub Arc<RwLock<HashMap<String, Article>>>);
 
-pub(super) fn use_resource_article(mut slug: String) -> dioxus::hooks::Resource<Option<Article>> {
-    use_resource(move || {
-        let toast = components::toast::use_toast();
-        let slug = std::mem::take(&mut slug);
-        async move {
-            match super::api::article(slug).await {
-                Ok(article) => Some(article),
-                Err(err) => {
-                    tracing::error!("Failed to fetch article: {}", err);
-                    toast
-                        .error(t!("article_error"))
-                        .description(err.to_string())
-                        .send();
-                    None
-                }
-            }
+#[cfg(feature = "server")]
+/// Parse markdown files into articles iff they have proper metadata and are published
+impl TryFrom<kernel::git::RepositoryContent> for ArticleStore {
+    type Error = anyhow::Error;
+
+    fn try_from(contents: kernel::git::RepositoryContent) -> Result<Self, Self::Error> {
+        let mut articles = HashMap::with_capacity(contents.markdown.len());
+        for content in &contents.markdown {
+            tracing::trace!("Parsing article {:#?}", content);
         }
-    })
+        for (path, content) in contents.markdown {
+            tracing::info!("Parsing article: {}", path.display());
+            match Article::try_parse(path, content) {
+                Ok(article) => {
+                    if article.metadata.state != State::Published {
+                        // Skip unpublished articles
+                        tracing::warn!("Article {} is not published", article.metadata.title);
+                        continue;
+                    }
+                    tracing::info!("Parsing successful: {}", article.metadata.title);
+                    articles.insert(article.metadata.slug.clone(), article);
+                }
+                // TODO cumulative error
+                Err(err) => {
+                    tracing::error!("Failed to parse article: {}", err);
+                    continue;
+                }
+            };
+        }
+        Ok(ArticleStore(Arc::new(RwLock::new(articles))))
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -37,18 +55,72 @@ pub struct Article {
     pub(super) content: String,
 }
 
+#[cfg(feature = "server")]
+impl Article {
+    pub fn try_parse(path: std::path::PathBuf, content: String) -> anyhow::Result<Self> {
+        // [
+        //     0 -> trash (before first ---),
+        //     1 -> yaml (in-between ---),
+        //     2 -> markdown (after second ---)
+        // ]
+        let parts: Vec<&str> = content.splitn(3, "---").collect();
+        let Some(s_yaml) = parts.get(1) else {
+            return Err(anyhow!("No yaml metadata"));
+        };
+        let md = {
+            let Some(md_block) = parts.get(2) else {
+                return Err(anyhow!("No markdown content"));
+            };
+            let md_trimmed = md_block.trim_start().trim_end();
+            if md_trimmed.is_empty() {
+                return Err(anyhow!("Empty markdown content"));
+            }
+            md_trimmed.to_owned()
+        };
+        let metadata = ArticleMetadata::new(path, s_yaml)?;
+
+        Ok(Self {
+            metadata,
+            content: md,
+        })
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ArticleMetadata {
     pub title: String,
     pub description: String,
+    #[serde(default)]
     pub lang: kernel::lang::Lang,
     pub tags: Vec<String>,
+    #[serde(default)]
     pub state: State,
+    #[serde(default)]
     pub expertise: Expertise,
     /// Slug is actually the path: e.g. "/IT/dev/lang/rust/intro.md" or "science/psychology/pathology/autism.md"
+    #[serde(default)]
     pub slug: String,
-    pub created_at: Option<kernel::DateTime>,
-    pub modified_at: Option<kernel::DateTime>,
+    pub created: Option<kernel::DateTime>,
+    pub modified: Option<kernel::DateTime>,
+}
+
+#[cfg(feature = "server")]
+impl ArticleMetadata {
+    pub(self) fn new(path: PathBuf, yaml: &str) -> anyhow::Result<Self> {
+        match serde_saphyr::from_str::<ArticleMetadata>(yaml.trim()) {
+            Ok(mut metadata) => {
+                metadata.slug = path.to_string_lossy().to_string();
+                Ok(metadata)
+            }
+            Err(e) => Err(anyhow!(
+                r#"Failed to parse YAML frontmatter into metadata.
+                Error: {}
+                Input: {}"#,
+                e,
+                yaml
+            )),
+        }
+    }
 }
 
 #[derive(
@@ -63,11 +135,14 @@ pub struct ArticleMetadata {
     strum::EnumIter,
     strum::EnumString,
 )]
+#[serde(rename_all = "lowercase")]
 pub enum Expertise {
-    #[default]
     Novice,
     Knowedgeable,
     Expert,
+    #[default]
+    #[serde(other)]
+    Undefined,
 }
 
 #[derive(
@@ -82,11 +157,14 @@ pub enum Expertise {
     strum::EnumIter,
     strum::EnumString,
 )]
+#[serde(rename_all = "lowercase")]
 pub enum State {
-    #[default]
     Draft,
     Review,
     Published,
     Private,
     Archived,
+    #[default]
+    #[serde(other)]
+    Undefined,
 }

@@ -20,12 +20,6 @@ homepage = "https://folio.gpoblon.net"
 repository = "https://github.com/gpoblon/folio"
 
 [workspace.dependencies]
-
-# Following are one-way layers: isolated from siblings ; no access to parents.
-# See [Feature-sliced design](https://feature-sliced.design) for more information
-
-# L1. apps - the package you'll run. Routing, entrypoint, providers.
-app = { path = "app" }
 # L2. pages - one crate per individual, plain page (1:1 app route).
 pages = { path = "pages" }
 # L3. widgets - use cases, self-contained chunks of functionality or UI
@@ -44,8 +38,7 @@ dioxus = { version = "0.7.3" }
 serde = { version = "1", features = ["derive"] }
 strum = { version = "0.27", features = ["derive"] }
 anyhow = { version = "1.0" }
-
-[profile]
+serde-saphyr = "0.0.19"
 
 [profile.wasm-dev]
 inherits = "dev"

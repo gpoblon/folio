@@ -3,20 +3,20 @@ use kernel::lang::t;
 
 #[component]
 pub fn Experiences() -> Element {
-    let experiences = super::model::Experiences::use_resource_experiences();
+    let experiences = super::model::Experiences::use_server_experiences();
 
     rsx! {
         document::Link { rel: "stylesheet", href: asset!("./style.css") }
         div {
             class: "experiences",
-            h1 { class: "text-projects", "WORK EXPERIENCE" }
+            h1 { class: "text-projects pb-8", { t!("experiences_work") } }
             ul {
                 class: "experiences-list",
                 for experience in experiences.jobs {
                     Experience { experience }
                 }
             }
-            h1 { class: "text-projects pt-15", "EDUCATION" }
+            h1 { class: "text-projects pt-15 pb-8", { t!("experiences_education") } }
             ul {
                 class: "experiences-list",
                 for experience in experiences.education {

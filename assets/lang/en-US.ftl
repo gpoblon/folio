@@ -30,3 +30,6 @@ connect_send_server_error = Message could not be sent
 
 article_list_metadata_error = Failed to fetch articles
 article_error = Failed to fetch article
+
+experiences_work = WORK EXPERIENCE
+experiences_education = EDUCATION

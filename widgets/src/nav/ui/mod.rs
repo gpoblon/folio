@@ -12,8 +12,8 @@ use dioxus::router::use_route;
 pub fn NavBar<R: Navigable>() -> Element {
     let active = use_route::<R>();
     rsx! {
-        desktop::DesktopNav { active }
-        mobile::MobileNav { active }
+        desktop::DesktopNav { active: active.clone() }
+        mobile::MobileNav { active: active.clone() }
     }
 }
 #[component]

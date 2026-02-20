@@ -234,3 +234,20 @@ hr {
     color: var(--color-knowledge);
     text-decoration-color: var(--color-knowledge);
 }
+
+.prose table {
+    @apply w-full border-collapse my-6 text-sm md:text-base;
+}
+
+.prose th {
+    @apply border border-primary px-4 py-3 bg-muted font-bold text-left;
+}
+
+.prose td {
+    @apply border border-primary px-4 py-3;
+}
+
+/* Optional: Alternate row colors for better readability */
+.prose tbody tr:nth-child(even) {
+    @apply bg-accent/50;
+}

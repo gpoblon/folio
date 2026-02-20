@@ -38,10 +38,10 @@ fn MobileNavMenu<R: Navigable>(active: R, onclose: EventHandler<()>) -> Element 
                     for route in R::ITEMS.iter() {
                         Link {
                             key: "{route.slug()}",
-                            to: *route,
+                            to: route.clone(),
                             onclick: move |_| onclose.call(()),
                             class: "block w-full text-right",
-                            MobileNavItem { route: *route, is_active: &active == route }
+                            MobileNavItem { route: route.clone(), is_active: &active == route }
                         }
                     }
                 }
@@ -75,7 +75,7 @@ pub fn MobileBottomIcons<R: Navigable>(active: R) -> Element {
                 for route in R::ITEMS.iter() {
                     Link {
                         key: "{route.slug()}",
-                        to: *route,
+                        to: route.clone(),
                         class: "flex items-center justify-center py-2",
                         div {
                             class: "size-12 rounded-full border flex items-center justify-center",

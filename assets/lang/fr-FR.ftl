@@ -29,3 +29,6 @@ connect_send_server_error = Le message n'a pas pu être envoyé
 
 article_list_metadata_error = Échec de la récupération des articles
 article_error = Échec de la récupération de l'article
+
+experiences_work = EXPERIENCES PROFESSIONNELLES
+experiences_education = FORMATION

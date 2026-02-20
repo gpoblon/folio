@@ -19,8 +19,8 @@ fn PlainMenu<R: Navigable>(active: R) -> Element {
     rsx! {
         div { class: "flex gap-3 justify-center w-fit z-1",
             for route in R::ITEMS.iter() {
-                Link { key: "{route.slug()}", to: *route,
-                    PlainNavItem { route: *route, is_active: &active == route }
+                Link { key: "{route.slug()}", to: route.clone(),
+                    PlainNavItem { route: route.clone(), is_active: &active == route }
                 }
             }
         }
@@ -33,7 +33,7 @@ fn PlainNavItem<R: Navigable>(route: R, is_active: bool) -> Element {
     let slug = route.slug();
     rsx! {
         button {
-            class: "h-[42px] px-4 flex min-w-36 items-center justify-center gap-3 whitespace-nowrap border-2 border-{color} data-[active=false]:border-transparent",
+            class: "h-[42px] px-4 flex min-w-36 items-center justify-center gap-3 whitespace-nowrap border-2 border-{color} data-[active=false]:border-transparent data-[active=true]:bg-black",
             "data-active": is_active,
             div { class: "size-5", {route.icon()} }
             span { class: "text-md", {t!(slug)} }

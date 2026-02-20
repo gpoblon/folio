@@ -11,7 +11,8 @@ pub(super) struct Experiences {
 }
 
 impl Experiences {
-    pub(super) fn use_resource_experiences() -> Self {
+    // TODO fetch from server
+    pub(super) fn use_server_experiences() -> Self {
         let content: &'static str = match lang::use_lang() {
             lang::Lang::English => EXPERIENCES_EN,
             lang::Lang::French => EXPERIENCES_FR,

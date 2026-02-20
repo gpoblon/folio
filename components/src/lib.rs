@@ -5,6 +5,7 @@ pub mod components;
 pub use components::badge;
 pub use components::button::*;
 pub use components::dropdown_menu::*;
+pub use components::search;
 pub use components::separator::*;
 pub use components::toast;
 

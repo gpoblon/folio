@@ -11,6 +11,7 @@ entities.workspace = true
 components.workspace = true
 kernel.workspace = true
 
+anyhow.workspace = true
 dioxus = { workspace = true, features = ["router", "fullstack"] }
 
 [features]
@@ -18,4 +19,6 @@ default = ["web"]
 web = ["dioxus/web", "pages/web", "widgets/web", "components/web", "entities/web"]
 desktop = ["dioxus/desktop", "pages/desktop", "widgets/desktop", "components/desktop", "entities/desktop"]
 mobile = ["dioxus/mobile", "pages/mobile", "widgets/mobile", "components/mobile", "entities/mobile"]
-server = ["dioxus/server", "kernel/server", "pages/server", "widgets/server", "components/server", "entities/server"]
+server = ["dioxus/server", "pages/server", "widgets/server", "components/server", "entities/server", "kernel/server"]
+# use this feature while during iteration / testing: instant data loading + less external api calls
+mock = ["entities/mock"]

@@ -1,3 +1,4 @@
+use http_body_util::BodyExt;
 use secrecy::{ExposeSecret, SecretString};
 
 pub use octocrab::models::repos::Content;
@@ -9,7 +10,7 @@ pub struct GitClient {
 }
 
 impl GitClient {
-    fn new(config: crate::config::GitConfig) -> anyhow::Result<Self> {
+    pub fn new(config: crate::config::GitConfig) -> anyhow::Result<Self> {
         let client = octocrab::Octocrab::builder()
             .personal_token(config.token)
             .build()?;
@@ -30,8 +31,26 @@ impl GitClient {
             )
             .get_content()
             .send()
-            .await?;
+            .await?
+            .take_items();
 
-        Ok(repository.items)
+        Ok(repository)
+    }
+
+    pub async fn fetch_repository_tarball(&self) -> anyhow::Result<dioxus::server::Bytes> {
+        Ok(self
+            .client
+            .repos(
+                self.owner.expose_secret().parse::<String>()?,
+                self.repository.expose_secret().parse::<String>()?,
+            )
+            .download_tarball(octocrab::params::repos::Reference::Branch(
+                "main".to_owned(),
+            ))
+            .await?
+            .into_body()
+            .collect()
+            .await?
+            .to_bytes())
     }
 }

@@ -1,0 +1,176 @@
+/* Search component styles - using design tokens from app/assets
+   Design tokens referenced:
+   --color-bg, --color-fg, --color-border-subtle, --color-muted,
+   --color-projects, --color-muted-fg, --radius-component, --transition-duration,
+   --font-sans
+*/
+
+.search-container {
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    max-width: 400px;
+    font-family: var(
+        --font-sans,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial
+    );
+}
+
+/* Input */
+.search-input {
+    width: 100%;
+    padding: 0.625rem; /* ~10px */
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-component);
+    background-color: var(--color-accent);
+    color: var(--color-muted-fg);
+    font-size: 1rem;
+    line-height: 1;
+    outline: none;
+    transition:
+        box-shadow var(--transition-duration, 200ms) ease,
+        border-color var(--transition-duration, 200ms) ease,
+        background-color var(--transition-duration, 200ms) ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.search-input::placeholder {
+    color: var(--color-muted-fg, rgba(0, 0, 0, 0.45));
+}
+
+/* Focus state for keyboard users */
+.search-input:focus-visible {
+    box-shadow: 0 0 0 3px var(--color-projects);
+    border-color: var(--color-projects);
+}
+
+/* Dropdown */
+.search-dropdown {
+    position: absolute;
+    /* overlap fully with input to remove visible gap */
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: var(--color-accent);
+    border: 1px solid var(--color-border-subtle);
+    /* remove the top border so the dropdown visually connects with the input */
+    border-top: none;
+    border-radius: var(--radius-component);
+    border-top-left-radius: calc(var(--radius-component) - 2px);
+    border-top-right-radius: calc(var(--radius-component) - 2px);
+    box-shadow: 0 8px 20px rgba(2, 6, 23, 0.08);
+    z-index: 1000;
+    max-height: 600px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    min-width: 160px;
+
+    /* hidden by default; shown only when container loses focus
+       We add a small transition-delay on the hidden state so hiding is slightly delayed.
+       This prevents flicker when focus briefly moves (e.g. clicking into the dropdown).
+       The transition-delay on the hidden state ensures we don't hide immediately, while
+       the focus-within rule clears the delay so showing is immediate. */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition:
+        opacity var(--transition-duration, 150ms) ease,
+        transform var(--transition-duration, 150ms) ease,
+        visibility var(--transition-duration, 150ms) linear;
+    /* small delay when hiding to avoid flicker */
+    transition-delay: 120ms;
+}
+
+/* Show dropdown when the search container (input or suggestions) has focus-within.
+   This keeps the dropdown visible while the user interacts with suggestions (keyboard or mouse).
+   We clear the transition delay when showing so the dropdown appears immediately,
+   while the hidden state retains a small delay to avoid flicker on brief focus movements. */
+.search-container:focus-within .search-dropdown,
+.search-container:focus-within .search-dropdown.text-muted {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    /* no delay when showing */
+    transition-delay: 0ms;
+}
+
+/* Individual suggestion */
+.search-suggestion {
+    padding: 0.5rem;
+    cursor: pointer;
+    /* stronger separator so it's visible against the muted text */
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-muted-fg);
+    background: transparent;
+    font-size: 0.95rem;
+    transition:
+        background-color var(--transition-duration, 160ms) ease,
+        color var(--transition-duration, 160ms) ease;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    gap: 0.5rem;
+}
+
+/* Remove divider for last item */
+.search-suggestion:last-child {
+    border-bottom: none;
+}
+
+/* Hover / keyboard focus */
+.search-suggestion:hover,
+.search-suggestion:focus-visible {
+    background: var(--color-muted);
+    color: var(--color-fg);
+    outline: none;
+}
+
+/* Selected/active suggestion (e.g. arrow-key highlight) */
+.search-suggestion[aria-selected="true"],
+.search-suggestion[data-active="true"] {
+    background: var(--color-muted);
+    color: var(--color-fg);
+    font-weight: 500;
+}
+
+/* Disabled suggestion state */
+.search-suggestion[data-disabled="true"],
+.search-suggestion[aria-disabled="true"] {
+    color: var(--color-muted-fg);
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+/* Light scrollbar styling for webkit browsers */
+.search-dropdown::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.search-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 999px;
+}
+.search-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .search-input,
+    .search-suggestion,
+    .search-dropdown {
+        transition: none !important;
+        animation: none !important;
+    }
+}

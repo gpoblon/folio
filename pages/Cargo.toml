@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+entities.workspace = true
 features.workspace = true
 components.workspace = true
 widgets.workspace = true

@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use pages::{Connect, Experience, Home, Knowledge, Projects, TermsOfUse};
+use pages::{Article, Connect, Experience, Home, Knowledge, Projects, TermsOfUse};
 use widgets::{
     footer::Footer,
     nav::{NavBar, Navigable},
@@ -10,13 +10,19 @@ fn Layout() -> Element {
     rsx! {
         div { class: "min-h-screen flex flex-col",
             NavBar::<Route> {}
-            main { class: "flex-1 flex flex-col", Outlet::<Route> {} }
+            SuspenseBoundary {
+                // TODO: Implement a loading spinner or a more sophisticated loading indicator.
+                fallback: |_| rsx! {
+                    div { class: "flex justify-center items-center h-full", "Loading..." }
+                },
+                main { class: "flex-1 flex flex-col", Outlet::<Route> {} }
+            }
             Footer { tos_route: Route::TermsOfUse {}.into() }
         }
     }
 }
 
-#[derive(Debug, Clone, Copy, Routable, PartialEq, Eq)]
+#[derive(Debug, Clone, Routable, PartialEq, Eq)]
 pub enum Route {
     #[layout(Layout)]
     #[route("/")]
@@ -31,6 +37,9 @@ pub enum Route {
     Connect {},
     #[route("/terms-of-use")]
     TermsOfUse {},
+    /// Dynamically defined routes based on fetched article slug
+    #[route("/articles/:..slug")]
+    Article { slug: Vec<String> },
 }
 
 impl Navigable for Route {

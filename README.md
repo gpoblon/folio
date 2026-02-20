@@ -19,6 +19,10 @@ It finally is a way for me to share and contribute.
 
 ## 🧭 Roadmap
 
+- pass on use_loader vs use_server_future vs use_resource
+- Pass on server functions
+- Pass on FSD architecture: make sure parts are located where they belong
+ 
 See: [github project page](https://github.com/gpoblon/folio/projects/1).
 
 ## 📜 Usage & Rules
