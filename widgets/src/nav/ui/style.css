@@ -1,0 +1,8 @@
+/* Navigation button active state styling */
+button[data-active="true"] {
+    background-color: var(--color-accent);
+}
+
+button[data-active="false"] {
+    border-color: transparent !important;
+}

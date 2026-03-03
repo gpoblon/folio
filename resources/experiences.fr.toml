@@ -4,28 +4,42 @@ organization = "42 Angoulême"
 start_date = "août 2021"
 end_date = "fév. 2026"
 location = "Angoulême, France"
-focus = "Rôle transverse, opérationnel & stratégique"
-overview = "Gestion de projets et produit, management d’équipes, pilotage du SI."
-    [[jobs.achievements]]
-    description = "Ownership end-to-end du cycle de vie d’une plateforme pédagogique :"
+focus = "Rôle transverse : relationnel, opérationnel & stratégique"
+overview = "Lancement et développement du campus de sa création à son échelle actuelle : 592 étudiants et plus de 30 entreprises partenaires."
+        [[jobs.achievements]]
+        description = "Développement et gestion de projets et produit"
         [[jobs.achievements.sub]]
-        description = "Conception de l'architecture et lead technique de la genèse à la livraison d’une application cross-platform (web, mobile, desktop) unifiée au sein d’une codebase de 70k LoC en Rust Full Stack (Axum/Dioxus/Tailwind)."
+        description = "Ownership end-to-end du cycle de vie d’une plateforme pédagogique en production, utilisée par l’ensemble des étudiants, candidats, et le personnel encadrant :"
+            [[jobs.achievements.sub.sub]]
+            description = "Conception de l'architecture, développement, et lead technique de la genèse à la mise en production et maintenance d’une application cross-platform (web, mobile, desktop) unifiée au sein d’une codebase de 70k LoC en Rust Full Stack (Axum/Dioxus/Tailwind) reposant sur une architecture DDD en couches servant un frontend MVC."
+            [[jobs.achievements.sub.sub]]
+            description = "Direction de la stratégie produit et de l'exécution : définition de la roadmap et des fonctionnalités, gestion du backlog et management de l'équipe."
+            [[jobs.achievements.sub.sub]]
+            description = "Fonctionnalités : éditeur de formulaires, système de tickets, scheduler, outil de sélection, hub de ressources, livret & projection pédagogique, automatisation, ..."
+            [[jobs.achievements.sub.sub]]
+            description = "Conception d’une librairie de composants UI cross-platform open-source (Rust/Dioxus)."
+            link = "https://github.com/42Angouleme/dioxus-tw-components"
+            [[jobs.achievements.sub.sub]]
+            description = "Pilotage du développement d’une librairie éducative open source (Python/LangChain/embarqué) et organisation d'ateliers d'initiation à la programmation et à l’IA."
+            link = "https://github.com/42Angouleme/pybot"
+    [[jobs.achievements]]
+    description = "Relations"
         [[jobs.achievements.sub]]
-        description = "Direction de la stratégie produit et de l'exécution : définition de la roadmap et des fonctionnalités, gestion du backlog et management de l'équipe."
+        description = "Interface entre le campus et le tissu tech régional (des startups aux ETI et Grandes Entreprises) ainsi que les acteurs publics."
         [[jobs.achievements.sub]]
-        description = "Fonctionnalités principales : éditeur de formulaires dynamiques, système de ticketing et retours utilisateurs, plateforme de partage de ressources, outil de sélection des candidats, projection avancée du parcours de formation, livret pédagogique, automatisation administrative, centre de notifications, scheduler."
+        description = "Échanges et entretien de relations de confiance avec les dirigeants et les équipes opérationnelles alimentant recrutements et co-construction de partenariats."
+        [[jobs.achievements.sub]]
+        description = "Réalisation d’introductions techniques et de présentations pédagogiques à des audiences variées, réunissant jusqu’à 150 personnes (principalement en français)."
     [[jobs.achievements]]
-    description = "Conception d’une librairie de composants UI cross-platform open-source (Rust/Dioxus)."
-    link = "https://github.com/42Angouleme/dioxus-tw-components"
-    [[jobs.achievements]]
-    description = "Pilotage du développement d’une librairie éducative open source documentée (Python/LangChain/embarqué) et organisation d'ateliers d'initiation à la programmation et à l’IA."
-    link = "https://github.com/42Angouleme/pybot"
-    [[jobs.achievements]]
-    description = "Recrutement, mentorat et management d’une équipe de 4 juniors (pédagogie & IT)."
-    [[jobs.achievements]]
-    description = "Gestion opérationnelle et relations entreprises sur les périmètres SI & pédagogie."
-    [[jobs.achievements]]
-    description = "Accompagnement —collectif et individuel— pédagogique, professionnel et entrepreneurial de plusieurs centaines d'étudiants."
+    description = "Gestion opérationnelle du campus"
+        [[jobs.achievements.sub]]
+        description = "Évaluation et recrutement individuel de l’ensemble des étudiants parmi des milliers de candidats sur la base d’une immersion intensive de 26 jours dans nos locaux."
+        [[jobs.achievements.sub]]
+        description = "Recrutement, mentorat et management d’une équipe de 4 juniors (pédagogie & IT)."
+        [[jobs.achievements.sub]]
+        description = "Accompagnement pédagogique, professionnel et entrepreneurial des étudiants, individuellement comme collectivement."
+
+
 
 [[jobs]]
 title = "Ingénieur logiciel"
@@ -66,9 +80,9 @@ organization = "42"
 start_date = "2016"
 end_date = "2020"
 location = "Paris, France"
-    [[jobs.achievements]]
+    [[education.achievements]]
     description = "Ingénierie système, web, rendu, sécurité. Principalement :  Unix/C/C++/JS/Rust."
-    [[jobs.achievements]]
+    [[education.achievements]]
     description = "Primé lors de hackathons : Société Générale, SexTechLab, 42Startup."
 
 [[education]]

@@ -32,3 +32,4 @@ article_error = Échec de la récupération de l'article
 
 experiences_work = EXPERIENCES PROFESSIONNELLES
 experiences_education = FORMATION
+download_cv = Télécharger mon CV

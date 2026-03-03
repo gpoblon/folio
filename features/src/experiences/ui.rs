@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use kernel::lang::t;
+use kernel::lang::{t, use_lang};
 
 #[component]
 pub fn Experiences() -> Element {
@@ -23,6 +23,29 @@ pub fn Experiences() -> Element {
                     Experience { experience }
                 }
             }
+            DownloadCvButton { class: "mt-15 mb-8" }
+        }
+    }
+}
+
+#[component]
+fn DownloadCvButton(#[props(into, default)] class: String) -> Element {
+    let lang = use_lang();
+    let cv_asset = match lang {
+        kernel::lang::Lang::English => asset!("assets/cv-gpoblon-engineer-en.pdf"),
+        kernel::lang::Lang::French => asset!("assets/cv-gpoblon-engineer-fr.pdf"),
+    };
+
+    rsx! {
+        a {
+            href: cv_asset,
+            download: "resume_gpoblon_engineer.pdf",
+            class: "inline-flex items-center gap-2 px-4 py-1 rounded border border-primary bg-accent hover:var(--color-bg) transition {class}",
+            components::Icon {
+                icon: components::Icons::Download,
+                class: "text-2xl mt-2"
+            }
+            span { { t!("download_cv") } }
         }
     }
 }

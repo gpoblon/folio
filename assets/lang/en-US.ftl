@@ -33,3 +33,4 @@ article_error = Failed to fetch article
 
 experiences_work = WORK EXPERIENCE
 experiences_education = EDUCATION
+download_cv = Download my resume
