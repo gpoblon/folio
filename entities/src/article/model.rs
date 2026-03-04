@@ -106,7 +106,7 @@ pub struct ArticleMetadata {
 
 #[cfg(feature = "server")]
 impl ArticleMetadata {
-    pub(self) fn new(path: PathBuf, yaml: &str) -> anyhow::Result<Self> {
+    fn new(path: PathBuf, yaml: &str) -> anyhow::Result<Self> {
         match serde_saphyr::from_str::<ArticleMetadata>(yaml.trim()) {
             Ok(mut metadata) => {
                 metadata.slug = path.to_string_lossy().to_string();
@@ -138,7 +138,7 @@ impl ArticleMetadata {
 #[serde(rename_all = "lowercase")]
 pub enum Expertise {
     Novice,
-    Knowedgeable,
+    Knowledgeable,
     Expert,
     #[default]
     #[serde(other)]

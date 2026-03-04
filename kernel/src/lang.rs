@@ -28,8 +28,8 @@ impl Lang {
     }
     fn asset_content(&self) -> &'static str {
         match self {
-            Lang::French => include_str!("../../assets/lang/fr-FR.ftl"),
-            Lang::English => include_str!("../../assets/lang/en-US.ftl"),
+            Lang::French => include_str!("../assets/lang/fr-FR.ftl"),
+            Lang::English => include_str!("../assets/lang/en-US.ftl"),
         }
     }
 }

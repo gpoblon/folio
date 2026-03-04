@@ -85,9 +85,9 @@ fn spiral_path(
         let x = cx + r * angle.cos();
         let y = cy + r * angle.sin();
         if i == 0 {
-            let _ = write!(d, "M {:.2} {:.2}", x, y);
+            write!(d, "M {:.2} {:.2}", x, y).unwrap();
         } else {
-            let _ = write!(d, " L {:.2} {:.2}", x, y);
+            write!(d, " L {:.2} {:.2}", x, y).unwrap();
         }
     }
     d

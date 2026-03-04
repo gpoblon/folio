@@ -1,9 +1,9 @@
 use dioxus::prelude::*;
 
 #[component]
-pub fn ProgressBar(class: Option<String>, children: Element) -> Element {
+pub fn ProgressBar(#[props(into, default)] class: String, children: Element) -> Element {
     rsx! {
-        div { class: format!("overflow-hidden {}", class.unwrap_or_default()), {children} }
+        div { class: "overflow-hidden {class}", {children} }
     }
 }
 

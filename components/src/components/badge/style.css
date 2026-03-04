@@ -33,7 +33,7 @@
 .badge[data-style="outline"] {
     border: 0.5px solid var(--color-muted);
     background-color: var(--bg-muted);
-    color: var(--color-muted-fg);
+    color: var(--color-muted-foreground);
 }
 
 .badge[data-style="destructive"] {

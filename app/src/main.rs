@@ -6,8 +6,6 @@ pub mod router;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
-const MAIN_CSS: Asset = asset!("/assets/main.css");
-const TYPOGRAPHY_CSS: Asset = asset!("/assets/typography.css");
 
 #[component]
 fn App() -> Element {
@@ -20,12 +18,10 @@ fn App() -> Element {
         document::Stylesheet { href: "https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" }
         document::Stylesheet { href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" }
         document::Stylesheet { href: TAILWIND_CSS }
-        document::Stylesheet { href: MAIN_CSS }
-        document::Stylesheet { href: TYPOGRAPHY_CSS }
         components::Bootstrap {}
         div {
             id: "root",
-            class: "min-h-screen flex flex-col bg-primary text-primary border-primary font-light font-sans overflow-x-hidden",
+            class: "min-h-screen flex flex-col bg-background text-foreground border-border font-light font-sans overflow-x-hidden",
             lang: "fr",
             "data-theme": theme().as_str(),
             components::toast::ToastProvider {
@@ -40,9 +36,8 @@ fn App() -> Element {
 async fn article_store_init(
     config: &kernel::config::GitConfig,
 ) -> anyhow::Result<entities::article::model::ArticleStore> {
-    let Ok(git_client) = kernel::git::GitClient::new(config.clone()) else {
-        return Err(anyhow::anyhow!("Failed to create GitClient"));
-    };
+    let git_client =
+        kernel::git::GitClient::new(config.clone()).context("Failed to create GitClient")?;
     let Ok(repository) = git_client
         .fetch_repository_tarball()
         .await

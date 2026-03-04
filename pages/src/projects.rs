@@ -11,7 +11,7 @@ pub fn Projects() -> Element {
                 ProgressBar { class: "w-full bg-muted h-3",
                     ProgressBarInner { class: "bg-projects", progress: progress() }
                 }
-                p { class: "text-sm text-muted", "{progress()}% complete" }
+                p { class: "text-sm text-muted-foreground", "{progress()}% complete" }
             }
         }
     }

@@ -19,39 +19,39 @@ button.button:focus-visible {
 
 button.button[data-style="primary"] {
     border: none;
-    background-color: var(--color-fg);
-    color: var(--color-bg);
+    background-color: var(--color-foreground);
+    color: var(--color-background);
 }
 
 button.button[data-style="primary"]:hover {
-    background-color: var(--color-muted-fg);
+    background-color: var(--color-muted-foreground);
 }
 
 button.button[data-style="secondary"] {
     border: none;
     background-color: var(--color-muted);
-    color: var(--color-fg);
+    color: var(--color-foreground);
 }
 
 button.button[data-style="secondary"]:hover {
-    background-color: var(--color-border-subtle);
+    background-color: var(--color-border-muted);
 }
 
 button.button[data-style="ghost"] {
     border: none;
     background-color: transparent;
-    color: var(--color-fg);
+    color: var(--color-foreground);
 }
 
 button.button[data-style="ghost"]:hover {
     background-color: var(--color-muted);
-    color: var(--color-fg);
+    color: var(--color-foreground);
 }
 
 button.button[data-style="outline"] {
-    border: 1px solid var(--color-border-subtle);
-    background-color: var(--color-bg);
-    color: var(--color-fg);
+    border: 1px solid var(--color-border-muted);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
 }
 
 button.button[data-style="outline"]:hover {
@@ -61,7 +61,7 @@ button.button[data-style="outline"]:hover {
 button.button[data-style="destructive"] {
     border: none;
     background-color: var(--color-connect);
-    color: var(--color-bg);
+    color: var(--color-background);
 }
 
 button.button[data-style="destructive"]:hover {

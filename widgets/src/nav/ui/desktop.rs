@@ -7,7 +7,7 @@ pub(super) fn DesktopNav<R: Navigable>(active: R) -> Element {
     let color = active.color();
     rsx! {
         document::Link { rel: "stylesheet", href: asset!("./style.css") }
-        nav { class: "hidden nav:flex relative items-center justify-between px-6 h-18 border-b-3 border-{color} bg-primary backdrop-blur",
+        nav { class: "hidden nav:flex relative items-center justify-between px-6 h-18 border-b-3 border-{color} bg-background backdrop-blur",
             super::Brand {}
             PlainMenu { active }
             Profile {}

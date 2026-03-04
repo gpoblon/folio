@@ -115,6 +115,8 @@ fn MessageInput(message: Store<String>) -> Element {
             required: true,
             placeholder: t!("connect_message"),
             value: message(),
+            resize: "none",
+            overflow_y: "scroll",
             oninput: move |evt| message.set(evt.value()),
         }
     }

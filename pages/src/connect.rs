@@ -14,7 +14,7 @@ pub fn Connect() -> Element {
                 div {
                     class: "p-6",
                     h4 {
-                        class: "text-projects md:col-start-1 md:row-start-1",
+                        class: "md:col-start-1 md:row-start-1 text-connect",
                         {t!("connect_title")}
                     }
                     p {
@@ -24,7 +24,7 @@ pub fn Connect() -> Element {
             },
             ad_slot: rsx! {
                 p {
-                    class: "pt-4 pl-8 text-muted",
+                    class: "pt-4 pl-8 text-muted-foreground",
                     {t!("connect_alternative")}
                 }
                 SocialLink {

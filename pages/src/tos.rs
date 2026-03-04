@@ -1,8 +1,8 @@
 use dioxus::prelude::*;
 use kernel::lang;
 
-const TOS_EN: &str = include_str!("../../resources/tos.en.md");
-const TOS_FR: &str = include_str!("../../resources/tos.fr.md");
+const TOS_EN: &str = include_str!("../assets/tos.en.md");
+const TOS_FR: &str = include_str!("../assets/tos.fr.md");
 
 #[component]
 pub fn TermsOfUse() -> Element {
@@ -13,7 +13,7 @@ pub fn TermsOfUse() -> Element {
 
     rsx! {
         components::Markdown {
-            class: "container center-content p-32 lg:w-[60%] m-auto",
+            class: "prose p-32 max-w-5xl text-justify mx-auto",
             content
         }
     }

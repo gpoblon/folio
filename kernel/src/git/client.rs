@@ -26,8 +26,8 @@ impl GitClient {
         let repository = self
             .client
             .repos(
-                self.owner.expose_secret().parse::<String>()?,
-                self.repository.expose_secret().parse::<String>()?,
+                self.owner.expose_secret().to_owned(),
+                self.repository.expose_secret().to_owned(),
             )
             .get_content()
             .send()
@@ -41,8 +41,8 @@ impl GitClient {
         Ok(self
             .client
             .repos(
-                self.owner.expose_secret().parse::<String>()?,
-                self.repository.expose_secret().parse::<String>()?,
+                self.owner.expose_secret().to_owned(),
+                self.repository.expose_secret().to_owned(),
             )
             .download_tarball(octocrab::params::repos::Reference::Branch(
                 "main".to_owned(),

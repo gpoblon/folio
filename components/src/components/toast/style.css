@@ -20,7 +20,7 @@
 
 .toast {
     z-index: calc(var(--toast-count) - var(--toast-index));
-    background-color: var(--color-bg);
+    background-color: var(--color-background);
     display: flex;
     overflow: hidden;
     width: 18rem;
@@ -45,7 +45,7 @@
         opacity 0.2s ease;
 
     --toast-hidden: calc(min(max(0, var(--toast-index) - 2), 1));
-    color: var(--color-fg);
+    color: var(--color-foreground);
 }
 
 .toast-container:not(:hover, :focus-within)
@@ -166,13 +166,13 @@
 
 .toast-title {
     margin-bottom: 4px;
-    color: var(--color-fg);
+    color: var(--color-foreground);
     font-weight: 400;
     font-size: 0.9rem;
 }
 
 .toast-description {
-    color: var(--color-fg);
+    color: var(--color-foreground);
     font-size: 0.825rem;
     white-space: pre-line;
 }
@@ -183,12 +183,12 @@
     border: none;
     margin: 0;
     background: none;
-    color: var(--color-muted-fg);
+    color: var(--color-muted-foreground);
     cursor: pointer;
     font-size: 18px;
     line-height: 1;
 }
 
 .toast-close:hover {
-    color: var(--color-fg);
+    color: var(--color-foreground);
 }

@@ -20,7 +20,7 @@ pub fn SocialLink(props: SocialLinkProps) -> Element {
             target: if props.href.starts_with("mailto:") { "_self" } else { "_blank" },
             rel: "noopener noreferrer",
             span {
-                class: "text-xs text-muted",
+                class: "text-xs text-muted-foreground",
                 {props.prefix}
             }
             span {

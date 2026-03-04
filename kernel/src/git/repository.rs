@@ -42,7 +42,7 @@ impl RepositoryContent {
             // Dispatch the file to either md / asset
             if path.extension().is_some_and(|ext| ext == "md") {
                 // Attempt to parse as UTF-8 string
-                match String::from_utf8(entry_content.clone()) {
+                match String::from_utf8(entry_content) {
                     Ok(text) => {
                         markdown.insert(path, text);
                     }
@@ -52,7 +52,7 @@ impl RepositoryContent {
                             path,
                             e
                         );
-                        assets.insert(path, entry_content);
+                        assets.insert(path, e.into_bytes());
                     }
                 }
             } else {

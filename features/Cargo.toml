@@ -10,6 +10,7 @@ serde.workspace = true
 strum.workspace = true
 kernel.workspace = true
 components.workspace = true
+entities.workspace = true
 garde = { version = "0.22.1", features = ["derive", "email"] }
 #surrealdb = { version = "3.0.0-beta-2", optional = true }
 

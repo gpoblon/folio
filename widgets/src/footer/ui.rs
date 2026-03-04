@@ -6,7 +6,7 @@ static DIOXUS_LOGO: Asset = asset!("/assets/dioxus.png");
 #[component]
 pub fn Footer(tos_route: NavigationTarget) -> Element {
     rsx! {
-        footer { class: "w-full border-t border-primary py-2 bg-primary",
+        footer { class: "w-full border-t border-border py-2 bg-background",
             div { class: "container center-content text-xs flex flex-wrap items-center justify-center gap-2",
                 span { class: "inline-flex items-center gap-1",
                     span { "© 2026 Gaëtan Poblon" }

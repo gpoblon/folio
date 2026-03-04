@@ -55,8 +55,8 @@ ul.nested {
     white-space: nowrap;
 }
 
-.experiences .separator {
-    background-color: transparent;
+.experience-details .separator {
+    color: var(--color-muted-foreground) !important;
 }
 
 /* Desktop: Show all separators inline */
@@ -131,7 +131,7 @@ ul.nested > .achievement::before {
     width: 20px;
     height: 20px;
     background-color: var(--color-experience);
-    border: 5px solid var(--color-bg);
+    border: 5px solid var(--color-background);
 }
 
 .experience:hover::before {
@@ -287,7 +287,7 @@ ul.nested > .achievement:hover::before {
 
 .lozenge.full-border {
     background-color: var(--color-experience);
-    border: 5px solid var(--color-bg);
+    border: 5px solid var(--color-background);
 }
 
 .lozenge.lg {

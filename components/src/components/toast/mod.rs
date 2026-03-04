@@ -6,7 +6,7 @@
 //!
 //! Note: this wrapper serves the sole purpose of providing a less verbose toast declaration.
 //!
-//! This toast API: `use_toast().success("title").send()` with optional method chaining: `use_toast().success("title").duration(5).description("desc").send()`
+//! This toast API: `use_toast().success("title").end()` with optional method chaining: `use_toast().success("title").duration(5).description("desc").send()`
 //! Dioxus toast API: `use_toast().success("title".to_string, ToastOption::new().duration(std::time::Duration::from_secs(2))).description("desc")`
 
 mod component;
@@ -39,20 +39,20 @@ pub trait ToastDispatcher {
 /// A high-level [`dioxus_primitives::toast::Toasts`] wrapper API
 pub struct Toasts(dioxus_primitives::toast::Toasts);
 
-impl<'a> Toasts {
-    pub fn success(&'a self, message: impl Into<String>) -> ToastBuilder<'a> {
+impl Toasts {
+    pub fn success(&self, message: impl Into<String>) -> ToastBuilder<'_> {
         ToastBuilder::new(&self.0, ToastKind::Success, message)
     }
 
-    pub fn error(&'a self, message: impl Into<String>) -> ToastBuilder<'a> {
+    pub fn error(&self, message: impl Into<String>) -> ToastBuilder<'_> {
         ToastBuilder::new(&self.0, ToastKind::Error, message)
     }
 
-    pub fn warning(&'a self, message: impl Into<String>) -> ToastBuilder<'a> {
+    pub fn warning(&self, message: impl Into<String>) -> ToastBuilder<'_> {
         ToastBuilder::new(&self.0, ToastKind::Warning, message)
     }
 
-    pub fn info(&'a self, message: impl Into<String>) -> ToastBuilder<'a> {
+    pub fn info(&self, message: impl Into<String>) -> ToastBuilder<'_> {
         ToastBuilder::new(&self.0, ToastKind::Info, message)
     }
 }

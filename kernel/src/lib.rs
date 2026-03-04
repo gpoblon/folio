@@ -1,6 +1,5 @@
 pub mod lang;
 pub mod theme;
-pub use toml;
 
 #[cfg(feature = "server")]
 pub mod mail;

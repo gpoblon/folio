@@ -1,8 +1,4 @@
-mod api;
+pub mod api;
 pub mod model;
-mod ui;
-
-#[cfg(feature = "mock")]
-mod mock;
-
+pub(crate) mod ui;
 pub use ui::Article;

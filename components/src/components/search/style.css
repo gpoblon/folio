@@ -1,7 +1,7 @@
 /* Search component styles - using design tokens from app/assets
    Design tokens referenced:
-   --color-bg, --color-fg, --color-border-subtle, --color-muted,
-   --color-projects, --color-muted-fg, --radius-component, --transition-duration,
+   --color-background, --color-foreground, --color-border-muted, --color-muted,
+   --color-projects, --color-muted-foreground, --radius-component, --transition-duration,
    --font-sans
 */
 
@@ -25,10 +25,10 @@
 .search-input {
     width: 100%;
     padding: 0.625rem; /* ~10px */
-    border: 1px solid var(--color-border-subtle);
+    border: 1px solid var(--color-border-muted);
     border-radius: var(--radius-component);
     background-color: var(--color-accent);
-    color: var(--color-muted-fg);
+    color: var(--color-muted-foreground);
     font-size: 1rem;
     line-height: 1;
     outline: none;
@@ -41,7 +41,7 @@
 }
 
 .search-input::placeholder {
-    color: var(--color-muted-fg, rgba(0, 0, 0, 0.45));
+    color: var(--color-muted-foreground, rgba(0, 0, 0, 0.45));
 }
 
 /* Focus state for keyboard users */
@@ -61,7 +61,7 @@
     padding: 0;
     list-style: none;
     background-color: var(--color-accent);
-    border: 1px solid var(--color-border-subtle);
+    border: 1px solid var(--color-border-muted);
     /* remove the top border so the dropdown visually connects with the input */
     border-top: none;
     border-radius: var(--radius-component);
@@ -111,7 +111,7 @@
     cursor: pointer;
     /* stronger separator so it's visible against the muted text */
     border-bottom: 1px solid var(--color-border);
-    color: var(--color-muted-fg);
+    color: var(--color-muted-foreground);
     background: transparent;
     font-size: 0.95rem;
     transition:
@@ -132,7 +132,7 @@
 .search-suggestion:hover,
 .search-suggestion:focus-visible {
     background: var(--color-muted);
-    color: var(--color-fg);
+    color: var(--color-foreground);
     outline: none;
 }
 
@@ -140,14 +140,14 @@
 .search-suggestion[aria-selected="true"],
 .search-suggestion[data-active="true"] {
     background: var(--color-muted);
-    color: var(--color-fg);
+    color: var(--color-foreground);
     font-weight: 500;
 }
 
 /* Disabled suggestion state */
 .search-suggestion[data-disabled="true"],
 .search-suggestion[aria-disabled="true"] {
-    color: var(--color-muted-fg);
+    color: var(--color-muted-foreground);
     cursor: not-allowed;
     opacity: 0.9;
 }

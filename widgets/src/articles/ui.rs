@@ -17,14 +17,12 @@ fn category_tree(metadata: &[ArticleMetadata]) -> Vec<String> {
             current_slug = parent;
         }
     }
-    let mut categories: Vec<String> = categories.into_iter().collect();
-    categories.sort();
-    categories
+    categories.into_iter().collect()
 }
 
 #[component]
 pub fn ArticleGrid() -> Element {
-    let article_list_metadata = use_loader(async move || super::api::articles().await)?;
+    let article_list_metadata = use_loader(async move || entities::article::api::articles().await)?;
 
     // selected category
     let search_query = use_signal(|| String::from("/"));
@@ -44,8 +42,8 @@ pub fn ArticleGrid() -> Element {
     rsx! {
         div {
             div {
-                class: "md:flex md:w-5xl pb-8",
-                h1 { class: "text-projects grow", "ARTICLES" }
+                class: "flex justify-between w-5xl mb-12",
+                h1 { class: "text-knowledge", "ARTICLES" }
                 components::search::SearchBar {
                     query: search_query,
                     suggestions: suggestions(),
@@ -70,20 +68,22 @@ fn ArticlePreview(meta: ArticleMetadata) -> Element {
         .map(|date| date.format("%d.%m.%y").to_string());
     rsx! {
         a {
-            class: "border border-primary shadow-md px-4 py-2 flex flex-col h-full bg-accent",
-            href: "articles/{meta.slug}",
+            class: "border border-border shadow-md px-4 py-3 flex flex-col gap-3 h-full bg-accent",
+            // slug starts with `/`.
+            // ! Do not add one to avoid double slashes in url which breaks routing
+            href: "articles{meta.slug}",
             div {
-                class: "flex",
-                p { class: "text-muted grow", "{ topics }" }
+                class: "flex justify-between",
+                p { class: "text-muted-foreground", "{ topics }" }
                 if let Some(updated_at) = updated_at {
-                    p { class: "text-muted", "{ updated_at }" }
+                    p { class: "text-muted-foreground", "{ updated_at }" }
                 }
             }
-            h5 { class: "mt-0 text-left!", "{ meta.title }" }
-            p { class: "italic", "{ meta.description }" }
+            h5 { class: "text-foreground text-left", "{ meta.title }" }
+            p { class: "italic text-left grow opacity-75", "{ meta.description }" }
             div {
-                class: "mt-4 flex items-baseline justify-between",
-                p { class: "text-muted text-right grow", "{ meta.lang }" }
+                class: "flex justify-between",
+                p { class: "text-muted-foreground", "{ meta.lang }" }
                 div {
                     class: "flex gap-2",
                     for tag in meta.tags {

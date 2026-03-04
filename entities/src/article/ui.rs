@@ -1,53 +1,49 @@
-use dioxus::{fullstack::Loading, prelude::*};
+use dioxus::prelude::*;
 
-/// Renders a single article (full page)
+/// Renders the full content of a single article.
+/// Pure/dumb component: accepts data as props, performs no I/O or navigation.
 #[component]
-pub fn Article(slug: Vec<String>) -> Element {
-    let article = use_loader(move || {
-        let slug = slug.join("/");
-        async move { super::api::article(slug).await }
-    });
-    let nav = use_navigator();
+pub fn Article(article: super::model::Article) -> Element {
+    let super::model::Article { metadata, content } = article;
+    let super::model::ArticleMetadata {
+        title,
+        description,
+        slug,
+        created,
+        modified,
+        ..
+    } = metadata;
 
-    match article {
-        // The request finished, but the article was not found
-        Err(Loading::Failed(_)) => {
-            if nav.can_go_back() {
-                nav.go_back();
-            } else {
-                nav.push("/articles");
-            }
-            rsx! { div { "Redirecting..." } }
-        }
-        // Still pending, bubble up the suspense
-        Err(Loading::Pending(pending)) => Err(Loading::Pending(pending).into()),
-        // Request finished successfully
-        Ok(article) => {
-            let super::model::Article { metadata, content } = article();
-            let (topics, _) = metadata.slug.rsplit_once("/").unwrap_or(("/", ""));
-            let created_at = metadata
-                .created
-                .map(|date| date.format("%b %d, %Y").to_string());
-            let updated_at = metadata
-                .modified
-                .map(|date| date.format("%b %d, %Y").to_string());
+    let (topics, _) = slug.rsplit_once('/').unwrap_or(("/", ""));
+    let created_at = created.map(|date| date.format("%b %d, %Y").to_string());
+    let updated_at = modified.map(|date| date.format("%b %d, %Y").to_string());
 
-            rsx! {
-                h1 { class: "text-projects", "{ metadata.title }" }
-                p { class: "italic text-muted text-lg", "{ metadata.description }" }
+    // Assume an average silent reading speed of 200 WPM.
+    // A word is avg 5 chars + 1 space.
+    // 200 * 6 = 1200 chars per minute
+    let average_reading_time_as_minutes = content.len() / 1200;
+
+    rsx! {
+        div {
+            class: "space-y-8",
+            h1 { class: "text-knowledge", "{title}" }
+            p { class: "italic text-lg", "{description}" }
+            div {
+                class: "flex items-baseline justify-between text-muted-foreground",
+                p { class: "text-lg", "{topics}" }
+                p { "{average_reading_time_as_minutes} min read" }
                 div {
-                    class: "flex",
-                    p { class: "text-muted text-lg grow", "{ topics }" }
+                    class: "flex gap-1",
                     if let Some(created_at) = created_at {
-                        p { class: "text-muted", "{ created_at }" }
+                        p { class: "", "{created_at}" }
                     }
                     if let Some(updated_at) = updated_at {
-                        p { class: "text-muted pl-1 italic", "• Updated { updated_at }" }
+                        p { "• Updated {updated_at}" }
                     }
                 }
-                components::Separator { class: "py-4" }
-                components::Markdown { content }
             }
+            components::Separator { class: "py-4" }
+            components::Markdown { content }
         }
     }
 }

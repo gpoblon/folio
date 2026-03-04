@@ -111,7 +111,7 @@ impl ArticleStore {
                 lang: seed.lang,
                 tags: seed.tags.iter().map(|s| s.to_string()).collect(),
                 state: State::Published,
-                expertise: Expertise::Knowedgeable,
+                expertise: Expertise::Knowledgeable,
                 slug: seed.slug.to_string(),
                 created: seed
                     .created_at

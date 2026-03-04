@@ -13,7 +13,7 @@ fn Layout() -> Element {
             SuspenseBoundary {
                 // TODO: Implement a loading spinner or a more sophisticated loading indicator.
                 fallback: |_| rsx! {
-                    div { class: "flex justify-center items-center h-full", "Loading..." }
+                    div { class: "block justify-center items-center h-full", "Loading..." }
                 },
                 main { class: "flex-1 flex flex-col", Outlet::<Route> {} }
             }
