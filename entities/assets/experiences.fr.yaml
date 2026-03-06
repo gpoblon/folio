@@ -1,0 +1,74 @@
+jobs:
+  - title: "Responsable pôles Formations et SI"
+    organization: "42 Angoulême"
+    start_date: "août 2021"
+    end_date: "fév. 2026"
+    location: "Angoulême, France"
+    focus: "Rôle transverse : relationnel, opérationnel & stratégique"
+    overview: "Lancement et développement du campus de sa création à son échelle actuelle : 592 étudiants et plus de 30 entreprises partenaires."
+    achievements:
+      - description: "Développement et gestion de projets et produit"
+        sub:
+          - description: "Ownership end-to-end du cycle de vie d'une plateforme pédagogique en production, utilisée par l'ensemble des étudiants, candidats, et le personnel encadrant :"
+            sub:
+              - description: "Conception de l'architecture, développement, et lead technique de la genèse à la mise en production et maintenance d'une application cross-platform (web, mobile, desktop) unifiée au sein d'une codebase de 70k LoC en Rust Full Stack (Axum/Dioxus/Tailwind) reposant sur une architecture DDD en couches servant un frontend MVC."
+              - description: "Direction de la stratégie produit et de l'exécution : définition de la roadmap et des fonctionnalités, gestion du backlog et management de l'équipe."
+              - description: "Fonctionnalités : éditeur de formulaires, système de tickets, scheduler, outil de sélection, hub de ressources, livret & projection pédagogique, automatisation, ..."
+              - description: "Conception d'une librairie de composants UI cross-platform open-source (Rust/Dioxus)."
+                link: "https://github.com/42Angouleme/dioxus-tw-components"
+              - description: "Pilotage du développement d'une librairie éducative open source (Python/LangChain/embarqué) et organisation d'ateliers d'initiation à la programmation et à l'IA."
+                link: "https://github.com/42Angouleme/pybot"
+      - description: "Relations"
+        sub:
+          - description: "Interface entre le campus et le tissu tech régional (des startups aux ETI et Grandes Entreprises) ainsi que les acteurs publics."
+          - description: "Échanges et entretien de relations de confiance avec les dirigeants et les équipes opérationnelles alimentant recrutements et co-construction de partenariats."
+          - description: "Réalisation d'introductions techniques et de présentations pédagogiques à des audiences variées, réunissant jusqu'à 150 personnes (principalement en français)."
+      - description: "Gestion opérationnelle du campus"
+        sub:
+          - description: "Évaluation et recrutement individuel de l'ensemble des étudiants parmi des milliers de candidats sur la base d'une immersion intensive de 26 jours dans nos locaux."
+          - description: "Recrutement, mentorat et management d'une équipe de 4 juniors (pédagogie & IT)."
+          - description: "Accompagnement pédagogique, professionnel et entrepreneurial des étudiants, individuellement comme collectivement."
+
+  - title: "Ingénieur logiciel"
+    organization: "SAS Normation (Rudder)"
+    start_date: "déc. 2019"
+    end_date: "mars 2021"
+    location: "Paris, France"
+    focus: "Développement en Rust de rudder-lang"
+    overview: "Un langage déclaratif d'infrastructure as code de gestion de configuration."
+    achievements:
+      - description: "Développement open source du compilateur (lexer, parser, AST, analyse sémantique, transpiler), en Rust."
+        link: "https://github.com/Normation/rudder/tree/branches/rudder/6.2/rudder-lang"
+      - description: "Rédaction des tests unitaires et d'intégration suivant les concepts du DDD."
+      - description: "Rédaction de la documentation technique et utilisateur, publication d'un article."
+        link: "https://www.rudder.io/blog/rudder-lang-introduction/"
+      - description: "Gestion et priorisation du backlog."
+
+  - title: "Développeur web fullstack"
+    organization: "uRehab"
+    start_date: "sep. 2017"
+    end_date: "jan. 2018"
+    location: "Paris, France"
+    focus: "Stage, solutions conversationnelles (chatbots)"
+    achievements:
+      - description: "Conception et développement des interfaces Frontend (React)."
+      - description: "Développement API, de la logique conversationnelle (NodeJS) et design BDD (MongoDB)."
+
+education:
+  - title: "42 Paris - Architecte en technologie numérique"
+    organization: "42"
+    start_date: "2016"
+    end_date: "2020"
+    location: "Paris, France"
+    focus: "Formation de développeur. Pédagogie par projet et pair à pair"
+    overview: "(eq. bac+5)"
+    achievements:
+      - description: "Ingénierie système, web, rendu, sécurité. Principalement :  Unix/C/C++/JS/Rust."
+      - description: "Primé lors de hackathons : Société Générale, SexTechLab, 42Startup."
+
+  - title: "Licence de droit privé - Spécialité droit des affaires"
+    organization: "Université de Bourgogne"
+    start_date: "2012"
+    end_date: "2016"
+    location: "Dijon, France"
+    focus: "Ces années ont façonné ma capacité de travail, ma rigueur et mon raisonnement"

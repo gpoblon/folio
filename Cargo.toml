@@ -39,7 +39,6 @@ serde = { version = "1", features = ["derive"] }
 strum = { version = "0.27", features = ["derive"] }
 anyhow = { version = "1.0" }
 serde-saphyr = "0.0.19"
-toml = "1"
 
 [profile.wasm-dev]
 inherits = "dev"

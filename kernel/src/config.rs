@@ -44,7 +44,7 @@ pub struct GitConfig {
 impl Config {
     fn load_from_env_file() -> anyhow::Result<Self> {
         let content = std::fs::read_to_string(".env")?;
-        let config: Config = toml::from_str(&content)?;
+        let config: Config = serde_saphyr::from_str(&content)?;
         Ok(config)
     }
 
@@ -60,20 +60,20 @@ impl Config {
 
     fn env_example() -> &'static str {
         r#"
-[app]
-http_address = "127.0.0.1:8080"
-editor = "John Doe"
+app:
+  http_address: "127.0.0.1:8080"
+  editor: "John Doe"
 
-[smtp]
-username = "jdoe@example.tld"
-password = "password"
-relay = "smtp.example.tld"
-port = 587
+smtp:
+  username: "jdoe@example.tld"
+  password: "password"
+  relay: "smtp.example.tld"
+  port: 587
 
-[git]
-token = "pat_token_example"
-owner = "jdoe"
-repository = "kb"
+git:
+  token: "pat_token_example"
+  owner: "jdoe"
+  repository: "kb"
 "#
     }
 

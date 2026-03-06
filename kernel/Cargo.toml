@@ -9,7 +9,7 @@ dioxus-i18n = { version = "0.5.1" }
 strum.workspace = true
 serde.workspace = true
 anyhow.workspace = true
-toml.workspace = true
+serde-saphyr.workspace = true
 
 thiserror = "2.0.18"
 bon = "3.8.2"

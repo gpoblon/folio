@@ -12,7 +12,7 @@ kernel.workspace = true
 
 dioxus = { workspace = true }
 strum.workspace = true
-toml.workspace = true
+
 serde.workspace = true
 dioxus-html = { version = "0.7.3", features = ["serialize"]}
 
