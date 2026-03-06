@@ -10,4 +10,7 @@ pub mod config;
 #[cfg(feature = "server")]
 pub mod git;
 
+#[cfg(feature = "server")]
+pub mod resources;
+
 pub use timeflow::prelude::DateTime;

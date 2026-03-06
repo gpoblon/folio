@@ -7,6 +7,7 @@ pub struct GitClient {
     client: octocrab::Octocrab,
     owner: SecretString,
     repository: SecretString,
+    branch: String,
 }
 
 impl GitClient {
@@ -18,6 +19,7 @@ impl GitClient {
             client,
             owner: config.owner,
             repository: config.repository,
+            branch: config.branch,
         })
     }
 
@@ -45,7 +47,7 @@ impl GitClient {
                 self.repository.expose_secret().to_owned(),
             )
             .download_tarball(octocrab::params::repos::Reference::Branch(
-                "main".to_owned(),
+                self.branch.clone(),
             ))
             .await?
             .into_body()

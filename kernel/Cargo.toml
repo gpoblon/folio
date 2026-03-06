@@ -23,6 +23,8 @@ tar = { version = "0.4.44", optional = true }
 flate2 = { version = "1.1.9", optional = true }
 http-body-util = { version = "0.1.3", optional = true }
 tokio = { version = "1.34.0", features = ["full"], optional = true }
+axum = { version = "0.8", optional = true }
+mime_guess = { version = "2", optional = true }
 
 [features]
-server = ["dioxus/server", "dep:lettre", "dep:secrecy", "dep:octocrab", "dep:tar", "dep:flate2", "dep:http-body-util", "dep:tokio"]
+server = ["dioxus/server", "dep:lettre", "dep:secrecy", "dep:octocrab", "dep:tar", "dep:flate2", "dep:http-body-util", "dep:tokio", "dep:axum", "dep:mime_guess"]

@@ -35,6 +35,8 @@ pub struct GitConfig {
     pub(crate) owner: secrecy::SecretString,
     /// Name of the repository
     pub(crate) repository: secrecy::SecretString,
+    /// Branch to use for the repository
+    pub(crate) branch: String,
     // TODO Webhook secret
     // webhook_secret: secrecy::SecretString,
 }

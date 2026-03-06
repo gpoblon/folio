@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
 
+use super::model::ArticleMetadata;
+
 /// Renders the full content of a single article.
 /// Pure/dumb component: accepts data as props, performs no I/O or navigation.
 #[component]
@@ -44,6 +46,44 @@ pub fn Article(article: super::model::Article) -> Element {
             }
             components::Separator { class: "py-4" }
             components::Markdown { content }
+        }
+    }
+}
+
+/// A single article preview card.
+/// Pure/dumb component: accepts data as props, performs no I/O.
+#[component]
+pub fn ArticlePreview(meta: ArticleMetadata) -> Element {
+    let (topics, _) = meta.slug.rsplit_once('/').unwrap_or(("/", ""));
+    let updated_at = meta
+        .modified
+        .map(|date| date.format("%d.%m.%y").to_string());
+    rsx! {
+        a {
+            class: "border border-border shadow-md px-4 py-3 flex flex-col gap-3 h-full bg-accent",
+            href: "/articles/{meta.slug}",
+            div {
+                class: "flex justify-between",
+                p { class: "text-muted-foreground", "{topics}" }
+                if let Some(updated_at) = updated_at {
+                    p { class: "text-muted-foreground", "{updated_at}" }
+                }
+            }
+            h5 { class: "text-foreground text-left", "{meta.title}" }
+            p { class: "italic text-left grow opacity-75", "{meta.description}" }
+            div {
+                class: "flex justify-between",
+                p { class: "text-muted-foreground", "{meta.lang}" }
+                div {
+                    class: "flex gap-2",
+                    for tag in meta.tags {
+                        components::badge::Badge {
+                            variant: components::badge::BadgeVariant::Outline,
+                            "{tag}"
+                        }
+                    }
+                }
+            }
         }
     }
 }

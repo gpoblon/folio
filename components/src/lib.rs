@@ -9,10 +9,12 @@ pub use components::search;
 pub use components::separator::*;
 pub use components::toast;
 
+mod markdown;
 pub mod progress_bar;
 pub mod svg;
+pub use markdown::Markdown;
 
-pub use dioxus_tw_components::{Icon, Icons, Markdown};
+pub use dioxus_tw_components::{Icon, Icons};
 
 use dioxus::prelude::*;
 

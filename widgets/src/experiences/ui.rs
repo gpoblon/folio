@@ -12,14 +12,14 @@ pub fn Experiences() -> Element {
             ul {
                 class: "experiences-list",
                 for experience in &experiences.jobs {
-                    features::experience::Experience { experience: experience.clone() }
+                    entities::experience::Experience { experience: experience.clone() }
                 }
             }
             h1 { class: "text-experience text-left pt-22 pb-12", { t!("experiences_education") } }
             ul {
                 class: "experiences-list",
                 for experience in &experiences.education {
-                    features::experience::Experience { experience: experience.clone() }
+                    entities::experience::Experience { experience: experience.clone() }
                 }
             }
             features::resume::DownloadResume { class: "mt-22" }

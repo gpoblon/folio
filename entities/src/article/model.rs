@@ -12,7 +12,7 @@ use std::{
 };
 
 /// Used at the top level to store all articles
-/// Map<Title, Article>
+/// Map<Slug, Article>
 #[derive(Default, Debug, Clone)]
 pub struct ArticleStore(pub Arc<RwLock<HashMap<String, Article>>>);
 
@@ -75,7 +75,7 @@ impl Article {
             if md_trimmed.is_empty() {
                 return Err(anyhow!("Empty markdown content"));
             }
-            md_trimmed.to_owned()
+            md_trimmed.to_string()
         };
         let metadata = ArticleMetadata::new(path, s_yaml)?;
 
@@ -97,7 +97,8 @@ pub struct ArticleMetadata {
     pub state: State,
     #[serde(default)]
     pub expertise: Expertise,
-    /// Slug is actually the path: e.g. "/IT/dev/lang/rust/intro.md" or "science/psychology/pathology/autism.md"
+    /// Slug is the repo-relative path used as URL segment under `/articles/`,
+    /// e.g. `IT/architecture.md` or `science/psychology/autism.md`.
     #[serde(default)]
     pub slug: String,
     pub created: Option<kernel::DateTime>,

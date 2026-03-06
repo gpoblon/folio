@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
-use entities::experience::model;
 use kernel::lang::t;
+
+use super::model;
 
 #[component]
 pub fn Experience(experience: model::Experience) -> Element {
@@ -19,9 +20,9 @@ pub fn Experience(experience: model::Experience) -> Element {
                         span { { t!("to") } }
                         span { " {experience.end_date}" }
                     }
-                    span { class: "separator", " • " }
+                    span { " • " }
                     span { "{experience.location}" }
-                    span { class: "separator", " • " }
+                    span { " • " }
                     span { "{experience.organization}" }
                 }
             }
