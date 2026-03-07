@@ -8,41 +8,13 @@ use super::rewrite::{
     rewrite_image_url, rewrite_link_url_with_anchor, rewrite_wikilink_url_with_anchor,
 };
 
-/// Build the comrak [`Options`] shared by both parsing and rendering.
-fn comrak_options<'c>() -> Options<'c> {
-    let mut options = Options::default();
-    options.extension.autolink = true;
-    options.extension.wikilinks_title_after_pipe = true;
-    options.extension.alerts = true;
-    options.extension.footnotes = true;
-    options.extension.highlight = true;
-    options.extension.inline_footnotes = true;
-    options.extension.spoiler = true;
-    options.extension.table = true;
-    options.extension.description_lists = true;
-    options.extension.header_ids = Some(String::new());
-    options.extension.shortcodes = true;
-    options.extension.math_code = true;
-    options.extension.tasklist = true;
-    options.extension.underline = true;
-    options.extension.strikethrough = true;
-    options.parse.tasklist_in_table = true;
-    options.render.figure_with_caption = true;
-    options.render.r#unsafe = true;
-    options
-}
-
 /// Parse markdown into a comrak AST, rewrite all relative links / images /
-/// anchors in-place, then render to HTML.
+/// anchors into absolute URLs that work correctly in a web context.
 ///
 /// Obsidian `![[image]]` embeds are preprocessed into standard Markdown images
 /// before parsing, since comrak does not recognise that syntax natively.
-///
-/// This approach is more robust than regex-based rewriting because comrak's
-/// own parser already understands code blocks, inline code, etc. — nodes
-/// inside those are never `Link` / `Image` / `WikiLink` and are therefore
-/// naturally skipped.
 pub fn string_to_html(content: String) -> String {
+    // Preprocess wikilink images before parsing as comrak does not support them natively.
     let content = preprocess_wikilink_images(&content);
     let options = comrak_options();
     let arena = Arena::new();
@@ -73,6 +45,31 @@ pub fn string_to_html(content: String) -> String {
     let mut html = String::new();
     format_html(root, &options, &mut html).expect("comrak HTML formatting failed");
     html
+}
+
+/// Build the comrak [`Options`] shared by both parsing and rendering.
+fn comrak_options<'c>() -> Options<'c> {
+    let mut options = Options::default();
+    options.extension.autolink = true;
+    options.extension.wikilinks_title_after_pipe = true;
+    options.extension.alerts = true;
+    options.extension.footnotes = true;
+    options.extension.multiline_block_quotes = true;
+    options.extension.highlight = true;
+    options.extension.inline_footnotes = true;
+    options.extension.spoiler = true;
+    options.extension.table = true;
+    options.extension.description_lists = true;
+    options.extension.header_ids = Some(String::new());
+    options.extension.shortcodes = true;
+    options.extension.math_code = true;
+    options.extension.tasklist = true;
+    options.extension.underline = true;
+    options.extension.strikethrough = true;
+    options.parse.tasklist_in_table = true;
+    options.render.figure_with_caption = true;
+    options.render.r#unsafe = true;
+    options
 }
 
 #[cfg(test)]

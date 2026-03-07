@@ -1,5 +1,6 @@
 [package]
 name = "app"
+description = "Folio application. Top layer. Server and client runtimes"
 version = "0.1.0"
 edition = "2024"
 

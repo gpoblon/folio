@@ -1,5 +1,6 @@
 [package]
 name = "components"
+description = "Core UI: business-agnostic, logic-free, reusable across layers"
 version = "0.1.0"
 edition = "2024"
 

@@ -7,6 +7,7 @@ connect = CONNECT
 # Widget: footer
 footer_made_by = Made by
 footer_using = using
+footer_source_code = source code (github)
 tos_route = Terms of Use
 
 home_welcome = Welcome to my world.

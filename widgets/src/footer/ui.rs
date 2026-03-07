@@ -20,6 +20,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                         "gpoblon"
                     }
                     span { {t!("footer_using")} }
+                    span { "🦀 Rust &"}
                     img { class: "inline h-4", src: DIOXUS_LOGO }
                     a {
                         class: "underline hover:opacity-80 link",
@@ -27,6 +28,14 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                         target: "_blank",
                         rel: "noopener noreferrer",
                         "Dioxus"
+                    }
+                    span { "·" }
+                    a {
+                        class: "underline hover:opacity-80 link",
+                        href: "https://github.com/gpoblon/folio",
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                        {t!("footer_source_code")}
                     }
                     span { "·" }
                     Link {

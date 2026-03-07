@@ -1,5 +1,6 @@
 [package]
 name = "widgets"
+description = "Business-free composition of lower layers UI components."
 version = "0.1.0"
 edition = "2024"
 

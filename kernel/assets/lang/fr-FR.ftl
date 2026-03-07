@@ -7,6 +7,7 @@ connect = CONTACT
 # footer
 footer_made_by = Développé par
 footer_using = avec
+footer_source_code = code source (github)
 tos_route = Mentions légales & CGU
 
 home_welcome = Bienvenue dans mon univers.

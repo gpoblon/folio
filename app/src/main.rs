@@ -6,7 +6,6 @@ pub mod router;
 
 const FAVICON: Asset = asset!("/assets/favicon.ico");
 const TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
-const _: Asset = asset!("/assets/test.png");
 
 #[component]
 fn App() -> Element {
