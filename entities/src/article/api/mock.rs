@@ -256,7 +256,7 @@ console.log('Something', something);
                 title: seed.title.to_string(),
                 description: seed.description.to_string(),
                 lang: seed.lang,
-                tags: seed.tags.iter().map(|s| s.to_string()).collect(),
+                tags: seed.tags.into_iter().map(|s| (*s).into()).collect(),
                 state: State::Published,
                 expertise: Expertise::Knowledgeable,
                 slug: seed.slug.to_string(),

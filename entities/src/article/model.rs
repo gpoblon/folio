@@ -92,7 +92,7 @@ pub struct ArticleMetadata {
     pub description: String,
     #[serde(default)]
     pub lang: kernel::lang::Lang,
-    pub tags: Vec<String>,
+    pub tags: Vec<Intent>,
     #[serde(default)]
     pub state: State,
     #[serde(default)]
@@ -168,4 +168,32 @@ pub enum State {
     #[default]
     #[serde(other)]
     Undefined,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, strum::Display)]
+#[serde(rename_all = "kebab-case")]
+pub enum Intent {
+    HandsOn,
+    Concept,
+    DeepDive,
+    Review,
+    CaseStudy,
+    Reference,
+    Essay,
+    #[serde(other)]
+    Undefined,
+}
+impl From<&str> for Intent {
+    fn from(value: &str) -> Self {
+        match value {
+            "hands-on" => Intent::HandsOn,
+            "concept" => Intent::Concept,
+            "deep-dive" => Intent::DeepDive,
+            "review" => Intent::Review,
+            "case-study" => Intent::CaseStudy,
+            "reference" => Intent::Reference,
+            "essay" => Intent::Essay,
+            _ => Intent::Undefined,
+        }
+    }
 }

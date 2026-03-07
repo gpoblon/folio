@@ -5,3 +5,4 @@ pub mod articles;
 pub mod experiences;
 pub mod footer;
 pub mod nav;
+pub mod projects;
