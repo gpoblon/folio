@@ -30,7 +30,7 @@ impl From<&RepositoryContent> for Resources {
 /// `resources/images/photo.png` in the shared map.
 ///
 /// This means the resources must be stored in the `resources/` vault root directory,
-/// And md files must reference images using vault-relative paths (e.g. `resources/images/photo.png`).
+/// And md files must reference images using vault-relative (or absolute) paths (e.g. `resources/images/photo.png`).
 pub async fn serve_vault_resource(
     Path(path): Path<String>,
     Extension(resources): Extension<Resources>,

@@ -4,36 +4,28 @@ use dioxus::{fullstack::Loading, prelude::*};
 
 #[component]
 pub fn ProjectGrid() -> Element {
+    // Keep it in case we want to add a search bar back
     let search_query = use_signal(|| String::new());
 
     let project_list_metadata =
-        use_loader(move || async { entities::article::api::articles().await });
+        use_loader(move || async { entities::project::api::projects().await });
 
     rsx! {
         div {
+            ProjectGridHeader { search_query }
             match project_list_metadata {
-                Err(Loading::Pending(_)) => {
-                    rsx! {
-                        ArticleGridHeader { search_query, suggestions: vec![] }
-                        skeleton::ArticleGridSkeleton {}
-                    }
-                }
+                Err(Loading::Pending(_)) => rsx! {},
                 Err(Loading::Failed(_)) => {
                     rsx! {
-                        ArticleGridHeader { search_query, suggestions: vec![] }
                         div {
                             class: "text-red-500",
-                            "Failed to load articles"
+                            "Failed to load projects"
                         }
                     }
                 }
                 Ok(metadata) => {
                     rsx! {
-                        ArticleGridHeader {
-                            search_query,
-                            suggestions: features::articles::category_tree(&metadata()),
-                        }
-                        features::articles::FilteredArticleGrid {
+                        features::projects::FilteredProjectGrid {
                             metadata: metadata(),
                             search_query,
                         }
@@ -45,18 +37,18 @@ pub fn ProjectGrid() -> Element {
 }
 
 /// Header row: always visible regardless of loading state.
-/// Owns the search bar so its input is never destroyed on re-render.
 #[component]
-fn ArticleGridHeader(search_query: Signal<String>, suggestions: Vec<String>) -> Element {
+fn ProjectGridHeader(search_query: Signal<String>) -> Element {
     rsx! {
         div {
             class: "flex justify-between w-5xl mb-12",
-            h1 { class: "text-knowledge", "ARTICLES" }
-            components::search::SearchBar {
-                query: search_query,
-                suggestions,
-                placeholder: "Search for a category".to_string()
-            }
+            h1 { class: "text-projects", "PROJECTS" }
+            // For now, search bar does not make sense for projects
+            // components::search::SearchBar {
+            //     query: search_query,
+            //     suggestions: vec![],
+            //     placeholder: "Search for a project".to_string()
+            // }
         }
     }
 }

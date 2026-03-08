@@ -5,6 +5,8 @@ use std::io::{Cursor, Read};
 use std::path::PathBuf;
 use tar::Archive;
 
+use crate::git::GitClient;
+
 /// Top-level directory in the Obsidian vault that holds binary resources (images, etc.).
 const RESOURCES_DIR: &str = "resources";
 
@@ -25,7 +27,14 @@ pub struct RepositoryContent {
 
 /// This will only work for tarballs
 impl RepositoryContent {
-    pub fn try_from_tarball(tarball_bytes: Bytes) -> anyhow::Result<Self> {
+    pub async fn fetch(client: GitClient) -> anyhow::Result<RepositoryContent> {
+        client
+            .fetch_repository_tarball()
+            .await
+            .and_then(RepositoryContent::try_from_tarball)
+    }
+
+    fn try_from_tarball(tarball_bytes: Bytes) -> anyhow::Result<Self> {
         let mut articles = HashMap::new();
         let mut resources = HashMap::new();
 

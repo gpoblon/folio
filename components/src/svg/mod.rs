@@ -18,3 +18,6 @@ pub use burger::*;
 
 mod connect;
 pub use connect::*;
+
+mod github;
+pub use github::*;

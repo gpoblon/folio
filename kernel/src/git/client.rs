@@ -55,4 +55,26 @@ impl GitClient {
             .await?
             .to_bytes())
     }
+
+    /// Fetch the default-branch README (as raw Markdown) from a GitHub repository
+    pub async fn fetch_readme(
+        &self,
+        // repository name (no url)
+        repository: String,
+        // In case the repository belongs to a different workspace
+        owner: String,
+    ) -> anyhow::Result<String> {
+        let readme_content = self
+            .client
+            .repos(owner, repository)
+            .get_readme()
+            .r#ref("main")
+            .send()
+            .await?;
+
+        match readme_content.decoded_content() {
+            Some(readme) => Ok(readme),
+            None => Err(anyhow::anyhow!("Failed to decode README content")),
+        }
+    }
 }

@@ -1,16 +1,19 @@
 //! Mock implementation of the ArticleStore trait.
 //! Useful for testing and development.
 //! Do not use in production.
-//! Simply call [`ArticleStore::mock()`] instead of
+//! Simply call [`ArticleStore::mock()`] instead of building from real markdown files.
 
 use std::{
     collections::HashMap,
     sync::{Arc, RwLock},
 };
 
-use crate::article::model::{Article, ArticleMetadata, ArticleStore, Expertise, State};
+use crate::{
+    article::model::{Article, ArticleMetadata},
+    metadata::*,
+};
 
-impl ArticleStore {
+impl super::model::ArticleStore {
     pub fn mock() -> Self {
         // A short lorem ipsum block to clone into every article's content
         const LOREM: &str = r#"Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -253,19 +256,19 @@ console.log('Something', something);
 
         for seed in seeds {
             let metadata = ArticleMetadata {
+                slug: seed.slug.to_string(),
                 title: seed.title.to_string(),
                 description: seed.description.to_string(),
                 lang: seed.lang,
-                tags: seed.tags.into_iter().map(|s| (*s).into()).collect(),
+                tags: seed.tags.iter().map(|s| (*s).into()).collect(),
                 state: State::Published,
                 expertise: Expertise::Knowledgeable,
-                slug: seed.slug.to_string(),
-                created: seed
-                    .created_at
-                    .and_then(|s| kernel::DateTime::try_from(s).ok()),
-                modified: seed
-                    .modified_at
-                    .and_then(|s| kernel::DateTime::try_from(s).ok()),
+                created: seed.created_at.and_then(|s| {
+                    chrono::NaiveDateTime::parse_from_str(s, "%Y-%m-%d %H:%M:%S").ok()
+                }),
+                modified: seed.modified_at.and_then(|s| {
+                    chrono::NaiveDateTime::parse_from_str(s, "%Y-%m-%d %H:%M:%S").ok()
+                }),
             };
 
             let article = Article {

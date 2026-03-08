@@ -24,10 +24,10 @@
    =========================================== */
 @layer base {
     :root {
-        --color-projects: #b9aae3;
-        --color-connect: #f0a8b8;
-        --color-knowledge: #9ec99e;
-        --color-experience: #c49a40;
+        --color-projects: #9f8fe0;
+        --color-connect: #d58a9f;
+        --color-knowledge: #85c285;
+        --color-experience: #d4ad58;
 
         --color-background: hsl(40, 8%, 90%);
         --color-foreground: hsl(30 12% 12%);
@@ -73,10 +73,10 @@
         --color-accent: hsl(0 0% 4%);
         --color-accent-foreground: hsl(0 0% 100%);
 
-        --color-projects: #9f8fe0;
-        --color-connect: #d58a9f;
-        --color-knowledge: #85c285;
-        --color-experience: #d4ad58;
+        --color-projects: #b9aae3;
+        --color-connect: #f0a8b8;
+        --color-knowledge: #9ec99e;
+        --color-experience: #c49a40;
 
         --color-brand-tint: color-mix(
             in oklab,
@@ -330,5 +330,21 @@
             var(--color-projects) 0%,
             var(--color-knowledge) 100%
         );
+    }
+}
+
+@layer components {
+    .link {
+        color: var(--color-projects);
+        text-decoration-line: underline;
+        text-decoration-color: var(--color-projects);
+        text-underline-offset: 2px;
+        transition-property: color, text-decoration-color;
+        transition-duration: var(--transition-duration);
+    }
+
+    .link:hover {
+        color: var(--color-foreground);
+        text-decoration-color: var(--color-foreground);
     }
 }

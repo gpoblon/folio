@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use pages::{Article, Connect, Experience, Home, Knowledge, Projects, TermsOfUse};
+use pages::{Article, Connect, Experience, Home, Knowledge, Project, Projects, TermsOfUse};
 use widgets::{
     footer::Footer,
     nav::{NavBar, Navigable},
@@ -29,6 +29,8 @@ pub enum Route {
     Home {},
     #[route("/projects")]
     Projects {},
+    #[route("/projects/:slug")]
+    Project { slug: String },
     #[route("/experience")]
     Experience {},
     #[route("/knowledge")]
@@ -52,7 +54,7 @@ impl Navigable for Route {
 
     fn color(&self) -> &'static str {
         match self {
-            Route::Projects {} => "projects",
+            Route::Projects {} | Route::Project { .. } => "projects",
             Route::Experience {} => "experience",
             Route::Knowledge {} => "knowledge",
             Route::Connect {} => "connect",
@@ -61,7 +63,7 @@ impl Navigable for Route {
     }
     fn slug(&self) -> &'static str {
         match self {
-            Route::Projects {} => "projects",
+            Route::Projects {} | Route::Project { .. } => "projects",
             Route::Experience {} => "experience",
             Route::Knowledge {} => "knowledge",
             Route::Connect {} => "connect",
@@ -71,7 +73,7 @@ impl Navigable for Route {
     fn icon(&self) -> Element {
         use components::svg;
         match self {
-            Route::Projects {} => svg::Projects(),
+            Route::Projects {} | Route::Project { .. } => svg::Projects(),
             Route::Knowledge {} => svg::Knowledge(),
             Route::Experience {} => svg::Experience(),
             Route::Connect {} => svg::Connect(),

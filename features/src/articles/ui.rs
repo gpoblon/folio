@@ -1,7 +1,6 @@
-use std::collections::BTreeSet;
-
 use dioxus::prelude::*;
-use entities::article::model::ArticleMetadata;
+use entities::{article::model::ArticleMetadata, metadata::Metadata};
+use std::collections::BTreeSet;
 
 pub fn category_tree(metadata: &[ArticleMetadata]) -> Vec<String> {
     let mut categories = BTreeSet::new();
@@ -17,12 +16,9 @@ pub fn category_tree(metadata: &[ArticleMetadata]) -> Vec<String> {
     categories.into_iter().collect()
 }
 
-/// A grid of article previews (metadata, no content) filtered by search query.
+/// A grid of previews (metadata, no content) filtered by search query.
 #[component]
-pub fn FilteredArticleGrid(
-    metadata: Vec<ArticleMetadata>,
-    search_query: Signal<String>,
-) -> Element {
+pub fn FilteredArticleGrid(metadata: Vec<Metadata>, search_query: Signal<String>) -> Element {
     let queried_meta = use_memo(move || {
         metadata
             .iter()

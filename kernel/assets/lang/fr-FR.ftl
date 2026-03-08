@@ -7,12 +7,13 @@ connect = CONTACT
 # footer
 footer_made_by = Développé par
 footer_using = avec
-footer_source_code = code source (github)
+footer_source_code = code source
 tos_route = Mentions légales & CGU
 
 home_welcome = Bienvenue dans mon univers.
 
 to = à
+projects_source_code = Code source disponible :
 
 # connect
 connect_title = Au plaisir d’échanger
@@ -28,9 +29,11 @@ connect_send_success_desc = J'y répondrai sans faute dans les jours à venir.
 connect_send_client_error = Le formulaire est invalide
 connect_send_server_error = Le message n'a pas pu être envoyé
 
+# articles
 article_list_metadata_error = Échec de la récupération des articles
 article_error = Échec de la récupération de l'article
 
+# experience
 experiences_work = EXPERIENCES PROFESSIONNELLES
 experiences_education = FORMATION
 download_cv = Télécharger mon CV
