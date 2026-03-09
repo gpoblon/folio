@@ -43,7 +43,13 @@ chrono = "0.4.44"
 
 [profile.wasm-dev]
 inherits = "dev"
-opt-level = 1
+# make wasm-bindgen faster while keeping tables to trace file:line on panic
+debug = 1
+
+# As we're running on a 9950X compilation time is not a concern,
+[profile.dev.package."*"]
+# make wasm-bindgen faster by disabling debug info (~80% speedup)
+debug = false
 
 [profile.server-dev]
 inherits = "dev"

@@ -1,18 +1,33 @@
+me = Gaëtan POBLON
+here = ici
+to = à
+
 # nav
 projects = PROJETS
-experience = PARCOURS
+experience = EXPÉRIENCE
 knowledge = ARTICLES
 connect = CONTACT
 
 # footer
 footer_made_by = Développé par
 footer_using = avec
-footer_source_code = code source
+footer_source_code = Source
 tos_route = Mentions légales & CGU
 
-home_welcome = Bienvenue dans mon univers.
+# home
+home_welcome = Bienvenue dans mon univers !
+home_identity = Développeur Logiciel installé à Niort.
+    Applications FullStack Rust cross-platform.
+    Rustacéen depuis 2019. Spectre en expansion vers l'architecture logicielle / IA
+home_knowledge = Par l'écriture, je structure mon savoir.
+    Sans IA, sans fioritures : de la réflexion à l'action, ces notes documentent mon parcours. Du signal — et mon biais !
+home_contact = La machine exécute, l'humain collabore.
+    Échange entre passionnés ; collaboration professionnelle ? La porte est ouverte, passer le pas vous appartient !
+home_projects = Bienvenue dans mon laboratoire.
+    Pas de panic, c'est safe ! Vous y trouverez une concoction de projets achevés ou en cours et quelques archives.
+home_experience = Mon parcours académique et professionnel ; et un peu de moi, histoire de prouver que je ne suis pas une IA.
+    CV accessible en téléchargement.
 
-to = à
 projects_source_code = Code source disponible :
 
 # connect
@@ -32,6 +47,7 @@ connect_send_server_error = Le message n'a pas pu être envoyé
 # articles
 article_list_metadata_error = Échec de la récupération des articles
 article_error = Échec de la récupération de l'article
+article_feedback_contact = Merci pour votre lecture, j'espère porteuse de quelque découverte et réflexion ! Une question, une remarque ou une incohérence à signaler ? La porte est ouverte, n'hésitez pas à me contacter :
 
 # experience
 experiences_work = EXPERIENCES PROFESSIONNELLES

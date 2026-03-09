@@ -38,11 +38,18 @@ fn deserialize_naive_datetime<'de, D>(deserializer: D) -> Result<Option<NaiveDat
 where
     D: Deserializer<'de>,
 {
-    let s = match Option::<String>::deserialize(deserializer)? {
-        None => return Ok(None),
-        Some(s) => s,
+    let s = match Option::<String>::deserialize(deserializer) {
+        Ok(None) => return Ok(None),
+        Ok(Some(s)) => s,
+        Err(_) => return Ok(None),
     };
-    NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S")
-        .map(Some)
-        .map_err(serde::de::Error::custom)
+    match NaiveDateTime::parse_from_str(&s, "%Y-%m-%dT%H:%M:%S")
+        .or(NaiveDateTime::parse_from_str(&s, "%Y-%m-%d %H:%M:%S"))
+    {
+        Ok(dt) => Ok(Some(dt)),
+        Err(e) => {
+            dioxus::prelude::error!("Failed to parse datetime: {} (input: {})", e, s);
+            Ok(None)
+        }
+    }
 }

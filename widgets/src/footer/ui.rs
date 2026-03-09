@@ -6,43 +6,65 @@ static DIOXUS_LOGO: Asset = asset!("/assets/dioxus.png");
 #[component]
 pub fn Footer(tos_route: NavigationTarget) -> Element {
     rsx! {
-        footer { class: "w-full border-t border-border py-2 bg-background",
-            div { class: "container center-content text-xs flex flex-wrap items-center justify-center gap-2",
-                span { class: "inline-flex items-center gap-1",
-                    span { "© 2026 Gaëtan Poblon" }
-                    div { class: "mx-1 w-4 h-4 text-knowledge", components::svg::Knowledge {} }
-                    span { {t!("footer_made_by")} }
-                    a {
-                        class: "underline hover:opacity-80 link",
-                        href: "https://github.com/gpoblon",
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        "gpoblon"
+        footer { class: "w-full border-t border-border py-4 bg-background",
+            div { class: "container center-content text-xs",
+                div { class: "flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:justify-center gap-1",
+                    // Line 1 on mobile: Copyright + logo + legal + source code link
+                    div { class: "flex items-center justify-center gap-1",
+                        span { class: "hidden sm:inline", "© 2026" }
+                        span { class: "sm:hidden", "©" }
+                        span { { t!("me") } }
+
+                        // Separator
+                        span { class: "inline sm:hidden", "·" }
+                        div { class: "hidden sm:inline w-4 h-4 text-knowledge flex-shrink-0", components::svg::Knowledge {} }
+
+                        // Legal
+                        Link {
+                            class: "underline hover:opacity-80 whitespace-nowrap",
+                            to: tos_route,
+                            rel: "noopener noreferrer",
+                            {t!("tos_route")}
+                        }
+
+                        span { class: "inline", "·" }
+
+                        // Source code
+                        a {
+                            class: "underline hover:opacity-80 link whitespace-nowrap",
+                            href: "https://github.com/gpoblon/folio",
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            span {
+                                components::svg::Github { class: "h-4 inline pr-1" }
+                                {t!("footer_source_code")}
+                            }
+                        }
                     }
-                    span { {t!("footer_using")} }
-                    span { "🦀 Rust &"}
-                    img { class: "inline h-4", src: DIOXUS_LOGO }
-                    a {
-                        class: "underline hover:opacity-80 link",
-                        href: "https://dioxus.dev",
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        "Dioxus"
-                    }
-                    span { "·" }
-                    a {
-                        class: "underline hover:opacity-80 link",
-                        href: "https://github.com/gpoblon/folio",
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        {t!("footer_source_code")}
-                    }
-                    span { "·" }
-                    Link {
-                        class: "underline hover:opacity-80",
-                        to: tos_route,
-                        rel: "noopener noreferrer",
-                        {t!("tos_route")}
+
+                    // Separators (hidden on mobile)
+                    span { class: "hidden sm:inline", "·" }
+
+                    // Line 2 on mobile: Tech stack
+                    div { class: "flex items-center justify-center gap-1",
+                        span { {t!("footer_made_by")} }
+                        a {
+                            class: "underline hover:opacity-80 link whitespace-nowrap",
+                            href: "https://github.com/gpoblon",
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            "gpoblon"
+                        }
+                        span { {t!("footer_using")} }
+                        span { "🦀 Rust &" }
+                        img { class: "inline h-4 flex-shrink-0", src: DIOXUS_LOGO }
+                        a {
+                            class: "underline hover:opacity-80 link whitespace-nowrap",
+                            href: "https://dioxus.dev",
+                            target: "_blank",
+                            rel: "noopener noreferrer",
+                            "Dioxus"
+                        }
                     }
                 }
             }

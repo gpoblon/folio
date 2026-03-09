@@ -38,6 +38,7 @@ button.dropdown-menu-trigger:focus-visible {
     min-width: fit-content;
     padding: 0.25rem;
     border-radius: var(--radius-component);
+    cursor: pointer;
     margin-top: 4px;
     animation: slideIn 0.1s ease-out;
     background-color: var(--color-background);

@@ -256,9 +256,9 @@ console.log('Something', something);
 
         for seed in seeds {
             let metadata = ArticleMetadata {
-                slug: seed.slug.to_string(),
                 title: seed.title.to_string(),
                 description: seed.description.to_string(),
+                slug: seed.slug.to_string(),
                 lang: seed.lang,
                 tags: seed.tags.iter().map(|s| (*s).into()).collect(),
                 state: State::Published,

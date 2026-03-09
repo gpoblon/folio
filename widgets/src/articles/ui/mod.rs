@@ -18,12 +18,12 @@ pub fn ArticleGrid() -> Element {
                         skeleton::ArticleGridSkeleton {}
                     }
                 }
-                Err(Loading::Failed(_)) => {
+                Err(Loading::Failed(e)) => {
                     rsx! {
                         ArticleGridHeader { search_query, suggestions: vec![] }
                         div {
                             class: "text-red-500",
-                            "Failed to load articles"
+                            "Failed to load articles: {e.error():#?}"
                         }
                     }
                 }

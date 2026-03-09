@@ -42,7 +42,7 @@ fn ProjectGridHeader(search_query: Signal<String>) -> Element {
     rsx! {
         div {
             class: "flex justify-between w-5xl mb-12",
-            h1 { class: "text-projects", "PROJECTS" }
+            h1 { class: "text-projects", { kernel::lang::t!("projects") } }
             // For now, search bar does not make sense for projects
             // components::search::SearchBar {
             //     query: search_query,

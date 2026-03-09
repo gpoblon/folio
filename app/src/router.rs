@@ -47,25 +47,25 @@ pub enum Route {
 impl Navigable for Route {
     const ITEMS: &[Self] = &[
         Route::Projects {},
-        Route::Experience {},
         Route::Knowledge {},
+        Route::Experience {},
         Route::Connect {},
     ];
 
     fn color(&self) -> &'static str {
         match self {
             Route::Projects {} | Route::Project { .. } => "projects",
+            Route::Knowledge {} | Route::Article { .. } => "knowledge",
             Route::Experience {} => "experience",
-            Route::Knowledge {} => "knowledge",
             Route::Connect {} => "connect",
-            _ => "primary",
+            _ => "foreground",
         }
     }
     fn slug(&self) -> &'static str {
         match self {
             Route::Projects {} | Route::Project { .. } => "projects",
+            Route::Knowledge {} | Route::Article { .. } => "knowledge",
             Route::Experience {} => "experience",
-            Route::Knowledge {} => "knowledge",
             Route::Connect {} => "connect",
             _ => "",
         }
@@ -74,7 +74,7 @@ impl Navigable for Route {
         use components::svg;
         match self {
             Route::Projects {} | Route::Project { .. } => svg::Projects(),
-            Route::Knowledge {} => svg::Knowledge(),
+            Route::Knowledge {} | Route::Article { .. } => svg::Knowledge(),
             Route::Experience {} => svg::Experience(),
             Route::Connect {} => svg::Connect(),
             _ => rsx! {},

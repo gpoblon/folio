@@ -8,7 +8,11 @@ pub(super) fn MobileNav<R: Navigable>(active: R) -> Element {
     rsx! {
         nav { class: "nav:hidden relative flex items-center justify-between px-6 h-18 border-b-3 border-{color} backdrop-blur",
             super::Brand {}
-            super::mobile::BurgerMenu { active }
+            div { class: "flex items-center gap-2 ml-auto",
+                features::lang::SelectLanguage {}
+                features::theme::ToggleTheme {}
+                super::mobile::BurgerMenu { active }
+            }
         }
     }
 }
@@ -17,7 +21,7 @@ pub fn BurgerMenu<R: Navigable>(active: R) -> Element {
     let mut is_open = use_signal(|| false);
     rsx! {
         button {
-            class: "nav:hidden ml-auto min-w-10 p-2 rounded-full text-muted-foreground",
+            class: "nav:hidden min-w-10 p-2 rounded-full text-muted-foreground",
             aria_label: if is_open() { "Close mobile menu" } else { "Open mobile menu" },
             aria_expanded: is_open(),
             aria_controls: "mobile-menu",
@@ -46,10 +50,7 @@ fn MobileNavMenu<R: Navigable>(active: R, onclose: EventHandler<()>) -> Element 
                     }
                 }
             }
-            div { class: "flex items-center space-x-8 justify-end pr-8",
-                features::lang::SelectLanguage {}
-                features::theme::ToggleTheme {}
-            }
+
         }
     }
 }
