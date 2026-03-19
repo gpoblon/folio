@@ -53,3 +53,10 @@ article_feedback_contact = Thanks for reading. I hope it has sparked some new th
 experiences_work = WORK EXPERIENCE
 experiences_education = EDUCATION
 download_cv = Download my resume
+
+# callout
+articles_coming_soon_title = Deciphering my own notes
+articles_coming_soon_description = I have a backlog of drafts waiting to be polished into something readable. Check back soon!
+
+projects_coming_soon_title = Alchemy simmering...
+projects_coming_soon_description = Actively translating the code and docs into an enjoyable reading experience. Almost there!

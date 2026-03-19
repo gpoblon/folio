@@ -2,15 +2,9 @@
 
 pub mod components;
 
-pub use components::badge;
-pub use components::button::*;
-pub use components::dropdown_menu::*;
-pub use components::search;
-pub use components::separator::*;
-pub use components::toast;
+pub use components::*;
 
 mod markdown;
-pub mod progress_bar;
 pub mod svg;
 pub use markdown::Markdown;
 

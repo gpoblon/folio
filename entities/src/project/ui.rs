@@ -1,7 +1,9 @@
 use dioxus::prelude::*;
 
 /// Renders the full content of a single project.
-/// The content is the repository's README rendered as markdown.
+/// The content is composed of:
+/// - Metadata + an introduction from entities/assets/projects.yaml
+/// - The repository's README rendered as markdown
 #[component]
 pub fn Project(project: super::model::Project) -> Element {
     let super::model::Project {

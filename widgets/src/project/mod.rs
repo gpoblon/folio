@@ -1,3 +1,2 @@
 mod ui;
-
-pub use ui::Project;
+pub use ui::*;

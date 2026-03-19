@@ -53,3 +53,10 @@ article_feedback_contact = Merci pour votre lecture, j'espère porteuse de quelq
 experiences_work = EXPERIENCES PROFESSIONNELLES
 experiences_education = FORMATION
 download_cv = Télécharger mon CV
+
+# callout
+articles_coming_soon_title = Déchiffrage de mes notes
+articles_coming_soon_description = Quelques (!) brouillons attendent sagement d'être peaufinés en voie d'une publication. Il y aura du neuf dans quelques jours.
+
+projects_coming_soon_title = Un jeu d'alchimiste...
+projects_coming_soon_description = Je travaille activement à la mutation du code et de la documentation en une expérience de lecture agréable. J'y suis presque !

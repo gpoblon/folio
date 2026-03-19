@@ -7,9 +7,9 @@ use strum::IntoEnumIterator;
 
 #[derive(Default, Debug, Clone, Copy, PartialEq, Eq, strum::EnumIter, Serialize, Deserialize)]
 pub enum Lang {
-    #[default]
     #[serde(alias = "FR", alias = "fr")]
     French,
+    #[default]
     #[serde(alias = "EN", alias = "en")]
     English,
 }

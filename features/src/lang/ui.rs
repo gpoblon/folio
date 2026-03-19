@@ -8,14 +8,14 @@ pub fn SelectLanguage() -> Element {
     let mut selected_lang = use_signal(|| current_lang);
 
     rsx! {
-        components::DropdownMenu {
+        components::dropdown::DropdownMenu {
             default_open: false,
-            components::DropdownMenuTrigger {
+            components::dropdown::DropdownMenuTrigger {
                 "{selected_lang().slug()}"
             }
-            components::DropdownMenuContent {
+            components::dropdown::DropdownMenuContent {
                 for (idx, lang) in kernel::lang::Lang::iter().enumerate() {
-                    components::DropdownMenuItem {
+                    components::dropdown::DropdownMenuItem {
                         value: lang,
                         index: idx,
                         disabled: selected_lang() == lang,

@@ -5,13 +5,14 @@ use dioxus::{fullstack::Loading, prelude::*};
 #[component]
 pub fn ProjectGrid() -> Element {
     // Keep it in case we want to add a search bar back
-    let search_query = use_signal(|| String::new());
+    let search_query = use_signal(String::new);
 
     let project_list_metadata =
         use_loader(move || async { entities::project::api::projects().await });
 
     rsx! {
         div {
+            class: "flex flex-col gap-6",
             ProjectGridHeader { search_query }
             match project_list_metadata {
                 Err(Loading::Pending(_)) => rsx! {},
@@ -25,6 +26,11 @@ pub fn ProjectGrid() -> Element {
                 }
                 Ok(metadata) => {
                     rsx! {
+                        components::Callout {
+                            variant: components::CalloutVariant::Experiment,
+                            title: kernel::lang::t!("projects_coming_soon_title"),
+                            { kernel::lang::t!("projects_coming_soon_description") }
+                        }
                         features::projects::FilteredProjectGrid {
                             metadata: metadata(),
                             search_query,
@@ -41,7 +47,7 @@ pub fn ProjectGrid() -> Element {
 fn ProjectGridHeader(search_query: Signal<String>) -> Element {
     rsx! {
         div {
-            class: "flex justify-between w-5xl mb-12",
+            class: "flex justify-between w-5xl mb-6",
             h1 { class: "text-projects", { kernel::lang::t!("projects") } }
             // For now, search bar does not make sense for projects
             // components::search::SearchBar {

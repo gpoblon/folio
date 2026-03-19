@@ -2,11 +2,6 @@ mod skeleton;
 
 use dioxus::{fullstack::Loading, prelude::*};
 
-/// Smart project widget that owns its own loading & error states.
-///
-/// FSD: widgets layer — composes entity UI with data-fetching and
-/// provides a self-contained loading skeleton so the page layer
-/// doesn't need to know about project internals.
 #[component]
 pub fn Project(slug: String) -> Element {
     rsx! {

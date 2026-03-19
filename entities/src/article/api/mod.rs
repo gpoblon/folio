@@ -1,7 +1,7 @@
 #[cfg(all(feature = "server", feature = "mock"))]
 pub mod mock;
 
-pub(self) use super::model;
+use super::model;
 
 use dioxus::prelude::*;
 

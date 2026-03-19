@@ -73,11 +73,11 @@ fn percent_decode(input: &str) -> String {
                 let mut buf = [0u8; 2];
                 buf[0] = h as u8;
                 buf[1] = l as u8;
-                if let Ok(s) = std::str::from_utf8(&buf) {
-                    if let Ok(byte) = u8::from_str_radix(s, 16) {
-                        out.push(byte as char);
-                        continue;
-                    }
+                if let Ok(s) = std::str::from_utf8(&buf)
+                    && let Ok(byte) = u8::from_str_radix(s, 16)
+                {
+                    out.push(byte as char);
+                    continue;
                 }
                 // Not a valid hex pair — emit verbatim.
                 out.push('%');

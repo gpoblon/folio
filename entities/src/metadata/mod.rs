@@ -2,6 +2,7 @@ mod enums;
 
 pub(crate) mod ui;
 pub use enums::{Expertise, Intent, State};
+pub use ui::IntentLegendIcon;
 pub use ui::MetadataHeader;
 pub use ui::MetadataPreview;
 

@@ -1,5 +1,7 @@
 use dioxus::prelude::*;
 
+use super::enums::Intent;
+
 /// Shared heading section rendered at the top of both article and project pages.
 ///
 /// Displays title, description, and a row of metadata.
@@ -23,6 +25,8 @@ pub fn MetadataHeader(
         .created
         .map(|date| date.format("%b %d, %Y").to_string());
 
+    let lang = kernel::lang::use_lang();
+
     rsx! {
         h1 { class: "{title_color}", "{meta.title}" }
         p { class: "italic text-lg", "{meta.description}" }
@@ -37,6 +41,15 @@ pub fn MetadataHeader(
                 }
             }
         }
+        div {
+            class: "flex flex-wrap items-center gap-2",
+            for tag in meta.tags.iter() {
+                components::Badge {
+                    variant: components::BadgeVariant::Outline,
+                    "{tag.label(lang)}"
+                }
+            }
+        }
     }
 }
 
@@ -45,7 +58,7 @@ pub fn MetadataHeader(
 /// Renders a uniform card with:
 /// - A top row (left slot for topic/date, right slot for date).
 /// - Title and description.
-/// - A bottom row with language badge and tag badges.
+/// - A bottom row with language badge and tag badges (right-aligned).
 ///
 /// The caller controls the link `href` and any extra top-row content via
 /// `top_left` / `top_right`.
@@ -55,6 +68,8 @@ pub fn MetadataPreview(meta: super::Metadata, href: String) -> Element {
         .modified
         .as_ref()
         .map(|date| date.format("%d.%m.%y").to_string());
+
+    let lang = kernel::lang::use_lang();
 
     rsx! {
         a {
@@ -72,20 +87,46 @@ pub fn MetadataPreview(meta: super::Metadata, href: String) -> Element {
             h5 { class: "text-foreground text-left", "{meta.title}" }
             p { class: "italic text-left grow opacity-75", "{meta.description}" }
             div {
-                class: "flex justify-between",
+                class: "flex justify-between items-center",
                 p { class: "text-muted-foreground", "{meta.lang}" }
                 div {
-                    class: "flex gap-2",
-                    for tag in meta.tags.iter().filter(|tag| !matches!(tag, crate::metadata::Intent::Other(_))) {
-                        components::badge::Badge {
-                            variant: components::badge::BadgeVariant::Outline,
-                            "{tag}"
+                    class: "flex flex-wrap items-center justify-end gap-2",
+                    for tag in meta.tags.iter() {
+                        components::Badge {
+                            variant: components::BadgeVariant::Outline,
+                            "{tag.label(lang)}"
                         }
                     }
-                    components::badge::Badge {
-                        class: "border-blue",
-                        variant: components::badge::BadgeVariant::Outline,
-                        "{meta.expertise}"
+                }
+            }
+        }
+    }
+}
+
+/// An info icon that, when hovered, shows a legend describing each [`Intent`] variant.
+#[component]
+pub fn IntentLegendIcon(lang: kernel::lang::Lang) -> Element {
+    rsx! {
+        components::tooltip::Tooltip {
+            components::tooltip::TooltipTrigger {
+                // Info icon — uses the Material Symbols icon font via dioxus-tw-components.
+                components::Icon {
+                    class: "text-xl text-muted-foreground cursor-help",
+                    icon: components::Icons::Info,
+                }
+            }
+            components::tooltip::TooltipContent {
+                side: components::tooltip::ContentSide::Top,
+                align: components::tooltip::ContentAlign::End,
+                div {
+                    class: "flex flex-col gap-2",
+                    p { class: "font-semibold text-muted-foreground uppercase tracking-wide mb-1", "TAGS" }
+                    for variant in Intent::known_variants() {
+                        div {
+                            class: "flex gap-4 items-start",
+                            span { class: "font-medium whitespace-nowrap", "{variant.label(lang)}" }
+                            span { class: "text-muted-foreground text-sm", "{variant.description(lang)}" }
+                        }
                     }
                 }
             }
