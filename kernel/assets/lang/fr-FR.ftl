@@ -3,9 +3,9 @@ here = ici
 to = à
 
 # nav
-projects = PROJETS
-experience = EXPÉRIENCE
-knowledge = ARTICLES
+projects = LAB
+experience = PARCOURS
+knowledge = BLOG
 connect = CONTACT
 
 # footer
@@ -23,7 +23,7 @@ home_knowledge = Par l'écriture, je structure mon savoir.
     Sans IA, sans fioritures : de la réflexion à l'action, ces notes documentent mon parcours. Du signal — et mon biais !
 home_contact = La machine exécute, l'humain collabore.
     Échange entre passionnés ; collaboration professionnelle ? La porte est ouverte, passer le pas vous appartient !
-home_projects = Bienvenue dans mon laboratoire.
+home_projects = Bienvenue dans le Lab.
     Pas de panic, c'est safe ! Vous y trouverez une concoction de projets achevés ou en cours et quelques archives.
 home_experience = Mon parcours académique et professionnel ; et un peu de moi, histoire de prouver que je ne suis pas une IA.
     CV accessible en téléchargement.

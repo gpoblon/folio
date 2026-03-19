@@ -1,0 +1,310 @@
+/* ==========================================================================
+   Squares — animated rotating geometry squares
+   ========================================================================== */
+
+/* --- Sized variants ----------------------------------------------------- */
+
+.sq-experience {
+    width: 78%;
+    height: 78%;
+    border: 0.5px solid var(--color-experience);
+    background: var(--color-muted);
+    opacity: 0.7;
+    animation:
+        rot-ccw-a 55s cubic-bezier(0.05, 0.8, 0.95, 0.2) infinite,
+        pulse-a 11s ease-in-out infinite;
+}
+
+.sq-projects {
+    width: 74%;
+    height: 74%;
+    border: 0.5px solid var(--color-projects);
+    background: var(--color-accent);
+    opacity: 0.4;
+    animation:
+        rot-cw-a 42s cubic-bezier(0.05, 0.9, 0.95, 0.1) infinite,
+        pulse-b 7s ease-in-out infinite;
+}
+
+.sq-outer {
+    width: 72%;
+    height: 72%;
+    border: 1px solid var(--color-projects);
+    background: linear-gradient(
+            135deg,
+            var(--color-projects),
+            var(--color-knowledge)
+        )
+        border-box;
+    opacity: 0.75;
+    animation: penduluum 28s ease-in-out infinite;
+    transform-origin: center center;
+}
+
+.sq-shrink {
+    width: 50%;
+    height: 50%;
+    transform: rotate(45deg);
+    animation: shrink-radius 4s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Rotation keyframes — sudden acceleration/deceleration
+   ========================================================================== */
+
+@keyframes rot-cw-a {
+    0% {
+        transform: rotate(0deg);
+    }
+    /* sudden burst */
+    6% {
+        transform: rotate(92deg);
+    }
+    /* stall */
+    18% {
+        transform: rotate(108deg);
+    }
+    /* crawl */
+    35% {
+        transform: rotate(178deg);
+    }
+    /* final push */
+    50% {
+        transform: rotate(270deg);
+    }
+    70% {
+        transform: rotate(335deg);
+    }
+    85% {
+        transform: rotate(355deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rot-ccw-a {
+    0% {
+        transform: rotate(0deg);
+    }
+    /* aggressive start */
+    5% {
+        transform: rotate(-98deg);
+    }
+    /* stall */
+    16% {
+        transform: rotate(-110deg);
+    }
+    /* accelerate */
+    32% {
+        transform: rotate(-180deg);
+    }
+    /* sustained push */
+    48% {
+        transform: rotate(-260deg);
+    }
+    /* final sweep */
+    68% {
+        transform: rotate(-330deg);
+    }
+    87% {
+        transform: rotate(-352deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+/* ==========================================================================
+   Penduluum / Ghibli kodama head tilt
+   Fixations at 0°, 45°, 35°, 27° with varying duration tilts
+   ========================================================================== */
+
+@keyframes penduluum {
+    /* Start at center */
+    0% {
+        transform: rotateZ(0deg);
+    }
+    /* Quick tilt right to 45° (3s duration) */
+    10% {
+        transform: rotateZ(45deg);
+    }
+    /* Fixation at 45° */
+    15% {
+        transform: rotateZ(45deg);
+    }
+    /* Tilt to 35° (2.5s duration) */
+    21% {
+        transform: rotateZ(35deg);
+    }
+    /* Fixation at 35° */
+    24% {
+        transform: rotateZ(35deg);
+    }
+    /* Snap to 27° (1.5s duration) */
+    29% {
+        transform: rotateZ(27deg);
+    }
+    /* Fixation at 27° */
+    32% {
+        transform: rotateZ(27deg);
+    }
+    /* SURPRISE: Quick reverse to -20° (2s duration, unexpected direction) */
+    38% {
+        transform: rotateZ(-20deg);
+    }
+    /* Brief pause at -20° */
+    41% {
+        transform: rotateZ(-20deg);
+    }
+    /* Recover back toward center, but overshoot left to -45° (4s duration) */
+    52% {
+        transform: rotateZ(-45deg);
+    }
+    /* Fixation at -45° */
+    57% {
+        transform: rotateZ(-45deg);
+    }
+    /* SURPRISE: Swing back right to 15° (3.5s duration, opposite direction) */
+    67% {
+        transform: rotateZ(15deg);
+    }
+    /* Brief pause */
+    70% {
+        transform: rotateZ(15deg);
+    }
+    /* Settle to -35° (2s duration) */
+    75% {
+        transform: rotateZ(-35deg);
+    }
+    /* Fixation at -35° */
+    78% {
+        transform: rotateZ(-35deg);
+    }
+    /* Final gentle return to center 0° (3s duration) */
+    87% {
+        transform: rotateZ(0deg);
+    }
+    /* Rest at center */
+    91% {
+        transform: rotateZ(0deg);
+    }
+    100% {
+        transform: rotateZ(0deg);
+    }
+}
+
+/* ==========================================================================
+   Scale pulse — A  (sq-experience, 11s)
+   Baseline 1.02, range [0.95, 1]
+   ========================================================================== */
+
+@keyframes pulse-a {
+    0%,
+    100% {
+        scale: 1.02;
+    }
+    20%,
+    28% {
+        scale: 0.98;
+    }
+    33% {
+        scale: 1;
+    }
+    39% {
+        scale: 0.96;
+    }
+    43% {
+        scale: 0.97;
+    }
+    48%,
+    62% {
+        scale: 0.95;
+    }
+    72% {
+        scale: 0.95;
+    }
+    85%,
+    90% {
+        scale: 0.97;
+    }
+}
+
+/* ==========================================================================
+   Scale pulse — B  (sq-projects, 7s)
+   Baseline 1.02, range [0.95, 1]
+   ========================================================================== */
+
+@keyframes pulse-b {
+    0%,
+    100% {
+        scale: 1.02;
+    }
+    18%,
+    25% {
+        scale: 0.97;
+    }
+    30% {
+        scale: 1;
+    }
+    37% {
+        scale: 0.95;
+    }
+    41% {
+        scale: 0.96;
+    }
+    46%,
+    60% {
+        scale: 0.95;
+    }
+    70% {
+        scale: 0.95;
+    }
+    83%,
+    88% {
+        scale: 0.99;
+    }
+}
+
+/* ==========================================================================
+   Shrink-radius — original, strictly untouched (sq-shrink)
+   ========================================================================== */
+
+@keyframes shrink-radius {
+    0%,
+    100% {
+        scale: 1;
+    }
+    26%,
+    32% {
+        scale: 0.8;
+    }
+    36% {
+        scale: 0.95;
+    }
+    42% {
+        scale: 0.7;
+    }
+    45% {
+        scale: 0.85;
+    }
+    49%,
+    66% {
+        scale: 0.8;
+    }
+    75% {
+        scale: 0;
+    }
+    88%,
+    92% {
+        scale: 0.8;
+    }
+}
+
+/* --- Reduced motion ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    [class*="sq-"] {
+        animation-duration: 0s !important;
+    }
+}

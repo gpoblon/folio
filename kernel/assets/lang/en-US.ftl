@@ -3,9 +3,9 @@ to = to
 here = here
 
 # nav
-projects = PROJECTS
+projects = LAB
 experience = EXPERIENCE
-knowledge = KNOWLEDGE
+knowledge = BLOG
 connect = CONNECT
 
 # footer

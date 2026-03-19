@@ -1,7 +1,6 @@
 #![allow(non_snake_case)]
 
 pub mod components;
-
 pub use components::*;
 
 mod markdown;
@@ -9,6 +8,9 @@ pub mod svg;
 pub use markdown::Markdown;
 
 pub use dioxus_tw_components::{Icon, Icons};
+
+pub mod decorations;
+pub use decorations::*;
 
 use dioxus::prelude::*;
 

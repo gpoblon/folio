@@ -1,0 +1,121 @@
+/* ==========================================================================
+   Orbit — circle rings, orbital dots, spin & pulse animations
+   ========================================================================== */
+
+/* --- Circles ------------------------------------------------------------ */
+
+.circle-outer {
+    fill: none;
+    stroke: var(--color-border-muted);
+    opacity: 0.3;
+    transform-origin: 260px 260px;
+    animation: spin-cw 120s linear infinite;
+}
+
+.circle-inner {
+    fill: var(--color-accent);
+    opacity: 0.6;
+    transform-origin: 260px 260px;
+    animation:
+        spin-ccw 90s linear infinite,
+        pulse-radius 4s ease-in-out infinite;
+}
+
+.circle-fade {
+    fill: none;
+    stroke: url(#fade-gradient);
+    stroke-width: 2;
+    transform-origin: 260px 260px;
+    animation: spin-cw 140s linear infinite;
+}
+
+/* --- Orbital dots ------------------------------------------------------- */
+
+.dot {
+    fill: var(--color-border-muted);
+    transform-origin: 260px 260px;
+}
+
+.orbit-a {
+    animation: spin-chaotic-cw 65s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.orbit-b {
+    animation: spin-chaotic-ccw 90s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+.orbit-c {
+    animation: spin-cw 130s linear infinite;
+}
+.orbit-d {
+    animation: spin-chaotic-ccw 55s cubic-bezier(0.3, 0.1, 0.7, 0.9) infinite;
+}
+.orbit-e {
+    animation: spin-chaotic-cw 110s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+.orbit-f {
+    animation: spin-ccw 150s linear infinite;
+}
+
+/* --- Keyframes ---------------------------------------------------------- */
+
+@keyframes spin-cw {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin-ccw {
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes spin-chaotic-cw {
+    0%   { transform: rotate(45deg)  scale(1);    }
+    12%  { transform: rotate(55deg)  scale(1.05); }
+    25%  { transform: rotate(110deg) scale(0.96); }
+    40%  { transform: rotate(160deg) scale(1.03); }
+    55%  { transform: rotate(220deg) scale(0.97); }
+    70%  { transform: rotate(280deg) scale(1.06); }
+    85%  { transform: rotate(330deg) scale(0.98); }
+    100% { transform: rotate(360deg) scale(1);    }
+}
+
+@keyframes spin-chaotic-ccw {
+    0%   { transform: rotate(0deg)    scale(1);    }
+    10%  { transform: rotate(-50deg)  scale(1.04); }
+    28%  { transform: rotate(-120deg) scale(0.94); }
+    45%  { transform: rotate(-170deg) scale(1.06); }
+    60%  { transform: rotate(-230deg) scale(0.97); }
+    78%  { transform: rotate(-310deg) scale(1.03); }
+    100% { transform: rotate(-360deg) scale(1);    }
+}
+
+@keyframes pulse-radius {
+    0%,
+    100% {
+        r: 257px;
+    }
+    26%,
+    68% {
+        r: 225px;
+    }
+    72%,
+    75% {
+        r: 185px;
+    }
+    88%,
+    92% {
+        r: 225px;
+    }
+}
+
+/* --- Reduced motion ----------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .circle-outer,
+    .circle-inner,
+    .circle-fade,
+    [class*="orbit-"] {
+        animation-duration: 0s !important;
+    }
+}

@@ -1,8 +1,7 @@
 use dioxus::prelude::*;
 
-use super::cardinal::{Cardinal, CardinalCell};
-use super::center::CenterCell;
-use super::decorations::{Diagonals, OrbitDots};
+use entities::nav::{Cardinal, CardinalCell};
+use widgets::home_center::CenterCell;
 
 const HOME_CSS: Asset = asset!("./home.css");
 
@@ -31,8 +30,6 @@ pub fn Home() -> Element {
             }
 
             CenterCell { active }
-            Diagonals {}
-            OrbitDots {}
         }
     }
 }

@@ -9,17 +9,57 @@ struct OrbitalDot {
 }
 
 const ORBITAL_DOTS: [OrbitalDot; 6] = [
-    OrbitalDot { cx: "458", cy: "94",  r: "4",   opacity: "0.85", class: "orbit-a" },
-    OrbitalDot { cx: "516", cy: "215", r: "2.5", opacity: "0.6",  class: "orbit-b" },
-    OrbitalDot { cx: "389", cy: "484", r: "1.5", opacity: "0.45", class: "orbit-c" },
-    OrbitalDot { cx: "131", cy: "484", r: "3.5", opacity: "0.75", class: "orbit-d" },
-    OrbitalDot { cx: "15",  cy: "305", r: "2",   opacity: "0.55", class: "orbit-e" },
-    OrbitalDot { cx: "94",  cy: "62",  r: "1.2", opacity: "0.35", class: "orbit-f" },
+    OrbitalDot {
+        cx: "458",
+        cy: "94",
+        r: "4",
+        opacity: "0.85",
+        class: "orbit-a",
+    },
+    OrbitalDot {
+        cx: "516",
+        cy: "215",
+        r: "2.5",
+        opacity: "0.6",
+        class: "orbit-b",
+    },
+    OrbitalDot {
+        cx: "389",
+        cy: "484",
+        r: "1.5",
+        opacity: "0.45",
+        class: "orbit-c",
+    },
+    OrbitalDot {
+        cx: "131",
+        cy: "484",
+        r: "3.5",
+        opacity: "0.75",
+        class: "orbit-d",
+    },
+    OrbitalDot {
+        cx: "15",
+        cy: "305",
+        r: "2",
+        opacity: "0.55",
+        class: "orbit-e",
+    },
+    OrbitalDot {
+        cx: "94",
+        cy: "62",
+        r: "1.2",
+        opacity: "0.35",
+        class: "orbit-f",
+    },
 ];
+
+const ORBIT_SVG_CSS: Asset = asset!("./style.css");
 
 #[component]
 pub fn OrbitSvg() -> Element {
     rsx! {
+        document::Link { rel: "stylesheet", href: ORBIT_SVG_CSS }
+
         svg {
             class: "absolute inset-0 size-full pointer-events-none overflow-visible",
             view_box: "0 0 520 520",

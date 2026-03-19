@@ -81,25 +81,15 @@ const FAR_DOTS: [Dot; 10] = [
     },
 ];
 
-#[component]
-pub fn Diagonals() -> Element {
-    rsx! {
-        svg {
-            class: "absolute inset-0 size-full pointer-events-none z-0",
-            view_box: "0 0 100 100",
-            preserve_aspect_ratio: "none",
-            xmlns: "http://www.w3.org/2000/svg",
-            line { x1: "0", y1: "0", x2: "100", y2: "100", class: "diag-line" }
-            line { x1: "100", y1: "0", x2: "0", y2: "100", class: "diag-line" }
-        }
-    }
-}
+const ORBIT_DOTS_CSS: Asset = asset!("./orbit_dots.css");
 
 #[component]
 pub fn OrbitDots() -> Element {
     rsx! {
+        document::Link { rel: "stylesheet", href: ORBIT_DOTS_CSS }
+
         div { class: "absolute inset-0 pointer-events-none z-0 overflow-visible",
-            for (i, dot) in FAR_DOTS.iter().enumerate() {
+            for (i , dot) in FAR_DOTS.iter().enumerate() {
                 div {
                     key: "{i}",
                     class: "absolute rounded-full bg-border-muted",
