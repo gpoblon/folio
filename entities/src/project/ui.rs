@@ -50,7 +50,7 @@ pub fn Project(project: super::model::Project) -> Element {
 /// Currently used in the project list view.
 #[component]
 pub fn ProjectPreview(metadata: super::model::ProjectMetadata) -> Element {
-    let href = format!("/projects/{}", metadata.repository.slug);
+    let href = format!("/lab/{}", metadata.repository.slug);
 
     rsx! {
         crate::metadata::MetadataPreview {

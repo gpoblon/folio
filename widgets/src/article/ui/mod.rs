@@ -32,7 +32,7 @@ fn ArticleLoader(slug: Vec<String>) -> Element {
             if nav.can_go_back() {
                 nav.go_back();
             } else {
-                nav.push("/knowledge");
+                nav.push("/blog");
             }
             rsx! { div { "Redirecting..." } }
         }

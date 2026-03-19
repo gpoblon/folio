@@ -52,7 +52,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                             class: "underline hover:opacity-80 link whitespace-nowrap",
                             href: "https://github.com/gpoblon",
                             target: "_blank",
-                            rel: "noopener noreferrer",
+                            rel: "me noopener noreferrer",
                             "gpoblon"
                         }
                         span { {t!("footer_using")} }

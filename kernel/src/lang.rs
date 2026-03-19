@@ -26,6 +26,18 @@ impl Lang {
             Lang::English => "EN",
         }
     }
+    pub fn locale(&self) -> &'static str {
+        match self {
+            Lang::French => "fr_FR",
+            Lang::English => "en_US",
+        }
+    }
+    pub fn alternate(&self) -> Self {
+        match self {
+            Lang::French => Lang::English,
+            Lang::English => Lang::French,
+        }
+    }
     fn asset_content(&self) -> &'static str {
         match self {
             Lang::French => include_str!("../assets/lang/fr-FR.ftl"),

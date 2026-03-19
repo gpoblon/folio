@@ -6,7 +6,8 @@ edition = "2024"
 
 [dependencies]
 dioxus = { workspace = true }
-# kernel = { workspace = true }
+serde_json = { workspace = true }
+kernel = { workspace = true }
 
 # components are directly exposed to higher layers
 # components = { package = "dioxus-tw-components", version = "0.2" }

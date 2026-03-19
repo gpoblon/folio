@@ -16,7 +16,7 @@ edition = "2024"
 authors = ["gpoblon"]
 readme = "README.md"
 license-file = "NOTICE"
-homepage = "https://folio.gpoblon.net"
+homepage = "https://gpoblon.net"
 repository = "https://github.com/gpoblon/folio"
 
 [workspace.dependencies]
@@ -36,6 +36,7 @@ kernel = { path = "kernel" }
 # third-party packages
 dioxus = { version = "0.7.3" }
 serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1" }
 strum = { version = "0.27", features = ["derive"] }
 anyhow = { version = "1.0" }
 serde-saphyr = "0.0.19"

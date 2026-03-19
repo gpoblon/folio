@@ -1,6 +1,8 @@
+use components::Seo;
 use dioxus::prelude::*;
-
 use entities::nav::{Cardinal, CardinalCell};
+use kernel::seo::{AUTHOR_GITHUB, AUTHOR_LINKEDIN, SITE_URL};
+use serde_json::json;
 use widgets::home_center::CenterCell;
 
 const HOME_CSS: Asset = asset!("./home.css");
@@ -13,6 +15,38 @@ pub fn Home() -> Element {
     let active = hovered().unwrap_or(Cardinal::Identity);
 
     rsx! {
+        Seo {
+            title: "Gaetan POBLON — Fullstack Rust Engineer",
+            description: "Available for hire: Fullstack Rust Software Engineer based in France. Expert in Dioxus, Axum, WebAssembly, and cross-platform applications.",
+            canonical_path: "/",
+            schema_type: "Person",
+            schema_keywords: vec![
+                "Rust".into(),
+                "Dioxus".into(),
+                "WebAssembly".into(),
+                "Axum".into(),
+                "Tokio".into(),
+                "Fullstack web development".into(),
+                "Software architecture".into(),
+                "Cross-platform".into(),
+            ],
+            schema_data: json!({
+                "@id": format!("{}/#person", SITE_URL),
+                "sameAs": [
+                    AUTHOR_GITHUB,
+                    AUTHOR_LINKEDIN,
+                ],
+                "seeks": {
+                    "@type": "Demand",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Software Engineering Services",
+                        "description": "Available for full-time roles or freelance contracts in Rust backend and Dioxus fullstack development."
+                    }
+                }
+            }),
+        }
+
         document::Link { rel: "stylesheet", href: HOME_CSS }
 
         section {

@@ -12,13 +12,23 @@ pub struct SocialLinkProps {
 
 #[component]
 pub fn SocialLink(props: SocialLinkProps) -> Element {
+    // Social profile links get rel="me" so identity verification services
+    // (IndieAuth, Mastodon, Google) can confirm ownership of those profiles.
+    let rel = if props.href.starts_with("mailto:") {
+        "noopener noreferrer"
+    } else {
+        "me noopener noreferrer"
+    };
+
     rsx! {
         components::Separator {}
         a {
             class: "flex items-baseline w-full pl-8 hover:opacity-80 transition-opacity no-underline! link",
             href: props.href,
             target: if props.href.starts_with("mailto:") { "_self" } else { "_blank" },
-            rel: "noopener noreferrer",
+            rel,
+            "data-umami-event": "social-link-click",
+            "data-umami-event-label": props.label,
             span {
                 class: "text-xs text-muted-foreground",
                 {props.prefix}

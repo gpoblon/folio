@@ -12,6 +12,12 @@ pub fn TermsOfUse() -> Element {
     };
 
     rsx! {
+        components::Seo {
+            title: "Terms of Use",
+            description: "Terms of use and legal notices for gpoblon.net.",
+            canonical_path: "/terms-of-use",
+            robots: "noindex, follow",
+        }
         components::Markdown {
             class: "prose p-32 max-w-5xl text-justify mx-auto",
             content

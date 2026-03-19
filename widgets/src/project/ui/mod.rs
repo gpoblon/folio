@@ -27,7 +27,7 @@ fn ProjectLoader(slug: String) -> Element {
             if nav.can_go_back() {
                 nav.go_back();
             } else {
-                nav.push("/projects");
+                nav.push("/lab");
             }
             rsx! { div { "Redirecting..." } }
         }

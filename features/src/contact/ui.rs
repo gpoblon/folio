@@ -131,6 +131,7 @@ fn SendButton(form_state: ReadSignal<FormState>) -> Element {
                 class: "h-20 rounded-l-4xl bg-[var(--color-knowledge)]/50 ml-2 disabled:opacity-50",
                 r#type: "submit",
                 disabled: form_state().is_submitting() || form_state().is_success(),
+                "data-umami-event": "contact-form-submit",
                 div {
                     class: "flex flex-row items-center justify-center gap-2 h-full",
                     components::Icon {

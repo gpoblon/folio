@@ -27,15 +27,15 @@ pub enum Route {
     #[layout(Layout)]
     #[route("/")]
     Home {},
-    #[route("/projects")]
+    #[route("/lab")]
     Projects {},
-    #[route("/projects/:slug")]
+    #[route("/lab/:slug")]
     Project { slug: String },
     #[route("/experience")]
     Experience {},
-    #[route("/knowledge")]
+    #[route("/blog")]
     Knowledge {},
-    #[route("/connect")]
+    #[route("/contact")]
     Connect {},
     #[route("/terms-of-use")]
     TermsOfUse {},

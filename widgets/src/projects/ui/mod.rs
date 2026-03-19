@@ -26,10 +26,12 @@ pub fn ProjectGrid() -> Element {
                 }
                 Ok(metadata) => {
                     rsx! {
-                        components::Callout {
-                            variant: components::CalloutVariant::Experiment,
-                            title: kernel::lang::t!("projects_coming_soon_title"),
-                            { kernel::lang::t!("projects_coming_soon_description") }
+                        if metadata().len() < 3 {
+                            components::Callout {
+                                variant: components::CalloutVariant::Experiment,
+                                title: kernel::lang::t!("projects_coming_soon_title"),
+                                { kernel::lang::t!("projects_coming_soon_description") }
+                            }
                         }
                         features::projects::FilteredProjectGrid {
                             metadata: metadata(),

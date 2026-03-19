@@ -94,11 +94,11 @@ Doing so will automatically:
 
 ### Production deployment
 
-To deploy a new release (production) version to https://folio.gpoblon.net, ask a maintainer to run the following manual workflow: _CD (production)_.
+To deploy a new release (production) version to https://gpoblon.net, ask a maintainer to run the following manual workflow: _CD (production)_.
 
 ### Staging deployment
 
-To deploy a new staging (dev) version to https://folio.dev.gpoblon.net, ask a maintainer to run the following manual workflow: _CD (staging)_.
+To deploy a new staging (dev) version to https://gpoblon.net, ask a maintainer to run the following manual workflow: _CD (staging)_.
 
 ## 🤝 Hygiene
 

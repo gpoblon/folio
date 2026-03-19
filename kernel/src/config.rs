@@ -5,6 +5,7 @@ pub struct Config {
     pub(crate) app: AppConfig,
     pub(crate) smtp: SmtpConfig,
     pub(crate) git: GitConfig,
+    pub(crate) umami: UmamiConfig,
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
@@ -41,6 +42,11 @@ pub struct GitConfig {
     // webhook_secret: secrecy::SecretString,
 }
 
+#[derive(Debug, Clone, serde::Deserialize)]
+pub struct UmamiConfig {
+    pub(crate) website_id: SecretString,
+}
+
 impl Config {
     fn load_from_env_file() -> anyhow::Result<Self> {
         let content = std::fs::read_to_string(".env")?;
@@ -74,10 +80,17 @@ git:
   token: "pat_token_example"
   owner: "jdoe"
   repository: "kb"
+
+umami:
+  website_id: "your-umami-website-id"
 "#
     }
 
     pub fn git(&self) -> &GitConfig {
         &self.git
+    }
+
+    pub fn umami(&self) -> &UmamiConfig {
+        &self.umami
     }
 }

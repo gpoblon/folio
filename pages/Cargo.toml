@@ -15,6 +15,7 @@ dioxus = { workspace = true }
 strum.workspace = true
 
 serde.workspace = true
+serde_json.workspace = true
 dioxus-html = { version = "0.7.3", features = ["serialize"]}
 
 [features]

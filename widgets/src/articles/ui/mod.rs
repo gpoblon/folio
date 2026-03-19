@@ -35,10 +35,12 @@ pub fn ArticleGrid() -> Element {
                                 search_query,
                                 suggestions: features::articles::category_tree(&metadata()),
                             }
-                            components::Callout {
-                                variant: components::CalloutVariant::Experiment,
-                                title: kernel::lang::t!("articles_coming_soon_title"),
-                                p {{ kernel::lang::t!("articles_coming_soon_description") }}
+                            if metadata().len() < 8 {
+                                components::Callout {
+                                    variant: components::CalloutVariant::Experiment,
+                                    title: kernel::lang::t!("articles_coming_soon_title"),
+                                    p {{ kernel::lang::t!("articles_coming_soon_description") }}
+                                }
                             }
                             features::articles::FilteredArticleGrid {
                                 metadata: metadata(),

@@ -40,10 +40,10 @@ impl Cardinal {
     pub const fn route(self) -> &'static str {
         match self {
             Self::Identity => "/",
-            Self::Projects => "/projects",
+            Self::Projects => "/lab",
             Self::Experience => "/experience",
-            Self::Knowledge => "/knowledge",
-            Self::Connect => "/connect",
+            Self::Knowledge => "/blog",
+            Self::Connect => "/contact",
         }
     }
 

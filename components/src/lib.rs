@@ -4,8 +4,10 @@ pub mod components;
 pub use components::*;
 
 mod markdown;
+mod seo;
 pub mod svg;
 pub use markdown::Markdown;
+pub use seo::{Seo, SeoProps};
 
 pub use dioxus_tw_components::{Icon, Icons};
 

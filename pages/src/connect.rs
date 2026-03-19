@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 use features::social::SocialLink;
 use kernel::lang::t;
+use serde_json::json;
 
 /// Connect page component
 ///
@@ -9,6 +10,28 @@ use kernel::lang::t;
 #[component]
 pub fn Connect() -> Element {
     rsx! {
+        components::Seo {
+            title: "Connect — Contact",
+            description: "Get in touch with Gaetan POBLON. Whether for professional collaboration, project ideas, or a casual chat between enthusiasts.",
+            canonical_path: "/contact",
+            schema_type: "ContactPage",
+            schema_keywords: vec![
+                "Contact".into(),
+                "Rust".into(),
+                "Dioxus".into(),
+                "Fullstack web development".into(),
+                "Software architecture".into(),
+                "Open source".into(),
+            ],
+            schema_data: json!({
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "email": "hello@gpoblon.net",
+                    "contactType": "professional inquiries",
+                    "availableLanguage": ["English", "French"]
+                }
+            }),
+        }
         features::contact::ContactForm {
             header: rsx! {
                 div {
