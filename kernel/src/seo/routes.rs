@@ -1,17 +1,12 @@
-// ── Server-only SEO route handlers ────────────────────────────────────────────
-//
-// Pure-data constants live in `kernel::seo` (always available on every target).
-// This module re-exports them for backward compatibility and adds the Axum
-// handlers that can only run on the server.
+//! Server-only SEO route handlers.
+//!
+//! Pure-data constants live in `kernel::seo` (always available on every target).
+//! This module adds the Axum handlers that can only run on the server.
 
 use axum::http::{StatusCode, header};
 use axum::response::IntoResponse;
 
-// Re-export shared constants so existing `use kernel::seo_routes::*` keeps working.
-pub use crate::seo::{
-    AUTHOR_EMAIL, AUTHOR_NAME, DEFAULT_OG_IMAGE, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH, SITE_DESCRIPTION,
-    SITE_NAME, SITE_URL,
-};
+use super::SITE_URL;
 
 // ── robots.txt ────────────────────────────────────────────────────────────────
 
@@ -20,20 +15,32 @@ pub use crate::seo::{
 /// Tells crawlers which paths to index and points them at both the sitemap
 /// and the RSS feed.
 pub async fn robots_txt() -> impl IntoResponse {
+    let body = concat!(
+        "User-agent: *\n",
+        "Allow: /\n",
+        "Disallow: /resources/\n",
+        "Disallow: /stats/\n",
+        "\n",
+    );
+
+    // Sitemap and RSS lines need runtime interpolation of SITE_URL.
     let body = format!(
-        "User-agent: *\n\
-         Allow: /\n\
-         Disallow: /resources/\n\
-         Disallow: /stats/\n\
-         \n\
+        "{body}\
          Sitemap: {SITE_URL}/sitemap.xml\n\
          \n\
-         # RSS feed: {SITE_URL}/rss.xml\n"
+         # RSS feed\n\
+         # {SITE_URL}/rss.xml\n"
     );
 
     (
         StatusCode::OK,
-        [(header::CONTENT_TYPE, "text/plain; charset=utf-8")],
+        [
+            (header::CONTENT_TYPE, "text/plain; charset=utf-8"),
+            (
+                header::CACHE_CONTROL,
+                "public, max-age=86400, s-maxage=86400",
+            ),
+        ],
         body,
     )
 }
@@ -91,7 +98,7 @@ pub async fn umami_api_proxy(
     let client = reqwest::Client::new();
     let mut upstream = client.post("https://cloud.umami.is/api/send");
 
-    // Forward relevant headers
+    // Forward relevant headers.
     if let Some(ct) = req_headers.get(header::CONTENT_TYPE) {
         upstream = upstream.header(header::CONTENT_TYPE, ct);
     }
@@ -99,7 +106,7 @@ pub async fn umami_api_proxy(
         upstream = upstream.header(header::USER_AGENT, ua);
     }
 
-    match upstream.body(body.to_vec()).send().await {
+    match upstream.body(body).send().await {
         Ok(resp) => {
             let status =
                 StatusCode::from_u16(resp.status().as_u16()).unwrap_or(StatusCode::BAD_GATEWAY);

@@ -59,14 +59,11 @@ fn main() {
                 "/resources/{*path}",
                 get(kernel::resources::serve_vault_resource),
             )
-            .route("/robots.txt", get(kernel::seo_routes::robots_txt))
+            .route("/robots.txt", get(kernel::seo::robots_txt))
             .route("/sitemap.xml", get(seo_routes::sitemap_xml))
             .route("/rss.xml", get(seo_routes::rss_xml))
-            .route(
-                "/stats/script.js",
-                get(kernel::seo_routes::umami_script_proxy),
-            )
-            .route("/stats/api/send", post(kernel::seo_routes::umami_api_proxy))
+            .route("/stats/script.js", get(kernel::seo::umami_script_proxy))
+            .route("/stats/api/send", post(kernel::seo::umami_api_proxy))
             .layer(Extension(config))
             .layer(Extension(state.articles))
             .layer(Extension(state.resources))

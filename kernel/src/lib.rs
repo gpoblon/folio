@@ -16,7 +16,4 @@ pub mod git;
 #[cfg(feature = "server")]
 pub mod resources;
 
-#[cfg(feature = "server")]
-pub mod seo_routes;
-
 pub use timeflow::prelude::DateTime;

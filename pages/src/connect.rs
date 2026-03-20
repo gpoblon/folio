@@ -1,6 +1,7 @@
 use dioxus::prelude::*;
 use features::social::SocialLink;
 use kernel::lang::t;
+use kernel::seo::{AUTHOR_EMAIL, AUTHOR_GITHUB, AUTHOR_LINKEDIN, SITE_URL};
 use serde_json::json;
 
 /// Connect page component
@@ -11,28 +12,34 @@ use serde_json::json;
 pub fn Connect() -> Element {
     rsx! {
         components::Seo {
-            title: "Connect — Contact",
-            description: "Get in touch with Gaetan POBLON. Whether for professional collaboration, project ideas, or a casual chat between enthusiasts.",
+            title: "Contact",
+            description: "Get in touch with Gaetan POBLON. Whether for professional collaboration, freelance projects, or a casual chat between enthusiasts.",
             canonical_path: "/contact",
             schema_type: "ContactPage",
             schema_keywords: vec![
-                "Contact".into(),
-                "Software Engineering".into(),
-                "Fullstack web development".into(),
-                "Software architecture".into(),
-                "Open source".into(),
-                "Artificial Intelligence".into(),
-                "Rust".into(),
-                "Axum".into(),
-                "Dioxus".into(),
-                "SurrealDB".into()
+                "Contact Gaetan Poblon".into(),
+                "Hire Rust Developer".into(),
+                "Freelance Software Engineer".into(),
+                "Fullstack Web Development".into(),
+                "Software Architecture Consulting".into(),
+                "France".into(),
             ],
             schema_data: json!({
-                "contactPoint": {
-                    "@type": "ContactPoint",
-                    "email": "hello@gpoblon.net",
-                    "contactType": "professional inquiries",
-                    "availableLanguage": ["English", "French"]
+                "mainEntity": {
+                    "@type": "Person",
+                    "@id": format!("{}/#person", SITE_URL),
+                    "email": AUTHOR_EMAIL,
+                    "url": SITE_URL,
+                    "sameAs": [
+                        AUTHOR_GITHUB,
+                        AUTHOR_LINKEDIN,
+                    ],
+                    "contactPoint": {
+                        "@type": "ContactPoint",
+                        "email": AUTHOR_EMAIL,
+                        "contactType": "Professional Inquiries",
+                        "availableLanguage": ["English", "French"]
+                    }
                 }
             }),
         }

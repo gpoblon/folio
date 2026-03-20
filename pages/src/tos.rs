@@ -14,8 +14,9 @@ pub fn TermsOfUse() -> Element {
     rsx! {
         components::Seo {
             title: "Terms of Use",
-            description: "Terms of use and legal notices for gpoblon.net.",
+            description: "Legal terms of use, privacy practices, and disclaimers for gpoblon.net — the portfolio of Gaetan POBLON, Software Engineer.",
             canonical_path: "/terms-of-use",
+            schema_type: "WebPage",
             robots: "noindex, follow",
         }
         components::Markdown {

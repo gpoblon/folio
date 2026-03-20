@@ -4,8 +4,10 @@ use axum::response::IntoResponse;
 
 use entities::article::model::ArticleStore;
 use entities::project::model::ProjectStore;
-use kernel::seo::{AUTHOR_EMAIL, AUTHOR_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL};
-use kernel::seo_routes::STATIC_SITEMAP_ROUTES;
+use kernel::seo::{
+    AUTHOR_EMAIL, AUTHOR_NAME, Keywords, SITE_DESCRIPTION, SITE_NAME, SITE_URL,
+    STATIC_SITEMAP_ROUTES,
+};
 
 // ── sitemap.xml ───────────────────────────────────────────────────────────────
 
@@ -23,11 +25,15 @@ pub async fn sitemap_xml(
          <urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n",
     );
 
-    // Static routes
+    // Build-time timestamp for static routes (YYYY-MM-DD).
+    let build_date = kernel::build_info::BUILD_DATE;
+
+    // Static routes — always include lastmod so crawlers know freshness.
     for (path, changefreq, priority) in STATIC_SITEMAP_ROUTES {
         xml.push_str(&format!(
             "  <url>\n\
              \x20   <loc>{SITE_URL}{path}</loc>\n\
+             \x20   <lastmod>{build_date}</lastmod>\n\
              \x20   <changefreq>{changefreq}</changefreq>\n\
              \x20   <priority>{priority}</priority>\n\
              \x20 </url>\n"
@@ -37,7 +43,6 @@ pub async fn sitemap_xml(
     // Dynamic article routes — one entry per published article.
     if let Ok(articles) = article_store.0.try_read() {
         let mut metas: Vec<_> = articles.values().map(|a| &a.metadata).collect();
-        // Stable order: most-recently-created first, then alphabetical by slug.
         metas.sort_by(|a, b| b.created.cmp(&a.created).then(a.slug.cmp(&b.slug)));
 
         for meta in metas {
@@ -93,7 +98,10 @@ pub async fn sitemap_xml(
 
     (
         StatusCode::OK,
-        [(header::CONTENT_TYPE, "application/xml; charset=utf-8")],
+        [
+            (header::CONTENT_TYPE, "application/xml; charset=utf-8"),
+            (header::CACHE_CONTROL, "public, max-age=3600, s-maxage=3600"),
+        ],
         xml,
     )
 }
@@ -140,14 +148,25 @@ pub async fn rss_xml(Extension(article_store): Extension<ArticleStore>) -> impl 
             items.push_str(&format!(
                 "      <author>{AUTHOR_EMAIL} ({AUTHOR_NAME})</author>\n"
             ));
-            // Slug segments become <category> entries so feed readers and
-            // aggregators can filter by topic without reading the full article.
-            for cat in slug_categories(&meta.slug) {
+
+            // Article tags as <category> — meaningful topic labels for feed
+            // readers and aggregators to filter on.
+            for tag in &meta.tags {
                 items.push_str(&format!(
                     "      <category>{}</category>\n",
-                    escape_xml(&cat)
+                    escape_xml(tag.key())
                 ));
             }
+
+            // Supplement with slug-derived segments for broader topic coverage
+            // (e.g. "rust", "dev") when tags alone are sparse.
+            for seg in Keywords::slug_segments(&meta.slug) {
+                items.push_str(&format!(
+                    "      <category>{}</category>\n",
+                    escape_xml(&seg)
+                ));
+            }
+
             items.push_str("    </item>\n");
         }
     }
@@ -178,7 +197,10 @@ pub async fn rss_xml(Extension(article_store): Extension<ArticleStore>) -> impl 
 
     (
         StatusCode::OK,
-        [(header::CONTENT_TYPE, "application/rss+xml; charset=utf-8")],
+        [
+            (header::CONTENT_TYPE, "application/rss+xml; charset=utf-8"),
+            (header::CACHE_CONTROL, "public, max-age=3600, s-maxage=3600"),
+        ],
         xml,
     )
 }
@@ -192,25 +214,4 @@ fn escape_xml(s: &str) -> String {
         .replace('>', "&gt;")
         .replace('"', "&quot;")
         .replace('\'', "&apos;")
-}
-
-/// Extracts category strings from an article slug by splitting on `/` and
-/// stripping the file extension from the last segment.
-///
-/// `"it/dev/lang/rust/intro.md"` → `["it", "dev", "lang", "rust", "intro"]`
-fn slug_categories(slug: &str) -> Vec<String> {
-    let segments: Vec<&str> = slug.split('/').filter(|s| !s.is_empty()).collect();
-    let last = segments.len().saturating_sub(1);
-    segments
-        .into_iter()
-        .enumerate()
-        .map(|(i, seg)| {
-            if i == last {
-                seg.rsplit_once('.').map(|(name, _)| name).unwrap_or(seg)
-            } else {
-                seg
-            }
-            .to_string()
-        })
-        .collect()
 }

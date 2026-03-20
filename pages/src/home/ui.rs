@@ -1,7 +1,7 @@
 use components::Seo;
 use dioxus::prelude::*;
 use entities::nav::{Cardinal, CardinalCell};
-use kernel::seo::{AUTHOR_GITHUB, AUTHOR_LINKEDIN, SITE_URL};
+use kernel::seo::{AUTHOR_EMAIL, AUTHOR_GITHUB, AUTHOR_LINKEDIN, SITE_URL};
 use serde_json::json;
 use widgets::home_center::CenterCell;
 
@@ -17,24 +17,36 @@ pub fn Home() -> Element {
     rsx! {
         Seo {
             title: "Gaetan POBLON — Rust Software Engineer",
-            description: "Available for hire: Rust Software Engineer based in France. Expert in Dioxus, Axum, WebAssembly, Software Architecture and cross-platform applications.",
+            description: "Hire a Rust Software Engineer based in France. Specializing in fullstack Dioxus, Axum, and WebAssembly for high-performance cross-platform applications.",
             canonical_path: "/",
             schema_type: "Person",
             schema_keywords: vec![
-                "Rust".into(),
-                "Dioxus".into(),
-                "WebAssembly".into(),
-                "Axum".into(),
-                "Tokio".into(),
-                "Fullstack web development".into(),
-                "Software architecture".into(),
-                "AI".into(),
-                "Artificial Intelligence".into(),
-                "Blockchain".into(),
-                "Cross-platform".into(),
+                "Hire Rust Developer".into(),
+                "Rust Software Engineer".into(),
+                "Fullstack Rust Developer".into(),
+                "Dioxus Developer".into(),
+                "Axum Backend Engineer".into(),
+                "WebAssembly Expert".into(),
+                "Cross-platform Rust".into(),
+                "Software Architect".into(),
+                "France".into(),
             ],
             schema_data: json!({
                 "@id": format!("{}/#person", SITE_URL),
+                "givenName": "Gaetan",
+                "familyName": "POBLON",
+                "email": AUTHOR_EMAIL,
+                "nationality": "French",
+                "knowsLanguage": ["English", "French"],
+                "knowsAbout": [
+                    "Rust Programming Language",
+                    "Dioxus Framework",
+                    "Axum Web Framework",
+                    "WebAssembly",
+                    "Software Architecture",
+                    "Cross-platform Development",
+                    "Artificial Intelligence",
+                ],
                 "sameAs": [
                     AUTHOR_GITHUB,
                     AUTHOR_LINKEDIN,
@@ -43,8 +55,13 @@ pub fn Home() -> Element {
                     "@type": "Demand",
                     "itemOffered": {
                         "@type": "Service",
-                        "name": "Software Engineering Services",
-                        "description": "Available for full-time roles or freelance contracts in Rust development including backend and fullstack."
+                        "name": "Rust Software Engineering",
+                        "description": "Available for full-time positions or freelance contracts in Rust development — backend, fullstack, and cross-platform.",
+                        "areaServed": "Worldwide",
+                        "provider": {
+                            "@type": "Person",
+                            "@id": format!("{}/#person", SITE_URL),
+                        }
                     }
                 }
             }),
