@@ -4,6 +4,7 @@
 /* Safelist */
 /* Added border-muted, accent-foreground, and muted-foreground to the matrix */
 @source inline("{text,bg,border,outline}-{projects,connect,knowledge,experience,accent,accent-foreground,muted,muted-foreground,background,foreground,border-muted}");
+@source inline("text-projects/70 text-connect/70 text-knowledge/70 text-experience/70");
 @source inline("rounded-{radius,radius-component}");
 @source inline("duration-theme");
 @source inline("font-mono");
@@ -90,7 +91,7 @@
         );
         --color-muted-foreground: color-mix(
             in oklab,
-            var(--color-foreground) 50%,
+            var(--color-foreground) 70%,
             var(--color-background) 50%
         );
         --color-border: color-mix(

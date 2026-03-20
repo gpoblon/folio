@@ -25,7 +25,7 @@ pub fn Hub(active: Cardinal) -> Element {
             }
 
             p {
-                class: "mt-3 text-[0.7rem] md:text-sm font-thin whitespace-pre-line tracking-[0.06em]",
+                class: "mt-3 text-sm whitespace-pre-line tracking-[0.06em] text-muted-foreground",
                 "{active.description()}"
             }
         }

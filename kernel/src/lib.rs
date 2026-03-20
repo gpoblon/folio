@@ -1,3 +1,4 @@
+pub mod build_info;
 pub mod lang;
 pub mod seo;
 pub mod theme;

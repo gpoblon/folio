@@ -2,16 +2,31 @@
    Home — layout & nav overrides (non-TW-expressible rules only)
    ========================================================================== */
 
-/* --- Nav overrides when Home is active ---------------------------------- */
+/* --- Nav overrides when #home is active --------------------------------- */
 
-:has(#home) nav [class*="justify-center"][class*="w-fit"] {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 300ms ease;
+:has(#home) nav .plain-menu {
+    display: none;
 }
 
-:has(#home) nav button[aria-controls="mobile-menu"] {
+/* On #home: show lang/theme controls, hide burger button and its overlay */
+:has(#home) nav .burger-controls {
     display: none;
+}
+
+:has(#home) #mobile-menu {
+    display: none !important;
+}
+
+/* Off #home: hide the home-only lang/theme controls from the nav row */
+:not(:has(#home)) nav .home-controls {
+    display: none;
+}
+
+:has(#home) nav .nav-welcome {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 300ms ease;
 }
 
 :has(#home) nav {
@@ -20,7 +35,7 @@
     z-index: 100;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 949px) {
     :has(#home) nav {
         z-index: 30;
     }
@@ -35,15 +50,17 @@
     user-select: none;
     justify-items: center;
     align-items: center;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr auto auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto auto auto;
     grid-template-areas:
-        "E      C"
-        "center center"
-        "P      K";
+        "center"
+        "K"
+        "P"
+        "E"
+        "C";
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
     .home-grid {
         grid-template-columns: 1fr minmax(0, min(82vw, 82vh)) 1fr;
         grid-template-rows: 1fr minmax(0, min(82vw, 82vh)) 1fr;

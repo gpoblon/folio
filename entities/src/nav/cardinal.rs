@@ -1,22 +1,31 @@
+use dioxus::prelude::*;
 use kernel::lang::t;
 
+/// The five conceptual directions of the home-page compass.
+///
+/// `Identity` is the hub (center); the other four are interactive
+/// cardinals rendered around it.
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum Cardinal {
     Identity,
     Experience,
-    Knowledge,
     Connect,
+    Knowledge,
     Projects,
 }
 
 impl Cardinal {
+    /// The four navigable cardinals (excludes `Identity`).
     pub const NAV: [Self; 4] = [
-        Self::Experience,
         Self::Knowledge,
-        Self::Connect,
         Self::Projects,
+        Self::Experience,
+        Self::Connect,
     ];
 
+    // ── Identity ────────────────────────────────────────────────────────
+
+    /// i18n display label.
     pub fn label(self) -> String {
         match self {
             Self::Identity => t!("me"),
@@ -27,6 +36,7 @@ impl Cardinal {
         }
     }
 
+    /// i18n long description shown in the center hub.
     pub fn description(self) -> String {
         match self {
             Self::Identity => t!("home_identity"),
@@ -37,6 +47,17 @@ impl Cardinal {
         }
     }
 
+    /// Optional subtitle beneath the cardinal label (e.g. availability).
+    pub fn subtitle(self) -> Option<String> {
+        match self {
+            Self::Connect => Some(t!("home_availability")),
+            _ => None,
+        }
+    }
+
+    // ── Routing & layout ────────────────────────────────────────────────
+
+    /// Target URL for navigation on click.
     pub const fn route(self) -> &'static str {
         match self {
             Self::Identity => "/",
@@ -47,6 +68,20 @@ impl Cardinal {
         }
     }
 
+    /// CSS grid-area name used by `.home-grid`.
+    pub const fn area(self) -> &'static str {
+        match self {
+            Self::Identity => "center",
+            Self::Experience => "E",
+            Self::Knowledge => "K",
+            Self::Connect => "C",
+            Self::Projects => "P",
+        }
+    }
+
+    // ── Presentation ────────────────────────────────────────────────────
+
+    /// Tailwind color token suffix.
     pub const fn color(self) -> &'static str {
         match self {
             Self::Identity => "foreground",
@@ -57,14 +92,15 @@ impl Cardinal {
         }
     }
 
-    /// Required to define the grid layout
-    pub const fn area(self) -> &'static str {
-        match self {
-            Self::Identity => "center",
-            Self::Experience => "E",
-            Self::Knowledge => "C",
-            Self::Connect => "K",
-            Self::Projects => "P",
-        }
+    /// Icon element for each cardinal direction.
+    pub fn icon(self) -> Element {
+        let icon = match self {
+            Self::Experience => components::Icons::Landscape,
+            Self::Knowledge => components::Icons::Newsstand,
+            Self::Connect => components::Icons::Join,
+            Self::Projects => components::Icons::Experiment,
+            Self::Identity => return rsx! {},
+        };
+        rsx! { components::Icon { class: "text-3xl", icon } }
     }
 }

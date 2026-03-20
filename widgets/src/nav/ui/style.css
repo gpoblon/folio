@@ -1,8 +1,10 @@
-/* Navigation button active state styling */
-button[data-active="true"] {
+/* PlainMenu nav-button active-state styling.
+   Scoped to `.plain-menu` to avoid leaking to other buttons.
+   `!important` overrides the dynamic Tailwind `border-{color}` class. */
+.plain-menu button[data-active="true"] {
     background-color: var(--color-accent);
 }
 
-button[data-active="false"] {
+.plain-menu button[data-active="false"] {
     border-color: transparent !important;
 }

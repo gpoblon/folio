@@ -23,7 +23,7 @@ pub fn CenterCell(active: Cardinal) -> Element {
             div {
                 class: "absolute inset-0 m-auto pointer-events-none
                         size-1/2 rotate-45 border-[0.5px]
-                        backdrop-blur-md bg-background/30 dark:bg-background/80 border-{color}",
+                        backdrop-blur-xl bg-background/30 dark:bg-background/70 border-{color}",
             }
 
             Hub { active }

@@ -14,7 +14,10 @@ footer_using = using
 footer_source_code = Source
 tos_route = Terms of Use
 
-home_welcome = Welcome to my world.
+home_welcome = Welcome to my digital lab, freshly opened!
+home_last_update = Latest update
+home_availability = Open to missions or roles from May 2026
+
 home_identity = Software Engineer living in Niort, France.
     Rustacean since 2019, I shipped FullStack Rust cross-platform applications.
     Broadening into SW Architecture and AI.

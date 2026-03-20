@@ -19,7 +19,7 @@ pub fn Projects() -> Element {
             ],
         }
         section {
-            class: "max-w-5xl mx-auto py-32 center-content",
+            class: "max-w-5xl mx-auto px-4 py-32 center-content",
             id: "projects",
             widgets::projects::ProjectGrid {}
         }

@@ -17,11 +17,15 @@ pub fn Connect() -> Element {
             schema_type: "ContactPage",
             schema_keywords: vec![
                 "Contact".into(),
-                "Rust".into(),
-                "Dioxus".into(),
+                "Software Engineering".into(),
                 "Fullstack web development".into(),
                 "Software architecture".into(),
                 "Open source".into(),
+                "Artificial Intelligence".into(),
+                "Rust".into(),
+                "Axum".into(),
+                "Dioxus".into(),
+                "SurrealDB".into()
             ],
             schema_data: json!({
                 "contactPoint": {

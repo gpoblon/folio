@@ -1,10 +1,13 @@
 use dioxus::prelude::*;
-use kernel::lang::t;
+use kernel::build_info;
+use kernel::lang::{t, use_lang};
 
 static DIOXUS_LOGO: Asset = asset!("/assets/dioxus.png");
 
 #[component]
 pub fn Footer(tos_route: NavigationTarget) -> Element {
+    let lang = use_lang();
+    let date = build_info::build_date(lang);
     rsx! {
         footer { class: "w-full border-t border-border py-4 bg-background",
             div { class: "container center-content text-xs",
@@ -42,7 +45,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                         }
                     }
 
-                    // Separators (hidden on mobile)
+                    // Separator (hidden on mobile)
                     span { class: "hidden sm:inline", "·" }
 
                     // Line 2 on mobile: Tech stack
@@ -65,6 +68,15 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                             rel: "noopener noreferrer",
                             "Dioxus"
                         }
+                    }
+
+                    // Separator (hidden on mobile)
+                    span { class: "hidden sm:inline", "·" }
+
+                    // Last update date (desktop only)
+                    div { class: "hidden sm:flex items-center justify-center gap-1",
+                        span { {t!("home_last_update")} }
+                        span { "{date}" }
                     }
                 }
             }

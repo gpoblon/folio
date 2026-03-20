@@ -46,16 +46,16 @@ pub enum Route {
 
 impl Navigable for Route {
     const ITEMS: &[Self] = &[
-        Route::Projects {},
         Route::Knowledge {},
+        Route::Projects {},
         Route::Experience {},
         Route::Connect {},
     ];
 
     fn color(&self) -> &'static str {
         match self {
-            Route::Projects {} | Route::Project { .. } => "projects",
             Route::Knowledge {} | Route::Article { .. } => "knowledge",
+            Route::Projects {} | Route::Project { .. } => "projects",
             Route::Experience {} => "experience",
             Route::Connect {} => "connect",
             _ => "foreground",
@@ -63,21 +63,22 @@ impl Navigable for Route {
     }
     fn slug(&self) -> &'static str {
         match self {
-            Route::Projects {} | Route::Project { .. } => "projects",
             Route::Knowledge {} | Route::Article { .. } => "knowledge",
+            Route::Projects {} | Route::Project { .. } => "projects",
             Route::Experience {} => "experience",
             Route::Connect {} => "connect",
             _ => "",
         }
     }
     fn icon(&self) -> Element {
-        use components::svg;
-        match self {
-            Route::Projects {} | Route::Project { .. } => svg::Projects(),
-            Route::Knowledge {} | Route::Article { .. } => svg::Knowledge(),
-            Route::Experience {} => svg::Experience(),
-            Route::Connect {} => svg::Connect(),
-            _ => rsx! {},
-        }
+        use components::Icons;
+        let icon = match self {
+            Route::Knowledge {} | Route::Article { .. } => Icons::Newsstand,
+            Route::Projects {} | Route::Project { .. } => Icons::Experiment,
+            Route::Experience {} => Icons::Landscape,
+            Route::Connect {} => Icons::Join,
+            _ => return rsx! {},
+        };
+        rsx! { components::Icon { icon } }
     }
 }

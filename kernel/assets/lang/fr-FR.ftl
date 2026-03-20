@@ -15,7 +15,11 @@ footer_source_code = Source
 tos_route = Mentions légales & CGU
 
 # home
-home_welcome = Bienvenue dans mon univers !
+home_welcome = Bienvenue dans mon atelier, fraîchement inauguré !
+home_last_update = Dernière mise à jour le
+home_availability = Mission ou poste ?
+    Disponibilité dès mai 2026
+
 home_identity = Développeur Logiciel installé à Niort.
     Applications FullStack Rust cross-platform.
     Rustacéen depuis 2019. Spectre en expansion vers l'architecture logicielle / IA
@@ -23,8 +27,8 @@ home_knowledge = Par l'écriture, je structure mon savoir.
     Sans IA, sans fioritures : de la réflexion à l'action, ces notes documentent mon parcours. Du signal — et mon biais !
 home_contact = La machine exécute, l'humain collabore.
     Échange entre passionnés ; collaboration professionnelle ? La porte est ouverte, passer le pas vous appartient !
-home_projects = Bienvenue dans le Lab.
-    Pas de panic, c'est safe ! Vous y trouverez une concoction de projets achevés ou en cours et quelques archives.
+home_projects = Bienvenue dans mon laboratoire.
+    Pas de panic, c'est safe ! Vous y trouverez une concoction d'expériences achevées ou en cours, et quelques archives.
 home_experience = Mon parcours académique et professionnel ; et un peu de moi, histoire de prouver que je ne suis pas une IA.
     CV accessible en téléchargement.
 

@@ -5,7 +5,7 @@ use dioxus::prelude::*;
 pub(super) fn ArticleGridSkeleton() -> Element {
     rsx! {
         div {
-            class: "grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4",
+            class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
             for _ in -1..6 {
                 ArticlePreviewSkeleton {}
             }

@@ -16,8 +16,8 @@ pub fn Home() -> Element {
 
     rsx! {
         Seo {
-            title: "Gaetan POBLON — Fullstack Rust Engineer",
-            description: "Available for hire: Fullstack Rust Software Engineer based in France. Expert in Dioxus, Axum, WebAssembly, and cross-platform applications.",
+            title: "Gaetan POBLON — Rust Software Engineer",
+            description: "Available for hire: Rust Software Engineer based in France. Expert in Dioxus, Axum, WebAssembly, Software Architecture and cross-platform applications.",
             canonical_path: "/",
             schema_type: "Person",
             schema_keywords: vec![
@@ -28,6 +28,9 @@ pub fn Home() -> Element {
                 "Tokio".into(),
                 "Fullstack web development".into(),
                 "Software architecture".into(),
+                "AI".into(),
+                "Artificial Intelligence".into(),
+                "Blockchain".into(),
                 "Cross-platform".into(),
             ],
             schema_data: json!({
@@ -41,7 +44,7 @@ pub fn Home() -> Element {
                     "itemOffered": {
                         "@type": "Service",
                         "name": "Software Engineering Services",
-                        "description": "Available for full-time roles or freelance contracts in Rust backend and Dioxus fullstack development."
+                        "description": "Available for full-time roles or freelance contracts in Rust development including backend and fullstack."
                     }
                 }
             }),
@@ -53,11 +56,11 @@ pub fn Home() -> Element {
             id: "home",
             class: "home-grid flex-1 max-h-[calc(100dvh-9rem)]",
 
-            for c in Cardinal::NAV {
+            for c in Cardinal::NAV.iter() {
                 CardinalCell {
                     key: "{c.label()}",
-                    cardinal: c,
-                    is_active: hovered() == Some(c),
+                    cardinal: *c,
+                    is_active: hovered() == Some(*c),
                     onhover: move |val| hovered.set(val),
                     onclick: move |c: Cardinal| { nav.push(c.route()); },
                 }

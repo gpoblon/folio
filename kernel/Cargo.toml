@@ -30,5 +30,8 @@ mime_guess = { version = "2", optional = true }
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"], optional = true }
 
 
+[build-dependencies]
+chrono = { workspace = true }
+
 [features]
 server = ["dioxus/server", "dep:lettre", "dep:secrecy", "dep:octocrab", "dep:tar", "dep:flate2", "dep:http-body-util", "dep:tokio", "dep:axum", "dep:mime_guess", "dep:reqwest"]
