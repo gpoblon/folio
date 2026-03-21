@@ -1,0 +1,67 @@
+name: Deploy Folio Fullstack
+
+# Workflow is triggered manually from the GitHub Actions UI
+on:
+  workflow_dispatch:
+
+# Give GitHub token permission to push to the registry
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push via Podman
+        # Ubuntu runners have Podman installed by default!
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/folio:latest
+          podman build -t $IMAGE_NAME .
+          podman push $IMAGE_NAME
+
+  deploy-to-vps:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute Remote SSH Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          envs: PROD_ENV_FILE
+          script: |
+            IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/folio:latest
+
+            mkdir -p /opt/folio
+
+            echo "Writing the secure .env file..."
+            echo "$PROD_ENV_FILE" > /opt/folio/.env
+            chmod 600 /opt/folio/.env
+
+            echo "Logging into GitHub Registry..."
+            podman login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+
+            echo "Pulling the latest image..."
+            podman pull $IMAGE_NAME
+
+            echo "Restarting the container..."
+            podman run -d --replace \
+              --name folio-fullstack \
+              -p 127.0.0.1:9001:8080 \
+              --env-file /opt/folio/.env \
+              $IMAGE_NAME
+
+            echo "Deployment Successful!"

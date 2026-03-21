@@ -13,13 +13,13 @@ pub struct GitClient {
 impl GitClient {
     pub fn new(config: crate::config::GitConfig) -> anyhow::Result<Self> {
         let client = octocrab::Octocrab::builder()
-            .personal_token(config.token)
+            .personal_token(config.git_token)
             .build()?;
         Ok(Self {
             client,
-            owner: config.owner,
-            repository: config.repository,
-            branch: config.branch,
+            owner: config.git_owner,
+            repository: config.git_repository,
+            branch: config.git_branch,
         })
     }
 

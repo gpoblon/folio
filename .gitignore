@@ -4,7 +4,6 @@
 logs/
 target/
 Cargo.lock
-.github/
 
 # don't add dx generated tailwind css files
 app/assets/tailwind.css

@@ -1,56 +1,14 @@
 projects:
-  - title: "Folio"
-    description: "Personal portfolio and blog built with Rust and Dioxus, showcasing a full-stack isomorphic web application."
-    introduction: "A full-stack Rust web application using Dioxus for SSR and client-side hydration, with a layered architecture inspired by Feature-Sliced Design."
-    slug: "/rust/whatever"
-    lang: "en"
-    tags: ["hands-on"]
-    state: "published"
-    expertise: "expert"
-    repository:
-      owner: "gpoblon"
-      slug: "folio"
-    created: "2025-01-01 00:00:00"
-    modified: "2025-06-01 00:00:00"
-
-  - title: "Dioxus TW Components"
-    description: "A Tailwind-based component library for the Dioxus framework."
-    introduction: "Reusable, styled UI components for Dioxus applications, built on top of Tailwind CSS with full theme support."
-    slug: "/rust/whatever0"
-    lang: "en"
-    tags: ["reference"]
-    state: "published"
-    expertise: "expert"
-    repository:
-      owner: "gpoblon"
-      slug: "dioxus-tw-components"
-    created: "2024-06-01 00:00:00"
-    modified: "2025-05-01 00:00:00"
-
-  - title: "Knowledge Base"
-    description: "A curated collection of articles on IT, science, and engineering topics."
-    introduction: "An Obsidian vault turned into a public knowledge base, covering software architecture, Rust, psychology, and more."
-    slug: "/rust/whatever1"
-    lang: "en"
-    tags: ["essay"]
-    state: "published"
-    expertise: "knowledgeable"
-    repository:
-      owner: "gpoblon"
-      slug: "knowledge_base"
-    created: "2023-01-01 00:00:00"
-    modified: "2025-06-01 00:00:00"
-
-  - title: "Timeflow"
-    description: "A lightweight Rust date-time library with a focus on simplicity and ergonomics."
-    introduction: "Minimal, dependency-light date and time handling for Rust, designed for serialization-friendly workflows."
-    slug: "/rust/whatever2"
-    lang: "en"
-    tags: ["hands-on"]
-    state: "published"
-    expertise: "expert"
-    repository:
-      owner: "gpoblon"
-      slug: "timeflow"
-    created: "2025-03-01 00:00:00"
-    modified: "2025-05-01 00:00:00"
+  # - title: "Folio"
+  #   description: "Personal portfolio and blog built with Rust using Dioxus, showcasing a full-stack isomorphic web application."
+  #   introduction: "A full-stack Rust web application using Dioxus for SSR and client-side hydration, with a Feature-Sliced Design architecture."
+  #   slug: "/rust/folio"
+  #   lang: "en"
+  #   tags: ["hands-on"]
+  #   state: "published"
+  #   expertise: "expert"
+  #   repository:
+  #     owner: "gpoblon"
+  #     slug: "folio"
+  #   created: "2025-03- 00:00:00"
+  #   modified: "2025-06-01 00:00:00"

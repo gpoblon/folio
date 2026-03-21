@@ -57,5 +57,5 @@ fn UmamiScriptInner() -> Element {
 #[server(config: dioxus_server::axum::Extension<crate::config::Config>)]
 async fn get_umami_website_id() -> Result<String, HttpError> {
     use secrecy::ExposeSecret;
-    Ok(config.umami().website_id.expose_secret().to_string())
+    Ok(config.umami().umami_website_id.expose_secret().to_string())
 }

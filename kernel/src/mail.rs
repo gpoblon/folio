@@ -32,12 +32,12 @@ pub enum MailError {
 /// Send a mail to gpoblon
 pub async fn send(config: &crate::config::Config, mail: Mail) -> anyhow::Result<()> {
     let receiver = Mailbox::new(
-        Some(config.app.editor.clone()),
-        config.smtp.username.expose_secret().parse()?,
+        Some(config.app.app_editor.clone()),
+        config.smtp.smtp_username.expose_secret().parse()?,
     );
     let header = HeaderValue::new(
         HeaderName::new_from_ascii_str("X-Origin"),
-        config.app.http_address.to_owned(),
+        config.app.app_http_address.to_owned(),
     );
     let email = lettre::Message::builder()
         .from(Mailbox::new(Some(mail.name), mail.address))
@@ -48,15 +48,16 @@ pub async fn send(config: &crate::config::Config, mail: Mail) -> anyhow::Result<
         .body(mail.body)?;
 
     let credentials = lettre::transport::smtp::authentication::Credentials::new(
-        config.smtp.username.expose_secret().to_owned(),
-        config.smtp.password.expose_secret().to_owned(),
+        config.smtp.smtp_username.expose_secret().to_owned(),
+        config.smtp.smtp_password.expose_secret().to_owned(),
     );
 
-    let mailer =
-        lettre::AsyncSmtpTransport::<Tokio1Executor>::relay(config.smtp.relay.expose_secret())?
-            .port(config.smtp.port)
-            .credentials(credentials)
-            .build();
+    let mailer = lettre::AsyncSmtpTransport::<Tokio1Executor>::relay(
+        config.smtp.smtp_relay.expose_secret(),
+    )?
+    .port(config.smtp.smtp_port)
+    .credentials(credentials)
+    .build();
 
     mailer.send(email).await?;
     Ok(())

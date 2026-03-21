@@ -28,10 +28,12 @@ tokio = { version = "1.34.0", features = ["full"], optional = true }
 axum = { version = "0.8", optional = true }
 mime_guess = { version = "2", optional = true }
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"], optional = true }
+dotenvy = { version = "0.15", optional = true }
+envy = { version = "0.4", optional = true }
 
 
 [build-dependencies]
 chrono = { workspace = true }
 
 [features]
-server = ["dioxus/server", "dep:lettre", "dep:secrecy", "dep:octocrab", "dep:tar", "dep:flate2", "dep:http-body-util", "dep:tokio", "dep:axum", "dep:mime_guess", "dep:reqwest"]
+server = ["dioxus/server", "dep:lettre", "dep:secrecy", "dep:octocrab", "dep:tar", "dep:flate2", "dep:http-body-util", "dep:tokio", "dep:axum", "dep:mime_guess", "dep:reqwest", "dep:dotenvy", "dep:envy"]

@@ -1,37 +1,46 @@
-# BUILD IMAGE - from main folder : `podman build -t <image_name> -f Containerfile` with optional ARGs: `--build-arg PACKAGE_NAME=<binary_name>`
+# BUILD IMAGE - from main folder : `podman build -t <image_name> -f Containerfile`
 # RUN IMAGE - from main folder : `podman run --rm -it <image_name>`
 
-# users can override ARGs from podman cli: `--build-arg PACKAGE_NAME=<binary_name>`
-ARG PACKAGE_NAME="folio"
-# replace if a specific version of rust is needed, e.g., "1.88.0"
-ARG RUST_VERSION="1"
+# 1. Build
 
-# Install required packages and tools
-FROM docker.io/library/rust:${RUST_VERSION}-slim AS rust-chef
+FROM docker.io/rustlang/rust:nightly-slim AS builder
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    ca-certificates \
-    libssl-dev \
-    curl \
+    build-essential ca-certificates libssl-dev pkg-config curl \
     && rm -rf /var/lib/apt/lists/*
+
+RUN rustup target add wasm32-unknown-unknown
+
 RUN curl -L --proto '=https' --tlsv1.2 -sSf \
       https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
-RUN cargo binstall cargo-chef
+RUN cargo binstall -y dioxus-cli@0.7.3 wasm-bindgen-cli@0.2.114
+
+WORKDIR /folio
+
+# Copy local code into the container
+COPY . .
+
+ENV RUSTFLAGS="-Z unstable-options -C linker-features=+lld -C target-feature=+bulk-memory,+mutable-globals,+nontrapping-fptoint,+sign-ext -Z threads=16 -Z share-generics=y"
+# Bundled app at: /folio/target/dx/app/release/web/app (binary file)
+# Bundled app at: /folio/target/dx/app/release/web/public (folder, static assets incl. index.html and wasm binary)
+RUN dx bundle -p app --web --release
+
+# 2. Runtime
+
+FROM gcr.io/distroless/cc-debian13:latest-amd64 AS runtime
 
 WORKDIR /app
 
-FROM rust-chef AS planner
-COPY . .
-RUN cargo chef prepare --recipe-path recipe.json
+COPY --from=builder /folio/target/dx/app/release/web/app /app/server
+COPY --from=builder /folio/target/dx/app/release/web/public /app/public
 
-FROM rust-chef AS builder
-ARG PACKAGE_NAME
-COPY --from=planner /app/recipe.json recipe.json
-RUN cargo chef cook --release --recipe-path recipe.json
-COPY . .
-RUN cargo build --release -p ${PACKAGE_NAME}
+# Force the server to listen on all container interfaces
+ENV IP=0.0.0.0
+ENV PORT=8080
 
-FROM gcr.io/distroless/cc-debian13:latest-amd64 AS runtime
-ARG PACKAGE_NAME
-COPY --from=builder /app/target/release/${PACKAGE_NAME} /app
-ENTRYPOINT ["/app"]
+EXPOSE 8080
+
+STOPSIGNAL SIGINT
+
+# Execute the renamed binary
+ENTRYPOINT ["/app/server"]

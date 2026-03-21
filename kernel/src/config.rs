@@ -1,25 +1,44 @@
 use secrecy::SecretString;
+use serde::Deserialize;
+
+/// `podman --env-file` passes values as raw strings without stripping quotes,
+/// so a value like `SMTP_PORT=465` may arrive as the string `"465"` with
+/// literal quote characters. This deserializer trims surrounding ASCII quotes
+/// and whitespace before parsing into a `u16`.
+fn deserialize_u16_from_str<'de, D>(deserializer: D) -> Result<u16, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    let raw = String::deserialize(deserializer)?;
+    let trimmed = raw.trim().trim_matches('"').trim_matches('\'');
+    trimmed.parse::<u16>().map_err(serde::de::Error::custom)
+}
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct Config {
+    #[serde(flatten)]
     pub(crate) app: AppConfig,
+    #[serde(flatten)]
     pub(crate) smtp: SmtpConfig,
+    #[serde(flatten)]
     pub(crate) git: GitConfig,
+    #[serde(flatten)]
     pub(crate) umami: UmamiConfig,
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct AppConfig {
-    pub(crate) http_address: String,
-    pub(crate) editor: String,
+    pub(crate) app_http_address: String,
+    pub(crate) app_editor: String,
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct SmtpConfig {
-    pub(crate) username: SecretString,
-    pub(crate) password: SecretString,
-    pub(crate) relay: SecretString,
-    pub(crate) port: u16,
+    pub(crate) smtp_username: SecretString,
+    pub(crate) smtp_password: SecretString,
+    pub(crate) smtp_relay: SecretString,
+    #[serde(deserialize_with = "deserialize_u16_from_str")]
+    pub(crate) smtp_port: u16,
 }
 
 /// Git configuration for the application, allowing to:
@@ -31,59 +50,40 @@ pub struct SmtpConfig {
 pub struct GitConfig {
     /// Token has the following permissions: read contents, write issues, read webhooks
     /// PAT token: account level but restricted to gpoblon/knowledge_base repository.
-    pub(crate) token: secrecy::SecretString,
+    pub(crate) git_token: SecretString,
     /// Owner of the repository
-    pub(crate) owner: secrecy::SecretString,
+    pub(crate) git_owner: SecretString,
     /// Name of the repository
-    pub(crate) repository: secrecy::SecretString,
+    pub(crate) git_repository: SecretString,
     /// Branch to use for the repository
-    pub(crate) branch: String,
+    pub(crate) git_branch: String,
     // TODO Webhook secret
-    // webhook_secret: secrecy::SecretString,
+    // git_webhook_secret: SecretString,
 }
 
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct UmamiConfig {
-    pub(crate) website_id: SecretString,
+    pub(crate) umami_website_id: SecretString,
 }
 
 impl Config {
-    fn load_from_env_file() -> anyhow::Result<Self> {
-        let content = std::fs::read_to_string(".env")?;
-        let config: Config = serde_saphyr::from_str(&content)?;
+    fn load_from_env() -> anyhow::Result<Self> {
+        // Load .env file into the process environment, ignoring errors if the
+        // file is absent (e.g. when env vars are injected directly at runtime).
+        let _ = dotenvy::dotenv();
+        let config = envy::from_env::<Config>()?;
         Ok(config)
     }
 
     pub fn init() -> Self {
-        match Self::load_from_env_file() {
+        match Self::load_from_env() {
             Ok(config) => config,
             Err(err) => panic!(
-                "Failed to read config file: {err}.\n(Please create a .env file with the following example content:\n{})",
-                Self::env_example()
+                "Failed to load config from environment: {err}.\n\
+                (Please set the required environment variables or create a .env file.\n\
+                See .env_example for reference.)"
             ),
         }
-    }
-
-    fn env_example() -> &'static str {
-        r#"
-app:
-  http_address: "127.0.0.1:8080"
-  editor: "John Doe"
-
-smtp:
-  username: "jdoe@example.tld"
-  password: "password"
-  relay: "smtp.example.tld"
-  port: 587
-
-git:
-  token: "pat_token_example"
-  owner: "jdoe"
-  repository: "kb"
-
-umami:
-  website_id: "your-umami-website-id"
-"#
     }
 
     pub fn git(&self) -> &GitConfig {

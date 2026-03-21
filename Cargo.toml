@@ -50,3 +50,13 @@ inherits = "dev"
 
 [profile.android-dev]
 inherits = "dev"
+
+[profile.release]
+opt-level = "s"
+debug-assertions = false
+debug = false
+codegen-units = 1
+lto = "thin"
+strip = "symbols"
+panic = "abort"
+split-debuginfo = "off"
