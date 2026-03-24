@@ -13,6 +13,8 @@ pub fn DownloadResume(#[props(into, default)] class: String) -> Element {
         a {
             href: cv_asset,
             download: "resume_gpoblon_engineer.pdf",
+            target: "_blank",
+            rel: "noopener noreferrer",
             class: "inline-flex items-center gap-4 px-6 py-4 border border-border bg-accent hover:var(--color-bg) transition {class}",
             "data-umami-event": "download-resume",
             "data-umami-event-lang": lang.slug(),

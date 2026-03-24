@@ -34,6 +34,8 @@ pub fn Project(project: super::model::Project) -> Element {
                     target: "_blank",
                     rel: "noopener noreferrer",
                     aria_label: "{repo_url}",
+                    "data-umami-event": "project-repo-link",
+                    "data-umami-event-url": "{repo_url}",
                     p { "{repo_url}" }
                 }
             }

@@ -17,6 +17,8 @@ use serde::{Deserialize, Deserializer, Serialize};
 pub struct Metadata {
     pub title: String,
     pub description: String,
+    // slug is computed from the file path on the server and serialized to the client
+    #[serde(default)]
     pub slug: String,
     #[serde(default)]
     pub lang: kernel::lang::Lang,

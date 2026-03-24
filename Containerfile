@@ -20,7 +20,7 @@ WORKDIR /folio
 # Copy local code into the container
 COPY . .
 
-ENV RUSTFLAGS="-Z unstable-options -C linker-features=+lld -C target-feature=+bulk-memory,+mutable-globals,+nontrapping-fptoint,+sign-ext -Z threads=16 -Z share-generics=y"
+ENV RUSTFLAGS="-Z unstable-options -C target-feature=+bulk-memory,+mutable-globals,+nontrapping-fptoint,+sign-ext -Z threads=8 -Z share-generics=y"
 # Bundled app at: /folio/target/dx/app/release/web/app (binary file)
 # Bundled app at: /folio/target/dx/app/release/web/public (folder, static assets incl. index.html and wasm binary)
 RUN dx bundle -p app --web --release

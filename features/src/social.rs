@@ -27,8 +27,8 @@ pub fn SocialLink(props: SocialLinkProps) -> Element {
             href: props.href,
             target: if props.href.starts_with("mailto:") { "_self" } else { "_blank" },
             rel,
-            "data-umami-event": "social-link-click",
-            "data-umami-event-label": props.label,
+            "data-umami-event": "social-{props.label.to_lowercase()}",
+            "data-umami-event-url": props.href,
             span {
                 class: "text-xs text-muted-foreground",
                 {props.prefix}

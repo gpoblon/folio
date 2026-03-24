@@ -73,6 +73,7 @@ fn Achievement(achievement: model::Achievement, depth: u8) -> Element {
                         href: "{link}",
                         target: "_blank",
                         rel: "noopener noreferrer",
+                        "data-umami-event": "experience-{link}",
                         components::Icon {
                             class: "mb-0! -mt-2",
                             alt: "{link}",

@@ -16,8 +16,7 @@ pub fn FilteredProjectGrid(
     });
 
     rsx! {
-        div {
-            class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
+        components::Grid {
             for metadata in queried_meta() {
                 entities::project::ProjectPreview { metadata }
             }

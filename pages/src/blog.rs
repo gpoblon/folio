@@ -1,8 +1,12 @@
-use dioxus::prelude::*;
+use dioxus::{fullstack::Loading, prelude::*};
 use serde_json::json;
 
 #[component]
-pub fn Knowledge() -> Element {
+pub fn Blog() -> Element {
+    let search_query = use_signal(String::new);
+
+    let metadata = use_loader(move || async { entities::article::api::articles().await });
+
     rsx! {
         components::Seo {
             title: "Blog — Technical Articles on Rust & Software Engineering",
@@ -37,7 +41,31 @@ pub fn Knowledge() -> Element {
         section {
             class: "max-w-5xl mx-auto px-4 py-32 center-content",
             id: "blog",
-            widgets::articles::ArticleGrid {}
+            match metadata {
+                Err(Loading::Pending(_)) => {
+                    rsx! { components::GridSkeleton {} }
+                }
+                Err(Loading::Failed(_)) => {
+                    components::toast::use_toast()
+                        .error(kernel::lang::t!("article_list_metadata_error"))
+                        .send();
+                    rsx! {
+                        components::Callout {
+                            variant: components::CalloutVariant::Caution,
+                            title: kernel::lang::t!("article_list_metadata_error"),
+                            p { { kernel::lang::t!("article_list_metadata_error") } }
+                        }
+                    }
+                }
+                Ok(metadata) => {
+                    rsx! {
+                        widgets::blog::BlogGrid {
+                            metadata: metadata(),
+                            search_query,
+                        }
+                    }
+                }
+            }
         }
     }
 }

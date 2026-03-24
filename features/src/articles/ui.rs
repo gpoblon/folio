@@ -28,8 +28,7 @@ pub fn FilteredArticleGrid(metadata: Vec<Metadata>, search_query: Signal<String>
     });
 
     rsx! {
-        div {
-            class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
+        components::Grid {
             for meta in queried_meta() {
                 entities::article::ArticlePreview { meta }
             }

@@ -38,6 +38,8 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                             href: "https://github.com/gpoblon/folio",
                             target: "_blank",
                             rel: "noopener noreferrer",
+                            "data-umami-event": "footer-source-code",
+                            "data-umami-event-url": "https://github.com/gpoblon/folio",
                             span {
                                 components::svg::Github { class: "h-4 inline pr-1" }
                                 {t!("footer_source_code")}
@@ -56,6 +58,8 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                             href: "https://github.com/gpoblon",
                             target: "_blank",
                             rel: "me noopener noreferrer",
+                            "data-umami-event": "footer-github",
+                            "data-umami-event-url": "https://github.com/gpoblon",
                             "gpoblon"
                         }
                         span { {t!("footer_using")} }
@@ -66,6 +70,8 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                             href: "https://dioxus.dev",
                             target: "_blank",
                             rel: "noopener noreferrer",
+                            "data-umami-event": "footer-dioxus",
+                            "data-umami-event-url": "https://dioxus.dev",
                             "Dioxus"
                         }
                     }

@@ -50,8 +50,12 @@ connect_send_server_error = Le message n'a pas pu être envoyé
 
 # articles
 article_list_metadata_error = Échec de la récupération des articles
+
+# projects
+project_list_metadata_error = Échec de la récupération des projets
 article_error = Échec de la récupération de l'article
-article_feedback_contact = Merci pour votre lecture, j'espère porteuse de quelque découverte et réflexion ! Une question, une remarque ou une incohérence à signaler ? La porte est ouverte, n'hésitez pas à me contacter :
+article_feedback_contact = Merci pour votre lecture, j'espère porteuse de quelque découverte et réflexion ! Une question, une remarque ou une incohérence à signaler ? La porte est ouverte, n'hésitez pas à
+article_feedback_contact_link_alt = me contacter
 
 # experience
 experiences_work = EXPERIENCES PROFESSIONNELLES

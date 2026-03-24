@@ -21,6 +21,8 @@ pub fn Markdown(props: MarkdownProps) -> Element {
     let content = parser::string_to_html(props.content.clone());
 
     rsx! {
+        document::Link { rel: "stylesheet", href: asset!("./style.css") }
+
         div {
             class: "prose dark:prose-invert max-w-none",
             dangerous_inner_html: "{content}",

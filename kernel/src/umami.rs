@@ -3,6 +3,14 @@ use dioxus::{fullstack::Loading, prelude::*};
 const PROXY_SCRIPT_PATH: &str = "/stats/script.js";
 const PROXY_HOST_URL: &str = "/stats";
 
+/// The production hostname passed to `data-domains`.
+///
+/// Umami's script checks `window.location.hostname` against this value at
+/// runtime and **silently skips** every event (page-views and custom events)
+/// when they don't match — so any visit from `localhost`, a staging box, or
+/// your own machine is never recorded.
+const PRODUCTION_DOMAIN: &str = "gpoblon.net";
+
 /// Injects the Umami analytics `<script>` tag.
 ///
 /// The website-id is fetched from the server config at SSR render time
@@ -47,6 +55,7 @@ fn UmamiScriptInner() -> Element {
                     defer: true,
                     "data-website-id": "{id_value}",
                     "data-host-url": PROXY_HOST_URL,
+                    "data-domains": PRODUCTION_DOMAIN,
                 }
             }
         }

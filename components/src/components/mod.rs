@@ -1,6 +1,9 @@
 mod badge;
 pub use badge::*;
 
+mod grid;
+pub use grid::*;
+
 mod button;
 pub use button::*;
 

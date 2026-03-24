@@ -1,5 +1,5 @@
 use dioxus::prelude::*;
-use pages::{Article, Connect, Experience, Home, Knowledge, Project, Projects, TermsOfUse};
+use pages::{Article, Blog, Connect, Experience, Home, Lab, Project, TermsOfUse};
 use widgets::{
     footer::Footer,
     nav::{NavBar, Navigable},
@@ -11,7 +11,6 @@ fn Layout() -> Element {
         div { class: "min-h-screen flex flex-col",
             NavBar::<Route> {}
             SuspenseBoundary {
-                // TODO: Implement a loading spinner or a more sophisticated loading indicator.
                 fallback: |_| rsx! {
                     div { class: "block justify-center items-center h-full", "Loading..." }
                 },
@@ -28,34 +27,33 @@ pub enum Route {
     #[route("/")]
     Home {},
     #[route("/lab")]
-    Projects {},
+    Lab {},
     #[route("/lab/:slug")]
     Project { slug: String },
     #[route("/experience")]
     Experience {},
     #[route("/blog")]
-    Knowledge {},
+    Blog {},
     #[route("/contact")]
     Connect {},
     #[route("/terms-of-use")]
     TermsOfUse {},
-    /// Dynamically defined routes based on fetched article slug
     #[route("/articles/:..slug")]
     Article { slug: Vec<String> },
 }
 
 impl Navigable for Route {
     const ITEMS: &[Self] = &[
-        Route::Knowledge {},
-        Route::Projects {},
+        Route::Blog {},
+        Route::Lab {},
         Route::Experience {},
         Route::Connect {},
     ];
 
     fn color(&self) -> &'static str {
         match self {
-            Route::Knowledge {} | Route::Article { .. } => "knowledge",
-            Route::Projects {} | Route::Project { .. } => "projects",
+            Route::Blog {} | Route::Article { .. } => "knowledge",
+            Route::Lab {} | Route::Project { .. } => "projects",
             Route::Experience {} => "experience",
             Route::Connect {} => "connect",
             _ => "foreground",
@@ -63,8 +61,8 @@ impl Navigable for Route {
     }
     fn slug(&self) -> &'static str {
         match self {
-            Route::Knowledge {} | Route::Article { .. } => "knowledge",
-            Route::Projects {} | Route::Project { .. } => "projects",
+            Route::Blog {} | Route::Article { .. } => "knowledge",
+            Route::Lab {} | Route::Project { .. } => "projects",
             Route::Experience {} => "experience",
             Route::Connect {} => "connect",
             _ => "",
@@ -73,8 +71,8 @@ impl Navigable for Route {
     fn icon(&self) -> Element {
         use components::Icons;
         let icon = match self {
-            Route::Knowledge {} | Route::Article { .. } => Icons::Newsstand,
-            Route::Projects {} | Route::Project { .. } => Icons::Experiment,
+            Route::Blog {} | Route::Article { .. } => Icons::Newsstand,
+            Route::Lab {} | Route::Project { .. } => Icons::Experiment,
             Route::Experience {} => Icons::Landscape,
             Route::Connect {} => Icons::Join,
             _ => return rsx! {},

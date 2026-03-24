@@ -50,9 +50,13 @@ fn main() {
         use dioxus::server::axum::routing::{get, post};
 
         let config = kernel::config::Config::init();
-        let state = state::State::try_fetch_data(config.clone())
-            .await
-            .unwrap_or_default();
+        let state = match state::State::try_fetch_data(config.clone()).await {
+            Ok(state) => state,
+            Err(err) => {
+                tracing::warn!("Failed to fetch data: {err}.\n Using default (empty) state.");
+                state::State::default()
+            }
+        };
 
         let router = dioxus::server::router(App)
             .route(

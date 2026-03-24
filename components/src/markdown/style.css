@@ -1,0 +1,83 @@
+/* Markdown Alert Styles
+ * Mirrors the visual style of the Callout component (components/src/components/callout/style.css).
+ * comrak renders > [!NOTE], > [!TIP], etc. as:
+ *   <div class="markdown-alert markdown-alert-note">
+ *     <p class="markdown-alert-title">…</p>
+ *     …content…
+ *   </div>
+ */
+
+.markdown-alert {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--color-border);
+    background-color: var(--color-muted);
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+/* ── Variant border colours ──────────────────────────────────────────────── */
+
+.markdown-alert-note {
+    border-left-color: var(--color-projects);
+}
+
+.markdown-alert-tip {
+    border-left-color: var(--color-knowledge);
+}
+
+.markdown-alert-important {
+    border-left-color: var(--color-projects);
+}
+
+.markdown-alert-warning {
+    border-left-color: var(--color-experience);
+}
+
+.markdown-alert-caution {
+    border-left-color: var(--color-connect);
+}
+
+/* ── Title ───────────────────────────────────────────────────────────────── */
+
+.markdown-alert-title {
+    margin: 0 0 0.5rem 0 !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: var(--color-foreground) !important;
+}
+
+.markdown-alert-note > .markdown-alert-title {
+    color: var(--color-projects) !important;
+}
+
+.markdown-alert-tip > .markdown-alert-title {
+    color: var(--color-knowledge) !important;
+}
+
+.markdown-alert-important > .markdown-alert-title {
+    color: var(--color-projects) !important;
+}
+
+.markdown-alert-warning > .markdown-alert-title {
+    color: var(--color-experience) !important;
+}
+
+.markdown-alert-caution > .markdown-alert-title {
+    color: var(--color-connect) !important;
+}
+
+/* ── Content: neutralise prose p margins so spacing comes from the title's  */
+/*    bottom margin only                                                      */
+
+.markdown-alert > p:not(.markdown-alert-title) {
+    margin: 0 !important;
+    color: var(--color-foreground);
+    text-align: left;
+}
+
+.markdown-alert > p:not(.markdown-alert-title) + p:not(.markdown-alert-title) {
+    margin-top: 0.5rem !important;
+}

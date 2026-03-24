@@ -34,7 +34,7 @@ home_experience = My academic journey, my professional experience, and a glimpse
 projects_source_code = Source code available at
 
 # connect
-connect_title = Feel free to reach
+connect_title = Feel free to reach out
 connect_description = I genuinely value the connection, whether you bring a professional opportunity or want a casual chat between enthousiasts. Expect a reply, always.
 connect_name = Name
 connect_email = E-mail
@@ -49,8 +49,12 @@ connect_send_server_error = Message could not be sent
 
 # articles
 article_list_metadata_error = Failed to fetch articles
+
+# projects
+project_list_metadata_error = Failed to fetch projects
 article_error = Failed to fetch article
-article_feedback_contact = Thanks for reading. I hope it has sparked some new thoughts or insights! Questions, remarks, or caught an inconsistency? My inbox is open, feel free to reach out
+article_feedback_contact = Thanks for reading. I hope it has sparked some new thoughts or insights! Questions, remarks, or caught an inconsistency? My inbox is open, please
+article_feedback_contact_link_alt = reach out
 
 # experience
 experiences_work = WORK EXPERIENCE

@@ -18,10 +18,17 @@ pub fn Article(article: super::model::Article) -> Element {
             components::Separator { class: "py-4" }
             components::Markdown { content }
             components::Separator { class: "py-4" }
-            p { class: "text-center", { kernel::lang::t!("article_feedback_contact") } }
-            Link {
-                to: "/contact",
-                { kernel::lang::t!("here") }
+            p {
+                class: "text-left",
+                { kernel::lang::t!("article_feedback_contact") }
+                " "
+                Link {
+                    class: "link underline",
+                    new_tab: true,
+                    to: "/contact",
+                    { kernel::lang::t!("article_feedback_contact_link_alt") }
+                }
+                "."
             }
         }
     }
