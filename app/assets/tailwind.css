@@ -877,6 +877,9 @@
   .w-full {
     width: 100%;
   }
+  .w-px {
+    width: 1px;
+  }
   .max-w-5xl {
     max-width: var(--container-5xl);
   }
@@ -1118,28 +1121,10 @@
   .border-transparent {
     border-color: transparent;
   }
-  .bg-\[var\(--color-connect\)\]\/25 {
-    background-color: var(--color-connect);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-connect) 25%, transparent);
-    }
-  }
-  .bg-\[var\(--color-experience\)\]\/25 {
-    background-color: var(--color-experience);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-experience) 25%, transparent);
-    }
-  }
   .bg-\[var\(--color-knowledge\)\]\/50 {
     background-color: var(--color-knowledge);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-knowledge) 50%, transparent);
-    }
-  }
-  .bg-\[var\(--color-projects\)\]\/25 {
-    background-color: var(--color-projects);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-projects) 25%, transparent);
     }
   }
   .bg-accent {
@@ -1229,8 +1214,8 @@
   .pt-2 {
     padding-top: calc(var(--spacing) * 2);
   }
-  .pt-4 {
-    padding-top: calc(var(--spacing) * 4);
+  .pt-8 {
+    padding-top: calc(var(--spacing) * 8);
   }
   .pt-22 {
     padding-top: calc(var(--spacing) * 22);
@@ -1246,6 +1231,9 @@
   }
   .pb-2 {
     padding-bottom: calc(var(--spacing) * 2);
+  }
+  .pb-4 {
+    padding-bottom: calc(var(--spacing) * 4);
   }
   .pb-12 {
     padding-bottom: calc(var(--spacing) * 12);

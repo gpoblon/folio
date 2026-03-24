@@ -16,4 +16,7 @@ pub mod git;
 #[cfg(feature = "server")]
 pub mod resources;
 
+#[cfg(feature = "server")]
+pub mod rate_limit;
+
 pub use timeflow::prelude::DateTime;

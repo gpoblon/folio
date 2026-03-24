@@ -21,7 +21,6 @@ pub fn SocialLink(props: SocialLinkProps) -> Element {
     };
 
     rsx! {
-        components::Separator {}
         a {
             class: "flex items-baseline w-full pl-8 hover:opacity-80 transition-opacity no-underline! link",
             href: props.href,

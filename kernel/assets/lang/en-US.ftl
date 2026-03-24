@@ -46,6 +46,7 @@ connect_send_success = Mail received!
 connect_send_success_desc = Expect an answer in the next couple of days.
 connect_send_client_error = Form is invalid
 connect_send_server_error = Message could not be sent
+connect_send_rate_limited = Too many messages sent. Please wait a few minutes before trying again.
 
 # articles
 article_list_metadata_error = Failed to fetch articles

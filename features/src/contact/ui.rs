@@ -32,6 +32,17 @@ pub fn ContactForm(
                     }
                 },
                 { header } // Row 1, Col 1: Header section
+                // Honeypot field — hidden from real users, filled by bots
+                input {
+                    r#type: "text",
+                    name: "phone",
+                    autocomplete: "off",
+                    tabindex: "-1",
+                    aria_hidden: "true",
+                    style: "position:absolute;left:-9999px;opacity:0;height:0;width:0;",
+                    value: form.phone()(),
+                    oninput: move |evt| form.phone().set(evt.value()),
+                }
                 IdentityInputs { // Row 2, Col 1: Email and Name inputs
                     email: form.email(),
                     name: form.name(),
@@ -61,7 +72,7 @@ fn IdentityInputs(email: Store<String>, name: Store<String>) -> Element {
         div {
             class: "flex flex-col gap-2 sm:flex-row md:col-start-1 md:row-start-2",
             input {
-                class: "flex-1 p-6 rounded-full bg-[var(--color-experience)]/25 md:rounded-l-none",
+                class: "flex-1 p-6 rounded-full bg-muted md:rounded-l-none",
                 r#type: "email",
                 id: "email",
                 name: "email",
@@ -71,7 +82,7 @@ fn IdentityInputs(email: Store<String>, name: Store<String>) -> Element {
                 oninput: move |evt| email.set(evt.value()),
             }
             input {
-                class: "flex-1 p-6 rounded-full bg-[var(--color-experience)]/25",
+                class: "flex-1 p-6 rounded-full bg-muted",
                 r#type: "text",
                 id: "name",
                 name: "name",
@@ -89,7 +100,7 @@ fn IdentityInputs(email: Store<String>, name: Store<String>) -> Element {
 fn SubjectInput(subject: Store<String>) -> Element {
     rsx! {
         div {
-            class: "flex flex-col rounded-bl-4xl bg-[var(--color-connect)]/25 md:col-start-2 md:row-start-1 md:row-span-2",
+            class: "flex flex-col rounded-bl-4xl bg-muted md:col-start-2 md:row-start-1 md:row-span-2",
             input {
                 class: "mt-auto p-6 rounded-bl-4xl",
                 r#type: "text",
@@ -109,7 +120,7 @@ fn SubjectInput(subject: Store<String>) -> Element {
 fn MessageInput(message: Store<String>) -> Element {
     rsx! {
         textarea {
-            class: "w-full sm:w-3/5 p-6 rounded-tr-4xl bg-[var(--color-projects)]/25",
+            class: "w-full sm:w-3/5 p-6 rounded-tr-4xl bg-muted",
             id: "message",
             name: "message",
             required: true,

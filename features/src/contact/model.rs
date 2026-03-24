@@ -18,6 +18,9 @@ pub(super) struct ContactForm {
     pub subject: String,
     #[garde(ascii, length(min = 4, max = 4092))]
     pub message: String,
+    /// Honeypot field — hidden from real users, filled by bots.
+    #[garde(skip)]
+    pub phone: String,
 }
 
 /// State for the contact form submission
@@ -80,6 +83,7 @@ impl FormController {
         self.form.email().take();
         self.form.subject().take();
         self.form.message().take();
+        self.form.phone().take();
         let mut form_state = self.form_state;
         form_state.set(FormState::default());
     }

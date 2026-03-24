@@ -1,40 +1,39 @@
 use dioxus::prelude::*;
-use dioxus_primitives::separator::{self, SeparatorProps};
 
+/// Visual separator line (horizontal or vertical).
+///
+/// Renders a 1 px line coloured with `--color-muted-foreground` by default.
+/// Callers can add Tailwind utility classes (spacing, colour overrides, etc.)
+/// through the standard `class` attribute — they merge naturally with the
+/// built-in defaults.
 #[component]
-pub fn Separator(props: SeparatorProps) -> Element {
-    // Split caller-supplied attributes: pull out `class` for the spacing
-    // wrapper, forward everything else to the inner separator primitive.
-    //
-    // This keeps the visible line at exactly 1 px while still letting
-    // callers control the surrounding space with e.g. `class: "py-4"`.
-    let mut wrapper_class = String::new();
-    let inner_attrs: Vec<Attribute> = props
-        .attributes
-        .into_iter()
-        .filter(|attr| {
-            if attr.name == "class" {
-                if let dioxus::dioxus_core::AttributeValue::Text(ref v) = attr.value {
-                    wrapper_class = v.clone();
-                }
-                false
-            } else {
-                true
-            }
-        })
-        .collect();
+pub fn Separator(
+    /// Horizontal if true (default), vertical if false.
+    #[props(default = true)]
+    horizontal: bool,
+    /// Mark as purely decorative (hides from assistive technology).
+    #[props(default = false)]
+    decorative: bool,
+    /// Extra attributes forwarded to the underlying `<div>`.
+    #[props(extends = GlobalAttributes)]
+    attributes: Vec<Attribute>,
+    children: Element,
+) -> Element {
+    let orientation = if horizontal { "horizontal" } else { "vertical" };
+    let size = if horizontal {
+        "w-full h-px"
+    } else {
+        "w-px h-full"
+    };
 
     rsx! {
-        document::Link { rel: "stylesheet", href: asset!("./style.css") }
         div {
-            class: "{wrapper_class}",
-            separator::Separator {
-                class: "separator",
-                horizontal: props.horizontal,
-                decorative: props.decorative,
-                attributes: inner_attrs,
-                {props.children}
-            }
+            role: if !decorative { "separator" } else { "none" },
+            aria_orientation: if !decorative { orientation },
+            "data-orientation": orientation,
+            class: "bg-muted-foreground {size}",
+            ..attributes,
+            {children}
         }
     }
 }

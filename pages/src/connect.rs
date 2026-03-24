@@ -48,7 +48,7 @@ pub fn Connect() -> Element {
                 div {
                     class: "p-6",
                     h4 {
-                        class: "md:col-start-1 md:row-start-1 text-connect",
+                        class: "md:col-start-1 md:row-start-1 text-connect pb-4",
                         {t!("connect_title")}
                     }
                     p {
@@ -57,25 +57,28 @@ pub fn Connect() -> Element {
                 }
             },
             ad_slot: rsx! {
-                p {
-                    class: "pt-4 pl-8 text-muted-foreground",
-                    {t!("connect_alternative")}
-                }
-                SocialLink {
-                    prefix: "00",
-                    label: "EMAIL",
-                    href: "mailto:hello@gpoblon.net",
-                    alt: "hello@gpoblon.net"
-                }
-                SocialLink {
-                    prefix: "01",
-                    label: "GITHUB",
-                    href: "https://github.com/gpoblon"
-                }
-                SocialLink {
-                    prefix: "02",
-                    label: "LINKEDIN",
-                    href: "https://linkedin.com/in/gpoblon"
+                div {
+                    class: "flex flex-col gap-4 pt-8",
+                    p {
+                        class: "pl-8 text-muted-foreground",
+                        {t!("connect_alternative")}
+                    }
+                    SocialLink {
+                        prefix: "00",
+                        label: "EMAIL",
+                        href: "mailto:hello@gpoblon.net",
+                        alt: "hello@gpoblon.net"
+                    }
+                    SocialLink {
+                        prefix: "01",
+                        label: "GITHUB",
+                        href: "https://github.com/gpoblon"
+                    }
+                    SocialLink {
+                        prefix: "02",
+                        label: "LINKEDIN",
+                        href: "https://linkedin.com/in/gpoblon"
+                    }
                 }
             }
         }

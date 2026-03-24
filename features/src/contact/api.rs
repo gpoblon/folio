@@ -1,11 +1,32 @@
 use super::model::ContactForm;
 use dioxus::{fullstack::Form, prelude::*};
 
-#[server(config: dioxus_server::axum::Extension<kernel::config::Config>)]
+#[server(
+    config: dioxus_server::axum::Extension<kernel::config::Config>,
+    limiter: dioxus_server::axum::Extension<kernel::rate_limit::RateLimiter>,
+    headers: dioxus_fullstack::HeaderMap,
+)]
 pub async fn send_contact_email(Form(form): Form<ContactForm>) -> Result<(), HttpError> {
     use dioxus::logger::tracing;
-    // Validate the form data and retrieve its content
     use garde::Validate;
+
+    // --- Honeypot: reject if the hidden field was filled (bots only) ---
+    if !form.phone.is_empty() {
+        tracing::warn!("Honeypot triggered — likely bot submission.");
+        // Return Ok so bots think it succeeded (don't reveal the trap)
+        return Ok(());
+    }
+
+    // --- Rate limiting by IP + email composite key ---
+    let key = kernel::rate_limit::fingerprint_key(&headers, &form.email);
+    if limiter.check(&key).is_err() {
+        tracing::warn!("Rate limit exceeded for key={key}");
+        return HttpError::bad_request(
+            "Too many messages sent. Please try again later.".to_string(),
+        );
+    }
+
+    // --- Validate form fields ---
     if let Err(e) = form.validate() {
         return HttpError::bad_request(format!("Validation error: {}", e));
     }

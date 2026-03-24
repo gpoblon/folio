@@ -47,6 +47,7 @@ connect_send_success = E-mail reçu !
 connect_send_success_desc = J'y répondrai sans faute dans les jours à venir.
 connect_send_client_error = Le formulaire est invalide
 connect_send_server_error = Le message n'a pas pu être envoyé
+connect_send_rate_limited = Top nombreux messages envoyés. Veuillez réessayer dans quelques minutes.
 
 # articles
 article_list_metadata_error = Échec de la récupération des articles

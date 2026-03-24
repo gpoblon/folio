@@ -58,6 +58,9 @@ fn main() {
             }
         };
 
+        let contact_limiter =
+            kernel::rate_limit::RateLimiter::new(2, std::time::Duration::from_secs(600));
+
         let router = dioxus::server::router(App)
             .route(
                 "/resources/{*path}",
@@ -69,6 +72,7 @@ fn main() {
             .route("/stats/script.js", get(kernel::seo::umami_script_proxy))
             .route("/stats/api/send", post(kernel::seo::umami_api_proxy))
             .layer(Extension(config))
+            .layer(Extension(contact_limiter))
             .layer(Extension(state.articles))
             .layer(Extension(state.resources))
             .layer(Extension(state.projects));
