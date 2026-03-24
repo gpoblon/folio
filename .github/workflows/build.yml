@@ -1,20 +1,138 @@
 name: Build Folio Image
 
 on:
-  push:
-    branches: [main]
+  # push:
+  #   branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
   packages: write
 
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/folio:latest
+  # All persistent state lives under the runner's own tree — no sudo needed.
+  RUNNER_ROOT: /opt/github_runner/folio
+  CARGO_HOME: /opt/github_runner/folio/.cargo
+  RUSTUP_HOME: /opt/github_runner/folio/.rustup
+  SCCACHE_DIR: /opt/github_runner/folio/.sccache
+  LOCAL_BIN: /opt/github_runner/folio/.local/bin
+  # Absolute path so cargo resolves the wrapper without relying on PATH
+  RUSTC_WRAPPER: /opt/github_runner/folio/.local/bin/sccache
+  CARGO_INCREMENTAL: "0"
+  CARGO_TERM_COLOR: always
+  SCCACHE_CACHE_SIZE: 10G
+  SCCACHE_IDLE_TIMEOUT: "0"
+  RUSTFLAGS: "-Z unstable-options -C target-feature=+bulk-memory,+mutable-globals,+nontrapping-fptoint,+sign-ext -Z threads=8 -Z share-generics=y"
+
 jobs:
   build-and-push:
     runs-on: [self-hosted, linux, x64]
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+
+      # ── Toolchain setup (idempotent — skips if already present) ──
+
+      - name: Ensure Rust nightly toolchain
+        run: |
+          # Override any system CARGO_HOME/RUSTUP_HOME baked into the runner shell
+          export CARGO_HOME="$CARGO_HOME"
+          export RUSTUP_HOME="$RUSTUP_HOME"
+          export PATH="$CARGO_HOME/bin:$RUSTUP_HOME/bin:$PATH"
+          mkdir -p "$CARGO_HOME/bin" "$RUSTUP_HOME"
+
+          if ! command -v rustup &>/dev/null; then
+            echo "::group::Installing rustup"
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+              | CARGO_HOME="$CARGO_HOME" RUSTUP_HOME="$RUSTUP_HOME" sh -s -- \
+                  -y --default-toolchain nightly --no-modify-path
+            echo "::endgroup::"
+          fi
+
+          rustup default nightly
+          rustup target add wasm32-unknown-unknown
+          rustup component add rust-src
+          rustc --version
+
+      - name: Ensure build tools (sccache, dioxus-cli, wasm-bindgen-cli)
+        run: |
+          export CARGO_HOME="$CARGO_HOME"
+          export RUSTUP_HOME="$RUSTUP_HOME"
+          export PATH="$CARGO_HOME/bin:$RUSTUP_HOME/bin:$LOCAL_BIN:$PATH"
+          mkdir -p "$LOCAL_BIN"
+
+          # ── sccache ──
+          if ! command -v sccache &>/dev/null; then
+            echo "::group::Installing sccache"
+            SCCACHE_VERSION="v0.10.0"
+            curl -fsSL \
+              "https://github.com/mozilla/sccache/releases/download/${SCCACHE_VERSION}/sccache-${SCCACHE_VERSION}-x86_64-unknown-linux-musl.tar.gz" \
+              -o /tmp/sccache.tar.gz
+            tar xzf /tmp/sccache.tar.gz -C /tmp
+            cp "/tmp/sccache-${SCCACHE_VERSION}-x86_64-unknown-linux-musl/sccache" "$LOCAL_BIN/sccache"
+            chmod +x "$LOCAL_BIN/sccache"
+            rm -rf /tmp/sccache*
+            echo "::endgroup::"
+          fi
+
+
+          # ── cargo-binstall ──
+          if ! command -v cargo-binstall &>/dev/null; then
+            echo "::group::Installing cargo-binstall"
+            curl -L --proto '=https' --tlsv1.2 -sSf \
+              https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh \
+              | CARGO_HOME="$CARGO_HOME" RUSTUP_HOME="$RUSTUP_HOME" bash
+            echo "::endgroup::"
+          fi
+
+          # ── dioxus-cli ──
+          DX_WANT="0.7.3"
+          if ! command -v dx &>/dev/null || ! dx --version 2>/dev/null | grep -qF "$DX_WANT"; then
+            echo "::group::Installing dioxus-cli"
+            CARGO_HOME="$CARGO_HOME" cargo binstall -y "dioxus-cli@${DX_WANT}"
+            echo "::endgroup::"
+          fi
+
+          # ── wasm-bindgen-cli ──
+          WB_WANT="0.2.114"
+          if ! command -v wasm-bindgen &>/dev/null || ! wasm-bindgen --version 2>/dev/null | grep -qF "$WB_WANT"; then
+            echo "::group::Installing wasm-bindgen-cli"
+            CARGO_HOME="$CARGO_HOME" cargo binstall -y "wasm-bindgen-cli@${WB_WANT}"
+            echo "::endgroup::"
+          fi
+
+          echo "--- Versions ---"
+          sccache --version
+          dx --version
+          wasm-bindgen --version
+
+      # ── Build natively on the VPS ──
+
+      - name: Start sccache server
+        run: |
+          export PATH="$LOCAL_BIN:$PATH"
+          mkdir -p "$SCCACHE_DIR"
+          sccache --stop-server 2>/dev/null || true
+          sccache --start-server
+
+      - name: Build with dx bundle (release)
+        run: |
+          export CARGO_HOME="$CARGO_HOME"
+          export RUSTUP_HOME="$RUSTUP_HOME"
+          export PATH="$CARGO_HOME/bin:$RUSTUP_HOME/bin:$LOCAL_BIN:$PATH"
+
+          dx bundle -p app --web --release
+
+      - name: Show sccache stats
+        if: always()
+        run: |
+          export PATH="$LOCAL_BIN:$PATH"
+          sccache --show-stats
+          sccache --stop-server 2>/dev/null || true
+
+      # ── Package into minimal runtime container ──
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -23,19 +141,33 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push via Podman
+      - name: Build minimal runtime image and push
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/folio:latest
-          CACHE_IMAGE=ghcr.io/${{ github.repository_owner }}/folio-cache:latest
+          BUILD_DIR="target/dx/app/release/web"
 
-          # Pull the previous cache image to seed layer cache (best-effort)
-          podman pull $CACHE_IMAGE || true
+          # Inline Containerfile — sed strips leading yaml-indentation whitespace
+          cat > /tmp/Containerfile.runtime <<-'DOCKERFILE'
+          FROM gcr.io/distroless/cc-debian13:latest-amd64
+          WORKDIR /app
+          COPY app /app/server
+          COPY public /app/public
+          ENV IP=0.0.0.0
+          ENV PORT=8080
+          EXPOSE 8080
+          STOPSIGNAL SIGINT
+          ENTRYPOINT ["/app/server"]
+          DOCKERFILE
+          sed -i 's/^[[:space:]]*//' /tmp/Containerfile.runtime
 
           podman build \
-            --cache-from $CACHE_IMAGE \
-            --cache-to $CACHE_IMAGE \
-            -t $IMAGE_NAME \
-            .
+            -f /tmp/Containerfile.runtime \
+            -t "$IMAGE_NAME" \
+            "$BUILD_DIR"
 
-          podman push $IMAGE_NAME
-          podman push $CACHE_IMAGE
+          podman push "$IMAGE_NAME"
+
+      # ── Cleanup ──
+
+      - name: Prune old podman images
+        if: always()
+        run: podman image prune -f --filter "until=168h"

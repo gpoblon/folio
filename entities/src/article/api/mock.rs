@@ -102,6 +102,8 @@ A link: [title](https://www.example.com)
 
 ✅ R
 
+[INTERNAL ARTICLE LINK](it/dev/lang/rust/intro)
+
 An image but it does not exist : ![alt text](/assets/test.png)
 
 An image: ![/assets/test.png]

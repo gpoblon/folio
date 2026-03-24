@@ -7,19 +7,19 @@ on:
     types: [completed]
   workflow_dispatch:
 
-# Only run if the triggering build actually succeeded (no-op for manual trigger).
-# The condition is evaluated per-job so manual dispatches always proceed.
 permissions:
   contents: read
   packages: read
 
 jobs:
   deploy-to-vps:
+    # Only run if the build succeeded OR it was a manual trigger
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: [self-hosted, linux, x64]
+
     steps:
       - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -29,22 +29,28 @@ jobs:
         env:
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
         run: |
+          # 1. Setup environment to talk to the user-level systemd daemon
+          export XDG_RUNTIME_DIR=/run/user/$(id -u)
+          export DBUS_SESSION_BUS_ADDRESS=unix:path=${XDG_RUNTIME_DIR}/bus
+
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/folio:latest
 
+          # 2. Ensure directory exists and update secrets
           mkdir -p ~/apps/folio
-
           echo "Writing the secure .env file..."
           echo "$PROD_ENV_FILE" > ~/apps/folio/.env
           chmod 600 ~/apps/folio/.env
 
+          # 3. Pull the fresh image
           echo "Pulling the latest image..."
           podman pull $IMAGE_NAME
 
-          echo "Restarting the container..."
-          podman run -d --replace \
-            --name folio \
-            -p 127.0.0.1:9001:8080 \
-            --env-file ~/apps/folio/.env \
-            $IMAGE_NAME
+          # 4. RESTART THE SERVICE (Systemd handles the container stop/start/replace)
+          echo "Restarting the folio systemd service..."
+          systemctl --user restart folio
+
+          # 5. Verification
+          echo "Verifying service status..."
+          systemctl --user is-active folio
 
           echo "Deployment Successful!"

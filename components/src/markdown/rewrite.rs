@@ -3,24 +3,46 @@
 /// Returns `true` when the URL is already absolute or points to an external
 /// resource (http(s), mailto, …) or is a pure fragment (`#…`).
 fn is_absolute_or_external(url: &str) -> bool {
-    url.starts_with('/')
-        || url.starts_with("http")
-        || url.starts_with("mailto:")
-        || url.starts_with('#')
+    url.starts_with("http") || url.starts_with("mailto:") || url.starts_with('#')
 }
 
 /// Rewrite a relative **link** URL so the browser resolves it correctly.
 ///
-/// - Markdown article paths (ending in `.md`) → `/articles/<path>`
-/// - Everything else (resources, etc.)        → `/<path>`
+/// - Markdown article paths (ending in `.md` or with no extension) → `/articles/<path>`
+/// - Everything else (resources with a non-md extension, etc.)     → `/<path>`
+///
+/// Authors often omit the `.md` extension when linking to other articles
+/// (e.g. `[see here](IT/architecture)`), matching Obsidian's behaviour for
+/// standard links. Any relative path without a recognised resource extension
+/// is therefore treated as an article reference.
+/// Root-relative paths follow the same rules after stripping the leading `/`.
 fn rewrite_link_url(url: &str) -> String {
     if is_absolute_or_external(url) {
         return url.to_string();
     }
-    if url.ends_with(".md") {
-        format!("/articles/{url}")
+    // Strip a leading `/` so we never produce `/articles//IT/arch.md`.
+    let path = url.trim_start_matches('/');
+    if is_article_path(path) {
+        format!("/articles/{path}")
+    } else if url.starts_with('/') {
+        // Already a root-relative resource path (e.g. `/resources/img.png`).
+        url.to_string()
     } else {
         format!("/{url}")
+    }
+}
+
+/// Returns `true` when `path` should be treated as an article reference.
+///
+/// A path is an article when it ends in `.md` **or** has no file extension
+/// at all. Paths with any other extension (`.png`, `.pdf`, …) are resources.
+fn is_article_path(path: &str) -> bool {
+    // Use only the last segment to avoid being fooled by dots in directory names.
+    let last_segment = path.rsplit('/').next().unwrap_or(path);
+    match last_segment.rsplit_once('.') {
+        None => true,            // no extension → article slug
+        Some((_, "md")) => true, // explicit .md extension
+        Some(_) => false,        // any other extension → resource
     }
 }
 
@@ -31,10 +53,12 @@ fn rewrite_wikilink_url(url: &str) -> String {
     if is_absolute_or_external(url) {
         return url.to_string();
     }
-    if url.ends_with(".md") {
-        format!("/articles/{url}")
+    // Strip a leading `/` so we never produce `/articles//IT/arch.md`.
+    let path = url.trim_start_matches('/');
+    if path.ends_with(".md") {
+        format!("/articles/{path}")
     } else {
-        format!("/articles/{url}.md")
+        format!("/articles/{path}.md")
     }
 }
 
@@ -42,6 +66,10 @@ fn rewrite_wikilink_url(url: &str) -> String {
 /// `resources/` tree in the knowledge-base, so we just ensure a leading `/`.
 pub(super) fn rewrite_image_url(url: &str) -> String {
     if is_absolute_or_external(url) {
+        return url.to_string();
+    }
+    // Already root-relative (e.g. `/resources/img.png`) — return as-is.
+    if url.starts_with('/') {
         return url.to_string();
     }
     format!("/{url}")
@@ -164,10 +192,43 @@ mod tests {
     }
 
     #[test]
+    fn root_relative_md_link_prefixed_with_articles() {
+        assert_eq!(
+            rewrite_link_url("/IT/architecture.md"),
+            "/articles/IT/architecture.md"
+        );
+    }
+
+    #[test]
+    fn relative_extensionless_link_treated_as_article() {
+        assert_eq!(
+            rewrite_link_url("IT/dev/lang/rust/compiler"),
+            "/articles/IT/dev/lang/rust/compiler"
+        );
+    }
+
+    #[test]
+    fn root_relative_extensionless_link_treated_as_article() {
+        assert_eq!(
+            rewrite_link_url("/IT/dev/lang/rust/compiler"),
+            "/articles/IT/dev/lang/rust/compiler"
+        );
+    }
+
+    #[test]
     fn relative_non_md_link_prefixed() {
         assert_eq!(
             rewrite_link_url("resources/file.txt"),
             "/resources/file.txt"
+        );
+    }
+
+    #[test]
+    fn directory_with_dot_extensionless_file_treated_as_article() {
+        // A dot in a directory name must not fool the extension check.
+        assert_eq!(
+            rewrite_link_url("IT/v1.0/release-notes"),
+            "/articles/IT/v1.0/release-notes"
         );
     }
 
