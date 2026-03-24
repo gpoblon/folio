@@ -1,0 +1,41 @@
+name: Build Folio Image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push via Podman
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/folio:latest
+          CACHE_IMAGE=ghcr.io/${{ github.repository_owner }}/folio-cache:latest
+
+          # Pull the previous cache image to seed layer cache (best-effort)
+          podman pull $CACHE_IMAGE || true
+
+          podman build \
+            --cache-from $CACHE_IMAGE \
+            --cache-to $CACHE_IMAGE \
+            -t $IMAGE_NAME \
+            .
+
+          podman push $IMAGE_NAME
+          podman push $CACHE_IMAGE

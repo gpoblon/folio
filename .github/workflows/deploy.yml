@@ -1,21 +1,23 @@
-name: Deploy Folio Fullstack
+name: Deploy Folio to VPS
 
-# Workflow is triggered manually from the GitHub Actions UI
+# Triggered automatically once the Build workflow succeeds, or manually.
 on:
+  workflow_run:
+    workflows: ["Build Folio Image"]
+    types: [completed]
   workflow_dispatch:
 
-# Give GitHub token permission to push to the registry
+# Only run if the triggering build actually succeeded (no-op for manual trigger).
+# The condition is evaluated per-job so manual dispatches always proceed.
 permissions:
   contents: read
-  packages: write
+  packages: read
 
 jobs:
-  build-and-push:
+  deploy-to-vps:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: [self-hosted, linux, x64]
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
-
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -23,19 +25,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and Push via Podman
-        # Ubuntu runners have Podman installed by default!
-        run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/folio:latest
-          podman build -t $IMAGE_NAME .
-          podman push $IMAGE_NAME
-
-  deploy-to-vps:
-    runs-on: [self-hosted, linux, x64]
-    steps:
       - name: Deploy App on Server
         env:
-          # Pass your secret into the environment so the script can use it
           PROD_ENV_FILE: ${{ secrets.PROD_ENV_FILE }}
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/folio:latest
@@ -43,11 +34,9 @@ jobs:
           mkdir -p ~/apps/folio
 
           echo "Writing the secure .env file..."
-          echo "$PROD_ENV_FILE" > /apps/folio/.env
-          chmod 600 /apps/folio/.env
+          echo "$PROD_ENV_FILE" > ~/apps/folio/.env
+          chmod 600 ~/apps/folio/.env
 
-          # Since the runner just built the image in the previous step,
-          # it is likely already logged into ghcr.io, but we can pull directly!
           echo "Pulling the latest image..."
           podman pull $IMAGE_NAME
 
