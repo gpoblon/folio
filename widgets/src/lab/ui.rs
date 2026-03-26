@@ -34,7 +34,7 @@ fn LabGridHeader(search_query: Signal<String>) -> Element {
     rsx! {
         div {
             class: "flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 w-full mb-6",
-            h1 { class: "text-projects", { kernel::lang::t!("projects") } }
+            h1 { class: "text-projects", "LAB" }
             // For now, search bar does not make sense for projects
             // components::search::SearchBar {
             //     query: search_query,

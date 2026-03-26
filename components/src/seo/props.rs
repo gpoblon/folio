@@ -42,6 +42,24 @@ pub struct SeoProps {
     /// Explicit keyword strings for structured data.
     ///
     /// Slug-derived keywords are always merged in automatically.
+    ///
+    /// Keywords are emitted both as a comma-separated `"keywords"` string and
+    /// as an `"about"` array of `{ "@type": "Thing", "name": … }` nodes in the
+    /// JSON-LD graph.  While standard search engines rely on the string form,
+    /// LLMs and GEO crawlers lean heavily on the `"about"` array to map topics
+    /// to semantic entities.
+    ///
+    /// For stronger GEO entity disambiguation you can override the
+    /// auto-generated `"about"` nodes by supplying them explicitly in
+    /// [`SeoProps::schema_data`].  Available `@type` values to consider:
+    ///
+    /// | `@type`                | Use for                                                      |
+    /// |------------------------|--------------------------------------------------------------|
+    /// | `"ComputerLanguage"`   | Programming languages (Rust, Python, C++…)                   |
+    /// | `"SoftwareApplication"`| Frameworks, libraries, databases (Dioxus, Axum, SurrealDB…) |
+    /// | `"DefinedTerm"`        | Methodologies, standards, disciplines (DDD, WebAssembly…)    |
+    /// | `"Place"`              | Locations (France, Niort…)                                   |
+    /// | `"Thing"`              | Default / catch-all                                          |
     #[props(optional)]
     pub schema_keywords: Option<Vec<String>>,
 
@@ -64,6 +82,28 @@ pub struct SeoProps {
     /// Explicit article tags for `article:tag` OG meta and RSS categories.
     #[props(optional)]
     pub article_tags: Option<Vec<String>>,
+}
+
+impl Default for SeoProps {
+    fn default() -> Self {
+        Self {
+            title: String::new(),
+            description: String::new(),
+            canonical_path: String::new(),
+            og_type: "website".into(),
+            og_image: None,
+            og_image_alt: None,
+            locale: Lang::default(),
+            alternate_path: None,
+            schema_type: "WebSite",
+            schema_keywords: None,
+            schema_data: None,
+            date_published: None,
+            date_modified: None,
+            robots: "index, follow".into(),
+            article_tags: None,
+        }
+    }
 }
 
 // ── Constructors ──────────────────────────────────────────────────────────────
@@ -93,7 +133,7 @@ impl SeoProps {
             date_published: created.map(|d| ensure_tz(&d)),
             date_modified: modified.map(|d| ensure_tz(&d)),
             article_tags: Some(tags.to_vec()),
-            ..Self::defaults()
+            ..Self::default()
         }
     }
 
@@ -125,61 +165,65 @@ impl SeoProps {
             date_modified: modified.map(|d| ensure_tz(&d)),
             schema_data,
             article_tags: Some(tags.to_vec()),
-            ..Self::defaults()
+            ..Self::default()
         }
     }
 
     /// Fallback props for the article detail page when metadata hasn't loaded.
     pub fn article_fallback(canonical_path: &str, slug_segments: &[String]) -> Self {
+        let mut kw = slug_segments.to_vec();
+        kw.extend([
+            "Rust".into(),
+            "Software Architecture".into(),
+            "Software Engineering".into(),
+        ]);
+
         Self {
-            title: "Article — Knowledge Base".into(),
-            description: "A technical article by Gaetan POBLON on Rust, Dioxus, software architecture, or engineering practices.".into(),
+            title: "Article — Rust & Software Engineering".into(),
+            description: "A technical deep-dive article by Gaëtan POBLON covering Rust, software architecture, Domain-Driven Design, cross-platform development, or modern engineering practices. Practical insights from building production systems.".into(),
             canonical_path: canonical_path.into(),
             og_type: "article".into(),
             schema_type: "TechArticle",
-            schema_keywords: Some(slug_segments.to_vec()),
-            ..Self::defaults()
+            schema_keywords: Some(kw),
+            schema_data: Some(json!({
+                "about": [
+                    {"@type": "ComputerLanguage", "name": "Rust Programming Language"},
+                    {"@type": "DefinedTerm", "name": "Software Architecture"}
+                ]
+            })),
+            ..Self::default()
         }
     }
 
     /// Fallback props for the project detail page when metadata hasn't loaded.
     pub fn project_fallback(canonical_path: &str) -> Self {
         Self {
-            title: "Project — Lab".into(),
-            description:
-                "An open-source project by Gaetan POBLON built with Rust, Dioxus, or WebAssembly."
-                    .into(),
+            title: "Project — Open-Source Rust Software".into(),
+            description: "An open-source project by Gaëtan POBLON, Rust Software Engineer — built with Dioxus, Axum, or WebAssembly for production-grade cross-platform applications and developer tools.".into(),
             canonical_path: canonical_path.into(),
             og_type: "website".into(),
             schema_type: "SoftwareSourceCode",
-            ..Self::defaults()
+            schema_keywords: Some(vec![
+                "Rust".into(),
+                "Open Source".into(),
+                "Cross-platform".into(),
+                "Dioxus".into(),
+                "Axum".into(),
+            ]),
+            schema_data: Some(json!({
+                "programmingLanguage": "Rust",
+                "about": [
+                    {"@type": "ComputerLanguage", "name": "Rust Programming Language"},
+                    {"@type": "DefinedTerm", "name": "Open Source Software"}
+                ]
+            })),
+            ..Self::default()
         }
     }
 
     /// Returns `true` when this page is an OG article type.
     pub fn is_article(&self) -> bool {
         self.og_type == "article"
-    }
-
-    /// Shared baseline — avoids repeating `None` / default fields.
-    fn defaults() -> Self {
-        Self {
-            title: String::new(),
-            description: String::new(),
-            canonical_path: String::new(),
-            og_type: "website".into(),
-            og_image: None,
-            og_image_alt: None,
-            locale: Lang::default(),
-            alternate_path: None,
-            schema_type: "WebSite",
-            schema_keywords: None,
-            schema_data: None,
-            date_published: None,
-            date_modified: None,
-            robots: "index, follow".into(),
-            article_tags: None,
-        }
     }
 }
 

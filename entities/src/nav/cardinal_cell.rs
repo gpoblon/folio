@@ -48,9 +48,8 @@ pub fn CardinalCell(
 
                     if let Some(sub) = &subtitle {
                         span {
-                            class: "text-xs text-{color}/70 font-light text-center max-w-48
+                            class: "text-xs text-{color} font-light text-center max-w-48
                                     transition-opacity duration-300",
-                            class: if is_active { "opacity-100" } else { "opacity-60" },
                             "{sub}"
                         }
                     }

@@ -6,7 +6,7 @@ use kernel::seo::{
 };
 use serde_json::{Value, json};
 
-use super::author::author_node;
+use super::author::{author_node, author_node_compact};
 use super::breadcrumb::breadcrumb_list;
 use super::props::SeoProps;
 
@@ -32,6 +32,8 @@ pub fn Seo(props: SeoProps) -> Element {
         article_tags,
     } = props;
 
+    // Home page uses its title as-is (already contains the brand);
+    // every other page gets the standard "Page Title | Brand" format.
     let full_title = format!("{title} | {SITE_NAME}");
     let canonical_url = format!("{SITE_URL}{canonical_path}");
     let og_image = og_image.as_deref().unwrap_or(DEFAULT_OG_IMAGE).to_string();
@@ -66,17 +68,36 @@ pub fn Seo(props: SeoProps) -> Element {
     // ── JSON-LD construction ──────────────────────────────────────────────────
 
     // 1. Primary entity — no @context here, it lives on the @graph wrapper.
-    let mut entity = json!({
-        "@type": schema_type,
-        "name": title,
-        "description": description,
-        "url": canonical_url,
-        "inLanguage": in_language,
-        "author": author_node(),
-        "publisher": author_node(),
-    });
+    //
+    // For Person pages the canonical author node already carries all structured
+    // career / education / contact data, so we start from it and overlay the
+    // page-context fields.  For all other schema types we build a generic node.
+    let mut entity = if is_person {
+        let mut node = author_node();
+        let obj = node.as_object_mut().unwrap();
+        obj.insert("mainEntityOfPage".into(), json!(canonical_url));
+        obj.insert("inLanguage".into(), json!(in_language));
+        node
+    } else {
+        json!({
+            "@type": schema_type,
+            "@id": canonical_url,
+            "mainEntityOfPage": canonical_url,
+            "name": title,
+            "description": description,
+            "url": canonical_url,
+            "inLanguage": in_language,
+        })
+    };
 
     let base = entity.as_object_mut().unwrap();
+
+    // Attach compact author/publisher to creative works — the full Person
+    // node lives in the @graph; compact refs link to it via @id.
+    if schema_type != "Person" && schema_type != "Organization" {
+        base.insert("author".into(), author_node_compact());
+        base.insert("publisher".into(), author_node_compact());
+    }
 
     // 2. Article-specific: headline + image (required by Google for Article rich results).
     if is_article {
@@ -92,10 +113,30 @@ pub fn Seo(props: SeoProps) -> Element {
         base.insert("dateModified".into(), Value::String(dm.clone()));
     }
 
-    // 4. Keywords.
+    // 4. Keywords & GEO Entities.
+    // See `SeoProps::schema_keywords` for the full list of available `@type`
+    // annotations and GEO disambiguation guidance.
     if !keywords_csv.is_empty() {
         base.insert("keywords".into(), Value::String(keywords_csv.clone()));
+
+        let about_nodes: Vec<Value> = keywords
+            .as_slice()
+            .iter()
+            .map(|k| json!({ "@type": "Thing", "name": k }))
+            .collect();
+
+        base.insert("about".into(), json!(about_nodes));
     }
+
+    // 4b. Speakable — tells voice assistants and AI overviews which parts of
+    // the page are most suitable for text-to-speech or featured snippet extraction.
+    base.insert(
+        "speakable".into(),
+        json!({
+            "@type": "SpeakableSpecification",
+            "cssSelector": ["[role=main]", "article", "#experience", "#blog", "#lab", ".prose"]
+        }),
+    );
 
     // 5. WebSite — add SearchAction for sitelinks searchbox.
     if schema_type == "WebSite" {
@@ -119,13 +160,56 @@ pub fn Seo(props: SeoProps) -> Element {
     // 7. Breadcrumb as a separate JSON-LD node.
     let breadcrumb = breadcrumb_list(&canonical_path, &title);
 
-    // 8. Wrap both nodes in a single @graph with one @context.
-    let json_ld_graph = json!({
-        "@context": "https://schema.org",
-        "@graph": [entity, breadcrumb],
+    // 8. ProfessionalService node — gives crawlers a Local-Business-like
+    //    signal without requiring a physical storefront address.
+    let professional_service = json!({
+        "@type": "ProfessionalService",
+        "@id": format!("{SITE_URL}/#service"),
+        "name": format!("{AUTHOR_NAME} — Rust Software Engineering"),
+        "url": SITE_URL,
+        "description": "Freelance Rust Software Engineering — fullstack cross-platform applications, compiler tooling, developer tools, and technical product delivery. Specialized in Axum, Dioxus, WebAssembly, and Domain-Driven Design.",
+        "provider": author_node_compact(),
+        "areaServed": [
+            { "@type": "Country", "name": "France" },
+            { "@type": "AdministrativeArea", "name": "Worldwide" }
+        ],
+        "serviceType": [
+            "Software Engineering",
+            "Rust Development",
+            "Fullstack Development",
+            "Software Architecture Consulting"
+        ],
+        "knowsAbout": [
+            "Rust", "Dioxus", "Axum", "WebAssembly",
+            "Domain-Driven Design", "Cross-platform Development"
+        ],
+        "availableLanguage": ["English", "French"],
+        "priceRange": "$$",
+        "location": {
+            "@type": "PostalAddress",
+            "addressLocality": "Niort",
+            "addressRegion": "Nouvelle-Aquitaine",
+            "addressCountry": "FR"
+        },
     });
 
-    // 9. Serialize.
+    // 9. Wrap all nodes in a single @graph with one @context.
+    //    The full Person node is always included so that compact @id
+    //    references from author/publisher fields resolve within the graph.
+    let mut graph_nodes = vec![entity, breadcrumb, professional_service];
+
+    // Only append the full Person node when the primary entity is NOT
+    // already a Person (avoids duplicate Person nodes on the home page).
+    if !is_person {
+        graph_nodes.push(author_node());
+    }
+
+    let json_ld_graph = json!({
+        "@context": "https://schema.org",
+        "@graph": graph_nodes,
+    });
+
+    // 10. Serialize.
     let json_ld_string = serde_json::to_string(&json_ld_graph).unwrap_or_else(|e| {
         dioxus::prelude::warn!("JSON-LD serialisation failed: {e}");
         "{}".to_string()
@@ -140,7 +224,9 @@ pub fn Seo(props: SeoProps) -> Element {
 
         // ── Core meta ─────────────────────────────────────────────────────────
         document::Meta { name: "description", content: "{description}" }
-        document::Meta { name: "robots", content: "{robots}" }
+        // The max-* directives are crucial for Generative AI and search engines to
+        // allow them to use your content in rich snippets and AI Overviews.
+        document::Meta { name: "robots", content: "{robots}, max-snippet:-1, max-image-preview:large, max-video-preview:-1" }
         document::Meta { name: "author", content: AUTHOR_NAME }
         document::Meta { name: "viewport", content: "width=device-width, initial-scale=1" }
 
@@ -187,7 +273,7 @@ pub fn Seo(props: SeoProps) -> Element {
 
         // ── OG Profile meta (Person pages) ────────────────────────────────────
         if is_person {
-            document::Meta { property: "profile:first_name", content: "Gaetan" }
+            document::Meta { property: "profile:first_name", content: "Gaëtan" }
             document::Meta { property: "profile:last_name", content: "POBLON" }
         }
 

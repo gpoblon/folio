@@ -1,45 +1,38 @@
 use dioxus::prelude::*;
+use kernel::seo::SITE_URL;
 use serde_json::json;
 
 #[component]
 pub fn Experience() -> Element {
     rsx! {
         components::Seo {
-            title: "Experience",
-            description: "Career path of Gaetan POBLON — Rust Software Engineer since 2019. Fullstack development with Dioxus, Axum, and WebAssembly. Background in fintech, music-tech, and SaaS platforms.",
+            title: "Experience — About me, Career & Resume",
+            description: "Career path of Gaëtan POBLON, Rust Software Engineer since 2019. From scaling a 592-student campus as Head of Education & IT at 42 Angoulême to building a Rust compiler toolchain at Normation — spanning education technology, Infrastructure-as-Code, product management, and fullstack development with Dioxus, Axum, and WebAssembly.",
             canonical_path: "/experience",
             schema_type: "ProfilePage",
             schema_keywords: vec![
-                "Gaetan Poblon Resume".into(),
-                "Rust Developer Experience".into(),
-                "Fullstack Software Engineer".into(),
+                "Gaëtan POBLON Resume".into(),
+                "Gaetan Poblon Experience".into(),
+                "Rust Software Engineer Career".into(),
+                "Fullstack Rust Developer".into(),
+                "42 School".into(),
+                "Head of Education IT".into(),
+                "Compiler Engineer Rust".into(),
+                "Infrastructure as Code Developer".into(),
                 "Dioxus Developer".into(),
                 "Axum Backend Engineer".into(),
-                "WebAssembly Engineer".into(),
-                "Software Architect".into(),
-                "France".into(),
+                "Software Architect France".into(),
+                "Product Manager Engineer".into(),
+                "Cross-platform Development".into(),
+                "Education Technology".into(),
             ],
+            // The full Person node (occupation, alumni, credentials, awards, …)
+            // is already in the JSON-LD graph via author_node(). A compact @id
+            // reference is sufficient to link this ProfilePage to it.
             schema_data: json!({
                 "mainEntity": {
                     "@type": "Person",
-                    "@id": "https://gpoblon.net/#person",
-                    "hasOccupation": {
-                        "@type": "Occupation",
-                        "name": "Rust Software Engineer",
-                        "occupationLocation": {
-                            "@type": "Country",
-                            "name": "France"
-                        },
-                        "skills": "Rust, Dioxus, Axum, WebAssembly, Software Architecture, Cross-platform Development"
-                    },
-                    "knowsAbout": [
-                        "Rust Programming Language",
-                        "Fullstack Web Development",
-                        "Cross-platform Applications",
-                        "Software Architecture",
-                        "WebAssembly",
-                        "Distributed Systems"
-                    ]
+                    "@id": format!("{SITE_URL}/#person"),
                 }
             }),
         }

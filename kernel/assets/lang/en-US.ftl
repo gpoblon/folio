@@ -19,7 +19,7 @@ home_last_update = Latest update
 home_availability = Open to missions or roles from May 2026
 
 home_identity = Software Engineer living in Niort, France.
-    Rustacean since 2019, I shipped FullStack Rust cross-platform applications.
+    Rustacean since 2019. Shipping FullStack Rust cross-platform applications.
     Broadening into SW Architecture and AI.
 home_contact = Machines execute, people collaborate.
     Whether trading insights with enthusiasts or forging professional collaborations, I am just a message away!
@@ -48,6 +48,10 @@ connect_send_client_error = Form is invalid
 connect_send_server_error = Message could not be sent
 connect_send_rate_limited = Too many messages sent. Please wait a few minutes before trying again.
 
+# routing
+route_not_found = Unreachable resource
+go_back = Go back
+
 # articles
 article_list_metadata_error = Failed to fetch articles
 
@@ -58,9 +62,22 @@ article_feedback_contact = Thanks for reading. I hope it has sparked some new th
 article_feedback_contact_link_alt = reach out
 
 # experience
-experiences_work = WORK EXPERIENCE
-experiences_education = EDUCATION
+experiences_work = Work Experience
+experiences_education = Education
+experiences_introduction = Bytes of me
+experiences_introduction_content = Forged by Rust's safety standards since 2019, I treat technical expertise as a discipline of efficiency, readability and robustness: principles I apply to every technology I work with.\
+    I sustain this rigor through a continuous learning loop: theoretical exploration fuels my practice, while writing and sharing help anchor my knowledge.\
+    This standard also dictates my operational approach: I observe the system and its actors from a hands-on level, then broaden my perspective to the product.
+
+    The past four years of cross-functional experience have honed my vision of software engineering, my understanding of product dynamics and my ability to bridge the gap between technical teams, users, and stakeholders.\
+    This journey shaped the following convictions:
+    - On a personal scope : my value peaks in un-siloed environments where engineering, processes, and product intersect.
+    - From a collective standpoint : I view empathy, collaboration, and ownership as the fuel of software engineering.
+
+    Above all, I aim to maintain a core balance: serving both Developer Experience and User Experience while pragmatically respecting the company's business needs.
+
 download_cv = Download my resume
+
 
 # callout
 articles_coming_soon_title = Deciphering my own notes

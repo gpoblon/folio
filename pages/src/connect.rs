@@ -12,17 +12,19 @@ use serde_json::json;
 pub fn Connect() -> Element {
     rsx! {
         components::Seo {
-            title: "Contact",
-            description: "Get in touch with Gaetan POBLON. Whether for professional collaboration, freelance projects, or a casual chat between enthusiasts.",
+            title: "Connect — Hire a Rust Software Engineer",
+            description: "Get in touch with Gaëtan POBLON for Rust software engineering, fullstack development, or technical consulting. Available for full-time positions, freelance contracts, and professional collaboration. Based in France, working worldwide.",
             canonical_path: "/contact",
             schema_type: "ContactPage",
             schema_keywords: vec![
-                "Contact Gaetan Poblon".into(),
-                "Hire Rust Developer".into(),
-                "Freelance Software Engineer".into(),
-                "Fullstack Web Development".into(),
+                "Contact Gaëtan POBLON".into(),
+                "Hire Rust Developer France".into(),
+                "Freelance Rust Software Engineer".into(),
+                "Fullstack Rust Developer".into(),
                 "Software Architecture Consulting".into(),
-                "France".into(),
+                "Rust Development Services".into(),
+                "Cross-platform Developer".into(),
+                "Technical Consulting France".into(),
             ],
             schema_data: json!({
                 "mainEntity": {
@@ -30,6 +32,12 @@ pub fn Connect() -> Element {
                     "@id": format!("{}/#person", SITE_URL),
                     "email": AUTHOR_EMAIL,
                     "url": SITE_URL,
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Niort",
+                        "addressRegion": "Nouvelle-Aquitaine",
+                        "addressCountry": "FR"
+                    },
                     "sameAs": [
                         AUTHOR_GITHUB,
                         AUTHOR_LINKEDIN,
@@ -38,7 +46,8 @@ pub fn Connect() -> Element {
                         "@type": "ContactPoint",
                         "email": AUTHOR_EMAIL,
                         "contactType": "Professional Inquiries",
-                        "availableLanguage": ["English", "French"]
+                        "availableLanguage": ["English", "French"],
+                        "areaServed": "Worldwide"
                     }
                 }
             }),
@@ -47,8 +56,8 @@ pub fn Connect() -> Element {
             header: rsx! {
                 div {
                     class: "p-6",
-                    h4 {
-                        class: "md:col-start-1 md:row-start-1 text-connect pb-4",
+                    h1 {
+                        class: "md:col-start-1 md:row-start-1 text-connect pb-4 text-base font-normal",
                         {t!("connect_title")}
                     }
                     p {

@@ -32,6 +32,7 @@ impl Lang {
             Lang::English => "en_US",
         }
     }
+
     pub fn alternate(&self) -> Self {
         match self {
             Lang::French => Lang::English,

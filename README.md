@@ -84,8 +84,20 @@ On rare occasions, you may have: *config*.
 ### Run locally
 
 Locally to iterate on the web version, using [dx](https://dioxuslabs.com/learn/0.7/getting_started/):
+
+Setup:
+
 ```sh
-dx serve -p web --hotpatch
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs
+export CARGO_HOME="$CARGO_HOME"
+rustup default nightly
+rustup target add wasm32-unknown-unknown
+curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.s | bash
+cargo binstall dioxus-cli@0.7.3 wasm-bindgen-cli@0.2.114
+```
+
+```sh
+dx serve -p web --features=mock
 ```
 Doing so will automatically:
 1. Host the website locally (http://localhost:8080)

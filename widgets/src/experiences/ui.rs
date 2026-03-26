@@ -8,14 +8,16 @@ pub fn Experiences() -> Element {
     rsx! {
         div {
             class: "experiences",
-            h1 { class: "text-experience text-left pb-12", { t!("experiences_work") } }
+            h1 { class: "text-experience text-left uppercase pb-12", { t!("experiences_introduction") } }
+            components::Markdown { content: t!("experiences_introduction_content") }
+            h1 { class: "text-experience text-left uppercase pt-22 pb-12", { t!("experiences_work") } }
             ul {
                 class: "experiences-list",
                 for experience in &experiences.jobs {
                     entities::experience::Experience { experience: experience.clone() }
                 }
             }
-            h1 { class: "text-experience text-left pt-22 pb-12", { t!("experiences_education") } }
+            h1 { class: "text-experience text-left uppercase pt-22 pb-12", { t!("experiences_education") } }
             ul {
                 class: "experiences-list",
                 for experience in &experiences.education {

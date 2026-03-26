@@ -101,6 +101,10 @@ impl Cardinal {
             Self::Projects => components::Icons::Experiment,
             Self::Identity => return rsx! {},
         };
-        rsx! { components::Icon { class: "text-3xl", icon } }
+        rsx! {
+            span { aria_hidden: "true",
+                components::Icon { class: "text-3xl", icon }
+            }
+        }
     }
 }

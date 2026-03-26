@@ -64,7 +64,7 @@ pub fn Footer(tos_route: NavigationTarget) -> Element {
                         }
                         span { {t!("footer_using")} }
                         span { "🦀 Rust &" }
-                        img { class: "inline h-4 flex-shrink-0", src: DIOXUS_LOGO }
+                        img { class: "inline h-4 flex-shrink-0", src: DIOXUS_LOGO, alt: "Dioxus Logo" }
                         a {
                             class: "underline hover:opacity-80 link whitespace-nowrap",
                             href: "https://dioxus.dev",

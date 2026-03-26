@@ -42,7 +42,7 @@ fn BlogGridHeader(search_query: Signal<String>, suggestions: Vec<String>) -> Ele
             class: "flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 w-full mb-6",
             div {
                 class: "flex items-center gap-3",
-                h1 { class: "text-knowledge", "ARTICLES" }
+                h1 { class: "text-knowledge", "BLOG" }
                 entities::metadata::IntentLegendIcon { lang }
             }
             components::search::SearchBar {

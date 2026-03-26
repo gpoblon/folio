@@ -9,32 +9,45 @@ pub fn Blog() -> Element {
 
     rsx! {
         components::Seo {
-            title: "Blog — Technical Articles on Rust & Software Engineering",
-            description: "Deep-dive technical articles by Gaetan POBLON. Rust, Dioxus, Axum, WebAssembly, software architecture, and systems programming — no fluff, pure signal.",
+            title: "Blog — Rust & Software Engineering Articles",
+            description: "Technical deep-dive articles by Gaëtan POBLON on Rust, Dioxus, Axum, WebAssembly, software architecture, Domain-Driven Design, compiler internals, and modern engineering practices. Practical insights from building production Rust systems.",
             canonical_path: "/blog",
             og_type: "website",
             schema_type: "Blog",
             schema_keywords: vec![
-                "Rust Blog".into(),
-                "Dioxus Tutorial".into(),
-                "Axum Web Framework".into(),
-                "WebAssembly Guide".into(),
+                "Rust Programming Blog".into(),
+                "Rust lang Articles".into(),
+                "Idiomatic Rust Programming".into(),
+                "Dioxus GUI Development".into(),
+                "Axum Backend API".into(),
                 "Software Architecture".into(),
+                "Design Patterns".into(),
+                "Domain-Driven Design".into(),
+                "Compiler Internals".into(),
+                "Web Development".into(),
+                "Cross-platform Native Development".into(),
+                "WebAssembly".into(),
+                "Asynchronous Programming".into(),
+                "Infrastructure as Code".into(),
+                "DevOps".into(),
                 "Systems Programming".into(),
-                "Fullstack Rust".into(),
+                "Artificial Intelligence".into(),
                 "Technical Writing".into(),
             ],
             schema_data: json!({
                 "mainEntity": {
                     "@type": "ItemList",
-                    "name": "Technical Articles",
-                    "description": "A curated knowledge base of technical articles on Rust, Dioxus, and modern software engineering.",
+                    "name": "Blog — Rust & Software Engineering Articles",
+                    "description": "A curated knowledge base of technical articles on Rust, Dioxus, Axum, software architecture, and modern engineering practices.",
                     "itemListOrder": "https://schema.org/ItemListOrderDescending"
                 },
                 "about": [
-                    {"@type": "Thing", "name": "Rust Programming Language"},
-                    {"@type": "Thing", "name": "Software Architecture"},
-                    {"@type": "Thing", "name": "Web Development"}
+                    {"@type": "ComputerLanguage", "name": "Rust Programming Language"},
+                    {"@type": "SoftwareApplication", "name": "Dioxus Framework"},
+                    {"@type": "SoftwareApplication", "name": "Axum Web Framework"},
+                    {"@type": "DefinedTerm", "name": "Software Architecture"},
+                    {"@type": "DefinedTerm", "name": "Domain-Driven Design"},
+                    {"@type": "DefinedTerm", "name": "WebAssembly"}
                 ]
             }),
         }

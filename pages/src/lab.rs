@@ -5,29 +5,31 @@ use serde_json::json;
 pub fn Lab() -> Element {
     let search_query = use_signal(String::new);
 
-    let metadata =
-        use_loader(move || async { entities::project::api::projects().await });
+    let metadata = use_loader(move || async { entities::project::api::projects().await });
 
     rsx! {
         components::Seo {
-            title: "Open-Source Projects",
-            description: "Open-source Rust projects by Gaetan POBLON — production-grade prototypes, developer tools, and experiments in Dioxus, Axum, and WebAssembly.",
+            title: "Lab — Open-Source Rust Projects",
+            description: "Open-source Rust projects by Gaëtan POBLON — production-grade applications, developer tools, UI component libraries, and cross-platform experiments built with Dioxus, Axum, WebAssembly, and Domain-Driven Design.",
             canonical_path: "/lab",
             schema_type: "CollectionPage",
             schema_keywords: vec![
                 "Open Source Rust Projects".into(),
                 "Dioxus Applications".into(),
                 "Axum Web Services".into(),
-                "WebAssembly".into(),
+                "WebAssembly Projects".into(),
                 "Rust Developer Portfolio".into(),
                 "Cross-Platform Software".into(),
                 "Fullstack Rust".into(),
+                "Rust UI Component Library".into(),
+                "Rust Developer Tools".into(),
+                "SurrealDB Projects".into(),
             ],
             schema_data: json!({
                 "mainEntity": {
                     "@type": "ItemList",
-                    "name": "Open-Source Projects by Gaetan POBLON",
-                    "description": "A curated collection of Rust-based open-source projects spanning web applications, developer tools, and cross-platform software.",
+                    "name": "Lab — Open-Source Rust Projects by Gaëtan POBLON",
+                    "description": "A curated collection of production-grade Rust projects spanning fullstack web applications, cross-platform developer tools, UI component libraries, and software experiments built with Dioxus, Axum, and WebAssembly.",
                     "itemListOrder": "https://schema.org/ItemListUnordered"
                 }
             }),

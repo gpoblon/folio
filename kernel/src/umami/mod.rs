@@ -1,5 +1,8 @@
 use dioxus::{fullstack::Loading, prelude::*};
 
+#[cfg(feature = "server")]
+pub mod routes;
+
 const PROXY_SCRIPT_PATH: &str = "/stats/script.js";
 const PROXY_HOST_URL: &str = "/stats";
 
