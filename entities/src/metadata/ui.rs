@@ -31,11 +31,11 @@ pub fn MetadataHeader(
         h1 { class: "{title_color}", "{meta.title}" }
         p { class: "italic text-lg", "{meta.description}" }
         div {
-            class: "flex items-baseline justify-between text-muted-foreground",
-            p { class: "text-lg", "{topics}" }
-            p { "{average_reading_time_as_minutes} min read" }
+            class: "flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-muted-foreground",
+            p { class: "text-lg min-w-0 truncate", "{topics}" }
+            p { class: "shrink-0", "{average_reading_time_as_minutes} min read" }
             div {
-                class: "flex gap-1",
+                class: "flex gap-1 shrink-0",
                 if let Some(created_at) = created_at {
                     p { "{created_at}" }
                 }
@@ -72,9 +72,9 @@ pub fn MetadataPreview(meta: super::Metadata, href: String) -> Element {
     let lang = kernel::lang::use_lang();
 
     rsx! {
-        a {
+        Link {
             class: "border border-border shadow-md px-4 py-3 flex flex-col gap-3 h-full bg-accent",
-            href,
+            to: href,
             div {
                 class: "flex justify-between text-muted-foreground",
                 if let Some((category, _)) = meta.slug.rsplit_once("/") {
@@ -116,16 +116,16 @@ pub fn IntentLegendIcon(lang: kernel::lang::Lang) -> Element {
                 }
             }
             components::tooltip::TooltipContent {
-                side: components::tooltip::ContentSide::Top,
+                side: components::tooltip::ContentSide::Bottom,
                 align: components::tooltip::ContentAlign::End,
                 div {
                     class: "flex flex-col gap-2",
                     p { class: "font-semibold text-muted-foreground uppercase tracking-wide mb-1", "TAGS" }
                     for variant in Intent::known_variants() {
                         div {
-                            class: "flex gap-4 items-start",
+                            class: "flex gap-4 items-baseline justify-between",
                             span { class: "font-medium whitespace-nowrap", "{variant.label(lang)}" }
-                            span { class: "text-muted-foreground text-sm", "{variant.description(lang)}" }
+                            span { class: "text-muted-foreground text-sm text-right whitespace-nowrap", "{variant.description(lang)}" }
                         }
                     }
                 }

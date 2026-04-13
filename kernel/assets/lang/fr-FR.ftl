@@ -35,7 +35,8 @@ projects_source_code = Code source disponible :
 
 # connect
 connect_title = Au plaisir d’échanger
-connect_description = Collaboration professionnelle, projet, échange entre passionnés, simple question... N'hésitez pas. Je lis et réponds dans la semaine.
+connect_description = Collaboration professionnelle, projet, échange entre passionnés, simple question... N'hésitez pas.
+    Je lis et réponds dans la semaine.
 connect_name = Nom
 connect_email = Mail
 connect_message = Message

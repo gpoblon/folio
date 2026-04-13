@@ -35,7 +35,8 @@ projects_source_code = Source code available at
 
 # connect
 connect_title = Feel free to reach out
-connect_description = I genuinely value the connection, whether you bring a professional opportunity or want a casual chat between enthousiasts. Expect a reply, always.
+connect_description = I genuinely value connecting, whether you bring a professional opportunity or want a casual chat between enthousiasts.
+    Expect a reply, always.
 connect_name = Name
 connect_email = E-mail
 connect_message = Message

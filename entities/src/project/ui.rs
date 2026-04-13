@@ -25,18 +25,18 @@ pub fn Project(project: super::model::Project) -> Element {
                 content_len: content.len(),
             }
             div {
-                class: "flex gap-2 items-center justify-end",
-                components::svg::Github { class: "h-6" }
-                span { { kernel::lang::t!("projects_source_code") } }
+                class: "flex flex-wrap gap-2 items-center justify-end",
+                components::svg::Github { class: "h-6 shrink-0" }
+                span { class: "shrink-0", { kernel::lang::t!("projects_source_code") } }
                 a {
-                    class: "link",
+                    class: "link break-all min-w-0",
                     href: "{repo_url}",
                     target: "_blank",
                     rel: "noopener noreferrer",
                     aria_label: "{repo_url}",
                     "data-umami-event": "project-repo-link",
                     "data-umami-event-url": "{repo_url}",
-                    p { "{repo_url}" }
+                    p { class: "break-all", "{repo_url}" }
                 }
             }
             components::Separator { class: "py-4" }

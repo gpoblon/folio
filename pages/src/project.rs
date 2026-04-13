@@ -44,7 +44,7 @@ pub fn Project(slug: String) -> Element {
     rsx! {
         components::Seo { ..seo_props }
         div {
-            class: "max-w-6xl mx-auto py-32",
+            class: "w-full max-w-6xl mx-auto py-32 px-4 sm:px-8 overflow-x-hidden",
             widgets::project::Project { slug: widget_slug }
         }
     }

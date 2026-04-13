@@ -15,13 +15,36 @@ fn Layout() -> Element {
         div { class: "min-h-screen flex flex-col",
             NavBar::<Route> {}
             SuspenseBoundary {
-                fallback: |_| rsx! {
-                    div { class: "block justify-center items-center h-full", "Loading..." }
-                },
+                fallback: |_| Loading(),
                 main { class: "flex-1 flex flex-col", Outlet::<Route> {} }
             }
             Footer { tos_route: Route::TermsOfUse {}.into() }
         }
+    }
+}
+
+fn Loading() -> Element {
+    rsx! {
+        div {
+            class: "flex-1 flex items-center justify-center overflow-hidden",
+
+            div {
+                class: "relative z-1 aspect-square
+                        size-[320px] md:size-[450px] lg:size-[520px] xl:size-[650px]",
+
+                components::OrbitSvg {}
+                components::CenterSquares {}
+
+                // Inner diamond with dynamic cardinal border color
+                div {
+                    class: "absolute inset-0 m-auto pointer-events-none
+                            size-1/2 rotate-45 border-[0.5px]
+                            backdrop-blur-xl bg-background/30 dark:bg-background/70",
+                }
+            }
+        }
+        components::Diagonals {}
+        components::OrbitDots {}
     }
 }
 

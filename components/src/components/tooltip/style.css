@@ -11,7 +11,7 @@
 .tooltip-content {
     position: absolute;
     z-index: 1000;
-    max-width: 250px;
+    max-width: min(380px, calc(100vw - 2rem));
     padding: 8px 12px;
     border-radius: var(--radius);
     animation: tooltip-fade-in 0.2s ease-in-out;
@@ -124,6 +124,26 @@
     top: auto;
     bottom: 0;
     transform: none;
+}
+
+/* ── Mobile: fixed bottom-center popover ────────────────────────────────── */
+@media (max-width: 640px) {
+    .tooltip-content {
+        position: fixed !important;
+        top: auto !important;
+        bottom: 1rem !important;
+        left: 1rem !important;
+        right: 1rem !important;
+        max-width: none !important;
+        width: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+    }
+
+    /* Hide the arrow — it can't point at the trigger from a fixed position */
+    .tooltip-content::after {
+        display: none;
+    }
 }
 
 /* Animation */
