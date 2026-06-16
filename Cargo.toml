@@ -37,7 +37,7 @@ kernel = { path = "kernel" }
 dioxus = { version = "0.7.3" }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1" }
-strum = { version = "0.27", features = ["derive"] }
+strum = { version = "0.28", features = ["derive"] }
 anyhow = { version = "1.0" }
 serde-saphyr = "0.0.27"
 chrono = "0.4.44"
