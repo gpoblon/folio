@@ -17,11 +17,11 @@ tos_route = Mentions légales & CGU
 # home
 home_welcome = Bienvenue dans mon atelier, fraîchement inauguré !
 home_last_update = Dernière mise à jour le
-home_availability = Mission ou poste ? Disponibilité dès mai 2026
+home_availability = Disponible pour mission ou poste
 
 home_identity = Développeur Logiciel installé à Niort.
     Applications FullStack Rust cross-platform.
-    Rustacéen depuis 2019. Spectre en expansion vers l'architecture logicielle / IA
+    Rustacée depuis 2019. Spectre en expansion vers l'architecture logicielle / IA
 home_knowledge = Par l'écriture, je structure mon savoir.
     Sans IA, sans fioritures : de la réflexion à l'action, ces notes documentent mon parcours. Du signal — et mon biais !
 home_contact = La machine exécute, l'humain collabore.

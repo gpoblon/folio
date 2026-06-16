@@ -13,7 +13,7 @@ RUN rustup target add wasm32-unknown-unknown
 
 # Install cargo-binstall
 ARG BINSTALL_VERSION=1.20.0
-ARG BINSTALL_SHA256=sha256:4d7875788d0505547c220d2b02d3619aac0dd19b7033eba7005a8d09ff1dc433
+ARG BINSTALL_SHA256=4d7875788d0505547c220d2b02d3619aac0dd19b7033eba7005a8d09ff1dc433
 RUN set -eux; \
     curl -fsSL \
       "https://github.com/cargo-bins/cargo-binstall/releases/download/v${BINSTALL_VERSION}/cargo-binstall-x86_64-unknown-linux-musl.tgz" \

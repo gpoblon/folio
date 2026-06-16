@@ -8,7 +8,7 @@
 //! ## Key strategy
 //!
 //! [`fingerprint_key`] builds a composite key from the client IP address and
-//! the sender email for security reason.
+//! the sender email for security reasons.
 //!
 //! ## IP extraction
 //!

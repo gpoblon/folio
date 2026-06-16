@@ -16,7 +16,7 @@ tos_route = Terms of Use
 
 home_welcome = Welcome to my digital lab, freshly opened!
 home_last_update = Latest update
-home_availability = Open to missions or roles from May 2026
+home_availability = Currently open to missions or roles
 
 home_identity = Software Engineer living in Niort, France.
     Rustacean since 2019. Shipping FullStack Rust cross-platform applications.

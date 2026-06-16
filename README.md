@@ -2,6 +2,8 @@
 
 ## 📦 Project: `folio`
 
+Hosted on a dedicated server at [https://gpoblon.net].
+
 ##### ❓ What is it?
 
 Well, it's my folio.
@@ -10,13 +12,16 @@ It tells people about me, my work, and my projects.
 It could also serves as a playground for me to experiment.
 It finally is a way for me to share and contribute.
 
+Disclaimer:
+- `umami` was used for privacy-focused analytics. Cookie-free, anonymous. Respects users.
+- This work is my own. No agentic workflows. Usage of AI limited to in-editor edition: CSS animations, SEO, minor refactoring & fixes.
+
 ## ✨ Features
 
 - My work experience,
 - Personal projects I have been or am working on. Be it open/closed/available source,
 - Blog posts about software development, and other un/related topics,
 - A way to contact me, and to share my contact information.
-- umami: used for privacy-focused analytics. Cookies-free, completely anonymous.
 
 ## 🧭 Roadmap
 
@@ -51,25 +56,25 @@ On rare occasions, you may have: *config*.
 - Segments: only create segments that are useful for a given slice.
 - Do not create new layers.
 - Do not create new segments.
-- No technical division in segments (e.g. no `hooks.rs`)
+- No technical division in segments (e.g. no `hooks.rs`).
   If a segment gets too big: divide such as each file reflects the domain it represents.
 - *kernel* & *components* are a last resort, they only contains pieces you could use in a totally different app.
-- All translations go into `/assets/lang`
-- All style goes into `app/assets/`
+- All translations go into `/assets/lang`.
+- All style goes into `app/assets/`.
 - All logic is colocated with UI. One exception: `/kernel` contains only logic, in such case ui goes into `/features`.
 
 ### General guidelines
 
 - Keep coupling as low as possible, and cohesion as high as possible:
-  - Law of Demeter: import only what is strictly required (`b.method()` rather than `a.b.method()`).
-  - coupling means how much modules interact with each others (code wise).
-    Some kind of coupling are worst than others: none > message > strict data > nested data > control meddling > external data > global data > data internal control
-  - cohesion is related to the SRP principle: put together domain-related things that perform exactly 1 **action** (e.g. `register` or `place_order`).
+  - Law of Demeter: avoid structural chaining (`b.method()` rather than `a.b.method()`).
+  - Coupling means how (and how much) modules interact with each others (code wise).
+    Coupling from best to worst: none > message > strict data > nested data > control meddling > external data > global data > data internal control.
+  - Cohesion: group together domain behaviors that govern the exact same underlying data state.
 - YAGNI: don't write code for something you don't need right now.
   Cover only the minimum requirment for the task, but do it well.
 - KISS: the simpler, the better.
 - Don't expose internals: encapsulate.
-- Spend the time naming things properly
+- Spend the time naming things properly.
 
 ### Specific instructions
 
@@ -103,11 +108,11 @@ Doing so will automatically:
 
 ### Production deployment
 
-To deploy a new release (production) version to https://gpoblon.net, ask a maintainer to run the following manual workflow: _CD (production)_.
+To deploy a new release (production) version to https://gpoblon.net, ask a maintainer to run the _CD (production)_ manual workflow.
 
 ### Staging deployment
 
-To deploy a new staging (dev) version to https://gpoblon.net, ask a maintainer to run the following manual workflow: _CD (staging)_.
+To deploy a new staging (dev) version to https://gpoblon.net, run the _CD (staging)_ manual workflow.
 
 ## 🤝 Hygiene
 
@@ -121,12 +126,5 @@ Please always perform the following checks before committing:
 
 The source code is published for **reference and portfolio purposes** under
 [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
-
-You are welcome to read and learn from this code.
-You may **not** copy, redistribute, or adapt it to build your own portfolio or
-product without explicit written permission from the author.
-
-Editorial content (articles, images, personal data) is © Gaëtan Poblon —
-all rights reserved.
 
 See [NOTICE](./NOTICE) and [LICENSE](./LICENSE).

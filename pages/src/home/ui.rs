@@ -137,6 +137,8 @@ fn home_seo(lang: Lang, is_default: bool) -> components::SeoProps {
             // ID
             "Gaëtan POBLON",
             "Gaetan Poblon",
+            "Dev Niort",
+            "Dev Rust",
             "Développeur Niort",
             "Développeur France",
             // Tech
