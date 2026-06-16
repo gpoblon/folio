@@ -43,9 +43,7 @@ const SITEMAP: &str = r#"<?xml version="1.0" encoding="UTF-8"?>
 /// Formats a single `<url>` block. When `lastmod` is empty the `<lastmod>`
 /// tag is omitted entirely.
 fn url_entry(loc: &str, lastmod: &str, changefreq: &'static str, priority: &'static str) -> String {
-    let lastmod_tag = (!lastmod.is_empty())
-        .then(|| format!("    <lastmod>{lastmod}</lastmod>\n"))
-        .unwrap_or_default();
+    let lastmod_tag = if !lastmod.is_empty() { format!("    <lastmod>{lastmod}</lastmod>\n") } else { Default::default() };
     format!(
         "  <url>\n    <loc>{loc}</loc>\n{lastmod_tag}    <changefreq>{changefreq}</changefreq>\n    <priority>{priority}</priority>\n  </url>\n"
     )
@@ -132,9 +130,7 @@ fn rss_item(
     pub_date: &str,
     categories: &str,
 ) -> String {
-    let pub_date_tag = (!pub_date.is_empty())
-        .then(|| format!("    <pubDate>{pub_date}</pubDate>\n"))
-        .unwrap_or_default();
+    let pub_date_tag = if !pub_date.is_empty() { format!("    <pubDate>{pub_date}</pubDate>\n") } else { Default::default() };
     format!(
         r#"  <item>
     <title>{title}</title>

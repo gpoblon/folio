@@ -88,7 +88,7 @@ jobs:
           fi
 
           # ── dioxus-cli ──
-          DX_WANT="0.7.3"
+          DX_WANT="0.7.9"
           if ! command -v dx &>/dev/null || ! dx --version 2>/dev/null | grep -qF "$DX_WANT"; then
             echo "::group::Installing dioxus-cli"
             CARGO_HOME="$CARGO_HOME" cargo binstall -y "dioxus-cli@${DX_WANT}"
@@ -96,7 +96,7 @@ jobs:
           fi
 
           # ── wasm-bindgen-cli ──
-          WB_WANT="0.2.114"
+          WB_WANT="0.2.125"
           if ! command -v wasm-bindgen &>/dev/null || ! wasm-bindgen --version 2>/dev/null | grep -qF "$WB_WANT"; then
             echo "::group::Installing wasm-bindgen-cli"
             CARGO_HOME="$CARGO_HOME" cargo binstall -y "wasm-bindgen-cli@${WB_WANT}"
