@@ -11,8 +11,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN rustup target add wasm32-unknown-unknown
 
-RUN curl -L --proto '=https' --tlsv1.2 -sSf \
-      https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+# Install cargo-binstall
+ARG BINSTALL_VERSION=1.20.0
+ARG BINSTALL_SHA256=sha256:4d7875788d0505547c220d2b02d3619aac0dd19b7033eba7005a8d09ff1dc433
+RUN set -eux; \
+    curl -fsSL \
+      "https://github.com/cargo-bins/cargo-binstall/releases/download/v${BINSTALL_VERSION}/cargo-binstall-x86_64-unknown-linux-musl.tgz" \
+      -o /tmp/cargo-binstall.tgz \
+    && echo "${BINSTALL_SHA256}  /tmp/cargo-binstall.tgz" | sha256sum -c - \
+    && tar -xzf /tmp/cargo-binstall.tgz -C /usr/local/bin cargo-binstall \
+    && rm /tmp/cargo-binstall.tgz
 RUN cargo binstall -y dioxus-cli@0.7.3 wasm-bindgen-cli@0.2.114
 
 WORKDIR /folio

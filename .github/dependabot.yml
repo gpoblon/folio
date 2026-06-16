@@ -1,0 +1,51 @@
+version: 2
+
+updates:
+  # ── Rust / Cargo ─────────────────────────────────────────────────────────────
+  # Checks all crates declared in the workspace Cargo.toml.
+  # Cargo.lock is gitignored, so only Cargo.toml version ranges are updated.
+  - package-ecosystem: cargo
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+      - rust
+    commit-message:
+      prefix: "chore(deps)"
+
+  # ── Docker / Containerfile ────────────────────────────────────────────────────
+  # Tracks the two base images:
+  #   - docker.io/rustlang/rust:nightly-slim  (builder stage)
+  #   - gcr.io/distroless/cc-debian13:latest-amd64  (runtime stage)
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    labels:
+      - dependencies
+      - docker
+    commit-message:
+      prefix: "chore(deps)"
+
+  # ── GitHub Actions ────────────────────────────────────────────────────────────
+  # Keeps action pins (actions/checkout, docker/login-action, …) up to date.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Paris
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: "chore(deps)"

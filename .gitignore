@@ -1,5 +1,6 @@
 .ssl
 .env
+RESUME.md
 .zed
 logs/
 target/

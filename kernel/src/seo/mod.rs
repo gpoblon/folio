@@ -13,7 +13,7 @@ pub mod routes;
 pub use keywords::Keywords;
 
 #[cfg(feature = "server")]
-pub use routes::{STATIC_SITEMAP_ROUTES, robots_txt};
+pub use routes::{robots_txt, STATIC_SITEMAP_ROUTES};
 
 // ── Site identity ─────────────────────────────────────────────────────────────────
 

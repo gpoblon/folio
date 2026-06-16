@@ -77,6 +77,10 @@ fn main() {
         let contact_limiter =
             kernel::rate_limit::RateLimiter::new(2, std::time::Duration::from_secs(600));
 
+        // XRealIp reads the `X-Real-IP` header
+        // Switch to ClientIpSource::ConnectInfo for proxy-free deployments.
+        let ip_source = kernel::rate_limit::ClientIpSource::XRealIp;
+
         let router = dioxus::server::router(App)
             .route(
                 "/resources/{*path}",
@@ -97,6 +101,7 @@ fn main() {
             )
             .layer(Extension(config))
             .layer(Extension(contact_limiter))
+            .layer(ip_source.into_extension())
             .layer(Extension(state.articles))
             .layer(Extension(state.resources))
             .layer(Extension(state.projects));

@@ -19,4 +19,4 @@ garde = { version = "0.22.1", features = ["derive", "email"] }
 web = ["components/web"]
 desktop = ["components/desktop"]
 mobile = ["components/mobile"]
-server = ["dioxus/server", "components/server"] #, "dep:surrealdb"]
+server = ["dioxus/server", "components/server"]
