@@ -56,7 +56,7 @@ fn UmamiScriptInner() -> Element {
                 document::Script {
                     src: PROXY_SCRIPT_PATH,
                     defer: true,
-                    "data-website-id": "{id_value}",
+                    "data-website-id": id_value.to_string(),
                     "data-host-url": PROXY_HOST_URL,
                     "data-domains": PRODUCTION_DOMAIN,
                 }

@@ -60,7 +60,7 @@ fn comrak_options<'c>() -> Options<'c> {
     options.extension.spoiler = true;
     options.extension.table = true;
     options.extension.description_lists = true;
-    options.extension.header_ids = Some(String::new());
+    options.extension.header_id_prefix = Some(String::new());
     options.extension.shortcodes = true;
     options.extension.math_code = true;
     options.extension.tasklist = true;

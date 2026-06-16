@@ -1,4 +1,4 @@
-#![allow(non_snake_case)]
+#![allow(non_snake_case, clippy::useless_format)]
 
 mod article;
 mod blog;

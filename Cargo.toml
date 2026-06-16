@@ -34,7 +34,7 @@ components = { path = "components" }
 kernel = { path = "kernel" }
 
 # third-party packages
-dioxus = { version = "0.7.3" }
+dioxus = { version = "0.7.9" }
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1" }
 strum = { version = "0.28", features = ["derive"] }

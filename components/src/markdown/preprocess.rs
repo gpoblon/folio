@@ -14,28 +14,26 @@ pub(super) fn preprocess_wikilink_images(input: &str) -> String {
 
     while i < len {
         // ── Fenced code block (``` or ~~~) ──────────────────────────
-        if i == 0 || (i > 0 && chars[i - 1] == '\n') {
-            if let Some(fence_end) = skip_fenced_code_block(&chars, i) {
+        if (i == 0 || (i > 0 && chars[i - 1] == '\n'))
+            && let Some(fence_end) = skip_fenced_code_block(&chars, i) {
                 let block: String = chars[i..fence_end].iter().collect();
                 result.push_str(&block);
                 i = fence_end;
                 continue;
             }
-        }
 
         // ── Inline code span (`…`) ─────────────────────────────────
-        if chars[i] == '`' {
-            if let Some(span_end) = skip_inline_code(&chars, i) {
+        if chars[i] == '`'
+            && let Some(span_end) = skip_inline_code(&chars, i) {
                 let span: String = chars[i..span_end].iter().collect();
                 result.push_str(&span);
                 i = span_end;
                 continue;
             }
-        }
 
         // ── Wikilink image embed: ![[…]] ───────────────────────────
-        if i + 2 < len && chars[i] == '!' && chars[i + 1] == '[' && chars[i + 2] == '[' {
-            if let Some(close) = find_closing_double_brackets(&chars, i + 3) {
+        if i + 2 < len && chars[i] == '!' && chars[i + 1] == '[' && chars[i + 2] == '['
+            && let Some(close) = find_closing_double_brackets(&chars, i + 3) {
                 let inner: String = chars[i + 3..close].iter().collect();
                 // Obsidian supports ![[path|alt text]]
                 let (path, alt) = match inner.find('|') {
@@ -48,7 +46,6 @@ pub(super) fn preprocess_wikilink_images(input: &str) -> String {
                 i = close + 2; // skip past ]]
                 continue;
             }
-        }
 
         result.push(chars[i]);
         i += 1;

@@ -1,3 +1,5 @@
+#![allow(clippy::useless_format)]
+
 use dioxus::prelude::*;
 use kernel::build_info;
 use kernel::lang::{t, use_lang};

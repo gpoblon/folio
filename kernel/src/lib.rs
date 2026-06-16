@@ -1,3 +1,4 @@
+#[allow(clippy::useless_format)]
 pub mod build_info;
 pub mod lang;
 pub mod seo;
