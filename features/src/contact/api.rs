@@ -4,7 +4,7 @@ use dioxus::{fullstack::Form, prelude::*};
 #[server(
     config: dioxus_server::axum::Extension<kernel::config::Config>,
     limiter: dioxus_server::axum::Extension<kernel::rate_limit::RateLimiter>,
-    headers: dioxus_fullstack::HeaderMap,
+    client_ip: kernel::rate_limit::ClientIp,
 )]
 pub async fn send_contact_email(Form(form): Form<ContactForm>) -> Result<(), HttpError> {
     use dioxus::logger::tracing;
@@ -18,7 +18,7 @@ pub async fn send_contact_email(Form(form): Form<ContactForm>) -> Result<(), Htt
     }
 
     // --- Rate limiting by IP + email composite key ---
-    let key = kernel::rate_limit::fingerprint_key(&headers, &form.email);
+    let key = kernel::rate_limit::fingerprint_key(&client_ip, &form.email);
     if limiter.check(&key).is_err() {
         tracing::warn!("Rate limit exceeded for key={key}");
         return HttpError::bad_request(
@@ -39,9 +39,13 @@ pub async fn send_contact_email(Form(form): Form<ContactForm>) -> Result<(), Htt
         .body(form.message)
         .build();
 
-    kernel::mail::send(&config, mail)
-        .await
-        .or_else(|e| HttpError::internal_server_error(format!("Failed to send: {}", e)))?;
+    kernel::mail::send(&config, mail).await.or_else(|e| {
+        tracing::error!("Failed to send contact email: {e}");
+        HttpError::internal_server_error(
+            "An internal error occurred. Please try again later or contact me directly."
+                .to_string(),
+        )
+    })?;
 
     tracing::info!("Contact form submitted.");
 

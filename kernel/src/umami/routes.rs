@@ -1,7 +1,8 @@
 //! Server-only Umami analytics proxy handlers.
 //!
-//! These handlers relay analytics traffic through our own domain so that
-//! ad-blockers targeting `cloud.umami.is` don't interfere with tracking.
+//! These handlers relay analytics traffic through our own domain.
+//!
+//! Bypasses ad-blockers as `cloud.umami.is` is gated behind our server.
 
 use axum::http::{StatusCode, header};
 use axum::response::IntoResponse;
@@ -34,13 +35,27 @@ pub async fn umami_script_proxy() -> impl IntoResponse {
 
 /// Proxy handler for Umami API calls: `POST /stats/api/send`
 ///
-/// The tracker script, configured with `data-host-url="/stats"`, will
-/// POST pageview & event payloads to `/stats/api/send`.  We relay them
-/// to Umami Cloud so the browser never contacts `cloud.umami.is` directly.
+/// The tracker script, configured with `data-host-url="/stats"`,
+/// will POST pageview & event payloads to `/stats/api/send`
+/// and relay them to umami cloud.
+///
+/// Only accepts `Origin` requests for security reasons.
 pub async fn umami_api_proxy(
     req_headers: axum::http::HeaderMap,
     body: axum::body::Bytes,
 ) -> impl IntoResponse {
+    // Reject requests that do not originate from our own site.
+    let allowed_origin = crate::seo::SITE_URL;
+    let origin_ok = req_headers
+        .get(header::ORIGIN)
+        .and_then(|v| v.to_str().ok())
+        .map(|o| o.trim_end_matches('/') == allowed_origin.trim_end_matches('/'))
+        .unwrap_or(false);
+
+    if !origin_ok {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+
     let client = reqwest::Client::new();
     let mut upstream = client.post("https://cloud.umami.is/api/send");
 

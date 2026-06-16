@@ -16,13 +16,10 @@ It finally is a way for me to share and contribute.
 - Personal projects I have been or am working on. Be it open/closed/available source,
 - Blog posts about software development, and other un/related topics,
 - A way to contact me, and to share my contact information.
+- umami: used for privacy-focused analytics. Cookies-free, completely anonymous.
 
 ## 🧭 Roadmap
 
-- pass on use_loader vs use_server_future vs use_resource
-- Pass on server functions
-- Pass on FSD architecture: make sure parts are located where they belong
- 
 See: [github project page](https://github.com/gpoblon/folio/projects/1).
 
 ## 📜 Usage & Rules
@@ -40,7 +37,7 @@ It relies on the following technical *layers*:
 - *components* - reusable, pure UI components. No business logic.
 - *kernel* - core functionalities reused across the upper layers (e.g. i18n). No business logic.
 
-*pages* *widgets* *features* *entities* modules are *slices*. They divide their layer by domain.
+*pages* *widgets* *features* *entities* modules consist of *slices*. They divide their layer by domain.
 
 Each slice holds technical segments: 
 - *ui* - UI components. As pure as possible.
@@ -120,10 +117,16 @@ Please always perform the following checks before committing:
 3. 🩺 `cargo clippy --workspace --all --all-features --tests -- -D warnings`
 4. 🧪 `cargo test --all-targets --all-features --workspace`
 
-## 📄 License - Proprietary
+## 📄 License
 
-Copyright © 2026 Gaëtan Poblon.
-All rights reserved.
-Applies to both editorial content and source code.
+The source code is published for **reference and portfolio purposes** under
+[CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/).
 
-See __NOTICE__.
+You are welcome to read and learn from this code.
+You may **not** copy, redistribute, or adapt it to build your own portfolio or
+product without explicit written permission from the author.
+
+Editorial content (articles, images, personal data) is © Gaëtan Poblon —
+all rights reserved.
+
+See [NOTICE](./NOTICE) and [LICENSE](./LICENSE).

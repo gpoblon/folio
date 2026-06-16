@@ -1,16 +1,30 @@
 //! Simple in-memory rate limiter.
 //!
 //! Tracks request timestamps per key and rejects requests that exceed the
-//! configured limit within a sliding time window.  Stale entries are pruned
-//! on every call to [`RateLimiter::check`].
+//! configured limit within a sliding time window.
+//!
+//! Stale entries are pruned on every call to [`RateLimiter::check`].
 //!
 //! ## Key strategy
 //!
-//! Use [`fingerprint_key`] to build a composite key from the client IP address
-//! (extracted from `X-Forwarded-For` or `X-Real-IP` headers) and the sender
-//! email.  Keying on IP alone would penalise shared NAT; keying on email alone
-//! lets bots bypass the limit by rotating addresses.  The combination forces
-//! an attacker to rotate *both* simultaneously.
+//! [`fingerprint_key`] builds a composite key from the client IP address and
+//! the sender email for security reason.
+//!
+//! ## IP extraction
+//!
+//! Client IP is resolved via [`axum_client_ip::ClientIp`], which reads from
+//! the source configured at router startup (see [`ClientIpSource`]).
+//!
+//! | Deployment | Recommended source | How it works |
+//! |---|---|---|
+//! | Behind Nginx / reverse proxy | `ClientIpSource::XRealIp` | Reads `X-Real-IP`, set to `$remote_addr` by the proxy — unspoofable from outside |
+//! | Direct / no proxy | `ClientIpSource::ConnectInfo` | Reads the raw TCP socket address — no header involved |
+//!
+//! **Proxy requirement (when using `XRealIp`):** Nginx must set
+//! `proxy_set_header X-Real-IP $remote_addr` and strip any client-supplied
+//! `X-Real-IP` header before it reaches the app.
+
+pub use axum_client_ip::{ClientIp, ClientIpSource};
 
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
@@ -74,36 +88,8 @@ pub struct RateLimitError;
 
 /// Build a composite rate-limit key from the client IP and sender email.
 ///
-/// The IP is extracted from the `X-Forwarded-For` header (first hop only),
-/// falling back to `X-Real-IP`, and finally to the sentinel `"unknown"` when
-/// neither header is present (e.g. in local development).
-///
-/// Combining IP and email means a bot must rotate *both* simultaneously to
-/// bypass the limiter:
-/// - IP alone would penalise legitimate shared-NAT users (offices, etc.).
-/// - Email alone is trivially bypassed by rotating addresses.
-pub fn fingerprint_key(headers: &axum::http::HeaderMap, email: &str) -> String {
-    let ip = headers
-        // X-Forwarded-For may contain a comma-separated list; take the first entry
-        // which is the original client (set by the outermost proxy).
-        .get("x-forwarded-for")
-        .and_then(|v| v.to_str().ok())
-        .and_then(|s| s.split(',').next())
-        .map(str::trim)
-        // Fall back to X-Real-IP (set by nginx / single-hop proxies)
-        .or_else(|| {
-            headers
-                .get("x-real-ip")
-                .and_then(|v| v.to_str().ok())
-                .map(str::trim)
-        });
-
-    match ip {
-        // Production (behind a proxy): key on both so a bot must rotate
-        // IP *and* email simultaneously to bypass the limiter.
-        Some(ip) => format!("{ip}:{email}"),
-        // No proxy headers (localhost, direct deploys): fall back to
-        // email-only so rotating addresses is still blocked.
-        None => email.to_owned(),
-    }
+/// Keying on IP alone would penalise shared-NAT users; keying on email alone
+/// is insufficient for persistent abuse. The composite key addresses both.
+pub fn fingerprint_key(client_ip: &ClientIp, email: &str) -> String {
+    format!("{}:{}", client_ip.0, email)
 }

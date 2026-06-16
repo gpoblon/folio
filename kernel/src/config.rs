@@ -49,7 +49,7 @@ pub struct SmtpConfig {
 #[derive(Debug, Clone, serde::Deserialize)]
 pub struct GitConfig {
     /// Token has the following permissions: read contents, write issues, read webhooks
-    /// PAT token: account level but restricted to gpoblon/knowledge_base repository.
+    /// PAT token: account level but restricted to the knowledge base repository.
     pub(crate) git_token: SecretString,
     /// Owner of the repository
     pub(crate) git_owner: SecretString,

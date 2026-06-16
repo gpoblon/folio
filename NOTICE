@@ -1,59 +1,28 @@
-This software is proprietary.
+# NOTICE
 
-All code written by gpoblon is © Gaëtan Poblon and remains proprietary.
-All editorial content (articles, images) is © Gaëtan Poblon and remains proprietary.
+Copyright (c) 2026 Gaëtan Poblon. All rights reserved.
 
-It is intended solely for internal use by gpoblon or by approved vendors or employees.
-Redistribution is prohibited without written consent.
+## Source Code
 
-# 📄 Third-Party Licenses
+The source code of this project is published for **reference and portfolio
+purposes** under the Creative Commons Attribution-NonCommercial-NoDerivatives
+4.0 International License (CC BY-NC-ND 4.0).
 
-This software includes third-party components licensed under the following open source licenses:
+You are welcome to read, study, and learn from this code.
+You may not copy, redistribute, or adapt it to build your own portfolio,
+product, or service — commercial or otherwise — without explicit written
+permission from the author.
 
-- MIT License
-- Apache License 2.0
-- BSD 3-Clause License
+Full license text: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
 
-These components are used in accordance with their respective licenses.
-References to the full license texts are included below to satisfy attribution requirements.
+## Editorial Content
 
----
+All editorial content — articles, blog posts, images, and personal data
+(résumé, biography) — is © Gaëtan Poblon and remains **all rights reserved**.
+It may not be reproduced or redistributed in any form.
 
-## MIT License
+## Third-Party Components
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction...
-
-> https://opensource.org/licenses/MIT_
-
----
-
-## Apache License 2.0
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at:
-
-> https://www.apache.org/licenses/LICENSE-2.0
-
----
-
-## BSD 3-Clause License
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met.
-
-> https://opensource.org/licenses/BSD-3-Clause_
-
----
-
-## Contributor License Agreement
-
-By submitting a contribution to this repository, you agree that:
-
-- You have the legal right and authority to license the contribution.
-- You grant _Ryse_ Organization a perpetual, irrevocable, worldwide, non-exclusive, royalty-free license to use, reproduce, modify, distribute, sublicense, and relicense your contribution under any license _Ryse_ chooses, including but not limited to proprietary or open-source licenses.
-- The Organization agrees to give appropriate credit to contributors, for example through commit authorship, changelogs, or release notes, unless the contributor explicitly requests anonymity.
-
-This applies to all contributions submitted via pull request, issue, commits, or any other form of electronic communication.
+This project depends on third-party open-source packages. Their licenses
+(MIT, Apache 2.0, BSD 3-Clause) are unaffected by the above and remain
+governed by their own terms.
