@@ -13,7 +13,7 @@ kernel = { workspace = true }
 # components = { package = "dioxus-tw-components", version = "0.2" }
 dioxus-tw-components = { git = "https://github.com/gpoblon/dioxus-tw-components", version = "0.2.0" }
 dioxus-primitives = { git = "https://github.com/DioxusLabs/components", version = "0.0.1", default-features = false }
-comrak = "0.50.0"
+comrak = "0.52.0"
 
 [features]
 web = ["dioxus-tw-components/web"]
