@@ -21,7 +21,7 @@ RUN set -eux; \
     && echo "${BINSTALL_SHA256}  /tmp/cargo-binstall.tgz" | sha256sum -c - \
     && tar -xzf /tmp/cargo-binstall.tgz -C /usr/local/bin cargo-binstall \
     && rm /tmp/cargo-binstall.tgz
-RUN cargo binstall -y dioxus-cli@0.7.3 wasm-bindgen-cli@0.2.114
+RUN cargo binstall -y dioxus-cli@0.7.9 wasm-bindgen-cli@0.2.125
 
 WORKDIR /folio
 
@@ -29,7 +29,7 @@ WORKDIR /folio
 COPY . .
 
 ENV RUSTFLAGS="-Z unstable-options -C target-feature=+bulk-memory,+mutable-globals,+nontrapping-fptoint,+sign-ext -Z threads=8 -Z share-generics=y"
-# Bundled app at: /folio/target/dx/app/release/web/app (binary file)
+# Bundled app at: /folio/target/dx/app/release/web/server (binary file)
 # Bundled app at: /folio/target/dx/app/release/web/public (folder, static assets incl. index.html and wasm binary)
 RUN dx bundle -p app --web --release
 
@@ -39,7 +39,7 @@ FROM gcr.io/distroless/cc-debian13:latest-amd64 AS runtime
 
 WORKDIR /app
 
-COPY --from=builder /folio/target/dx/app/release/web/app /app/server
+COPY --from=builder /folio/target/dx/app/release/web/server /app/server
 COPY --from=builder /folio/target/dx/app/release/web/public /app/public
 
 # Force the server to listen on all container interfaces

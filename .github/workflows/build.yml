@@ -123,7 +123,7 @@ jobs:
           export RUSTUP_HOME="$RUSTUP_HOME"
           export PATH="$CARGO_HOME/bin:$RUSTUP_HOME/bin:$LOCAL_BIN:$PATH"
 
-          dx bundle -p app --web --release
+          dx bundle -p app --web --release --trace --verbose
 
       - name: Show sccache stats
         if: always()
@@ -149,7 +149,7 @@ jobs:
           cat > /tmp/Containerfile.runtime <<-'DOCKERFILE'
           FROM gcr.io/distroless/cc-debian13:latest-amd64
           WORKDIR /app
-          COPY app /app/server
+          COPY server /app/server
           COPY public /app/public
           ENV IP=0.0.0.0
           ENV PORT=8080
