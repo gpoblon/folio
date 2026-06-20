@@ -15,14 +15,11 @@ env:
   RUNNER_ROOT: /opt/github_runner/folio
   CARGO_HOME: /opt/github_runner/folio/.cargo
   RUSTUP_HOME: /opt/github_runner/folio/.rustup
-  SCCACHE_DIR: /opt/github_runner/folio/.sccache
   LOCAL_BIN: /opt/github_runner/folio/.local/bin
+  CARGO_TARGET_DIR: /opt/github_runner/folio/.target
   # Absolute path so cargo resolves the wrapper without relying on PATH
-  RUSTC_WRAPPER: /opt/github_runner/folio/.local/bin/sccache
-  CARGO_INCREMENTAL: "0"
+  CARGO_INCREMENTAL: "1"
   CARGO_TERM_COLOR: always
-  SCCACHE_CACHE_SIZE: 10G
-  SCCACHE_IDLE_TIMEOUT: "0"
   RUSTFLAGS: "-Z unstable-options -C target-feature=+bulk-memory,+mutable-globals,+nontrapping-fptoint,+sign-ext -Z threads=8 -Z share-generics=y"
 
 jobs:
@@ -32,6 +29,21 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v6
+        with:
+          clean: false
+
+      - name: Purge target on toolchain upgrade
+        run: |
+          CURRENT_HASH=$(echo "$(rustc --version) $(dx --version)" | sha256sum | awk '{print $1}')
+          HASH_FILE="/opt/github_runner/folio/.toolchain_hash"
+          TARGET_DIR="/opt/github_runner/folio/.target"
+
+          if [ -f "$HASH_FILE" ] && [ "$(cat "$HASH_FILE")" != "$CURRENT_HASH" ]; then
+            echo "Toolchain changed. Wiping $TARGET_DIR"
+            rm -rf "$TARGET_DIR"/*
+          fi
+
+          echo "$CURRENT_HASH" > "$HASH_FILE"
 
       # ── Toolchain setup (idempotent — skips if already present) ──
 
@@ -56,27 +68,12 @@ jobs:
           rustup component add rust-src
           rustc --version
 
-      - name: Ensure build tools (sccache, dioxus-cli, wasm-bindgen-cli)
+      - name: Ensure build tools (dioxus-cli, wasm-bindgen-cli)
         run: |
           export CARGO_HOME="$CARGO_HOME"
           export RUSTUP_HOME="$RUSTUP_HOME"
           export PATH="$CARGO_HOME/bin:$RUSTUP_HOME/bin:$LOCAL_BIN:$PATH"
           mkdir -p "$LOCAL_BIN"
-
-          # ── sccache ──
-          if ! command -v sccache &>/dev/null; then
-            echo "::group::Installing sccache"
-            SCCACHE_VERSION="v0.10.0"
-            curl -fsSL \
-              "https://github.com/mozilla/sccache/releases/download/${SCCACHE_VERSION}/sccache-${SCCACHE_VERSION}-x86_64-unknown-linux-musl.tar.gz" \
-              -o /tmp/sccache.tar.gz
-            tar xzf /tmp/sccache.tar.gz -C /tmp
-            cp "/tmp/sccache-${SCCACHE_VERSION}-x86_64-unknown-linux-musl/sccache" "$LOCAL_BIN/sccache"
-            chmod +x "$LOCAL_BIN/sccache"
-            rm -rf /tmp/sccache*
-            echo "::endgroup::"
-          fi
-
 
           # ── cargo-binstall ──
           if ! command -v cargo-binstall &>/dev/null; then
@@ -104,18 +101,10 @@ jobs:
           fi
 
           echo "--- Versions ---"
-          sccache --version
           dx --version
           wasm-bindgen --version
 
       # ── Build natively on the VPS ──
-
-      - name: Start sccache server
-        run: |
-          export PATH="$LOCAL_BIN:$PATH"
-          mkdir -p "$SCCACHE_DIR"
-          sccache --stop-server 2>/dev/null || true
-          sccache --start-server
 
       - name: Build with dx bundle (release)
         run: |
@@ -124,13 +113,6 @@ jobs:
           export PATH="$CARGO_HOME/bin:$RUSTUP_HOME/bin:$LOCAL_BIN:$PATH"
 
           dx bundle -p app --web --release --trace --verbose
-
-      - name: Show sccache stats
-        if: always()
-        run: |
-          export PATH="$LOCAL_BIN:$PATH"
-          sccache --show-stats
-          sccache --stop-server 2>/dev/null || true
 
       # ── Package into minimal runtime container ──
 
