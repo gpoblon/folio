@@ -59,6 +59,12 @@ fn App() -> Element {
 }
 
 fn main() {
+    // Initialize Rustls crypto provider before anything else can touch TLS.
+    // Must be outside dioxus::serve() — dioxus sets up its runtime and
+    // binds the TCP listener before the async closure is ever called.
+    #[cfg(feature = "server")]
+    kernel::init::init_rustls();
+
     #[cfg(feature = "server")]
     dioxus::serve(|| async move {
         use dioxus::logger::tracing;

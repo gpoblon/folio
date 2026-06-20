@@ -1,5 +1,6 @@
 #[allow(clippy::useless_format)]
 pub mod build_info;
+pub mod init;
 pub mod lang;
 pub mod seo;
 pub mod theme;
