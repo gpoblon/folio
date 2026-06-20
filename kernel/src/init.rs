@@ -5,5 +5,6 @@
 
 #[cfg(feature = "server")]
 pub fn init_rustls() {
+    dioxus::logger::tracing::info!("Initializing Rustls crypto provider...");
     let _ = rustls::crypto::aws_lc_rs::default_provider().install_default();
 }

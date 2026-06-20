@@ -10,7 +10,8 @@ permissions:
   packages: write
 
 env:
-  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/folio:latest
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/folio
+  IMAGE_TAG: ${{ github.sha }}
   # All persistent state lives under the runner's own tree — no sudo needed.
   RUNNER_ROOT: /opt/github_runner/folio
   CARGO_HOME: /opt/github_runner/folio/.cargo
@@ -125,7 +126,7 @@ jobs:
 
       - name: Build minimal runtime image and push
         run: |
-          BUILD_DIR="target/dx/app/release/web"
+          BUILD_DIR="${CARGO_TARGET_DIR}/dx/app/release/web"
 
           # Inline Containerfile — sed strips leading yaml-indentation whitespace
           cat > /tmp/Containerfile.runtime <<-'DOCKERFILE'
@@ -143,10 +144,12 @@ jobs:
 
           podman build \
             -f /tmp/Containerfile.runtime \
-            -t "$IMAGE_NAME" \
+            -t "$IMAGE_NAME:latest" \
+            -t "$IMAGE_NAME:$IMAGE_TAG" \
             "$BUILD_DIR"
 
-          podman push "$IMAGE_NAME"
+          podman push "$IMAGE_NAME:latest"
+          podman push "$IMAGE_NAME:$IMAGE_TAG"
 
       # ── Cleanup ──
 
